@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Creates Item Schema
-const itemSchema = new Schema({
+//Create Schema
+const ItemSchema = new Schema({
     name: {
         type: String,
-        required: true
+        reuqired: true
     },
     date: {
         type: Date,
@@ -13,5 +13,5 @@ const itemSchema = new Schema({
     }
 });
 
-module.exports = item = mongoose.model('item', itemSchema);
+module.exports = Item = mongoose.model('item', ItemSchema);
 

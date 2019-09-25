@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const uuidv1 = require('uuid/v1');
 
 //var currentDate = new Date();
 
@@ -32,12 +33,12 @@ function getDateTime() {
 const sessionsSchema = new Schema({
     sesid: { // Session ID
         type: String,
-        required: true
+        default: uuidv1()
     },
     dateStart: { // Date Session Started
         type: String,
-        default: getDateTime(), //YYYY:MM:DD:HH:MM
-        required: true
+        default: getDateTime() //YYYY:MM:DD:HH:MM
+        
     },
     pid: { // ID of Professor Host
         type: String,
