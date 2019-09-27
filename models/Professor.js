@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const uuidv1 = require('uuid/v1');
-
+//const uuidv1 = require('uuid/v1');
 
 function getDateTime() {
 
@@ -28,17 +27,23 @@ function getDateTime() {
 
 }
 
-
-
 // Creates Professor Schema
 const professorSchema = new Schema({
-    name: {
+    firstName: {
         type: String,
-        required: true
+        required: true,
+        trim: true, // Trims all trailing whitespaces. 
+        default: ''
     },
-    pid: {
+    lastName: {
         type: String,
-        default: uuidv1(),
+        required: true,
+        trim: true, // Trims all trailing whitespaces. 
+        default: ''
+    },
+    professorId: { //See how to refer _id to this, as this is the Primary key
+        type: String,
+        //default: uuidv1(), //Use built in function which auto generates a unique id and set it as a primary 
         required: true
     },
     date: {

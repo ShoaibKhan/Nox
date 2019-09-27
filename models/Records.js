@@ -3,11 +3,11 @@ const Schema = mongoose.Schema;
 
 // Creates records Schema
 const recordsSchema = new Schema({
-    sid: {
+    studentId: {
         type: String,
         required: true
     },
-    sesid: { // Session ID
+    sessionId: {
         type: String,
         required: true
     },
@@ -16,10 +16,11 @@ const recordsSchema = new Schema({
         default: Date.now
     },
     rating: {
-        type: int, // TBD: Default value?
+        type: int,
+        default: null // Would this work? -- Yes, MongoDB can ignore null values in your calculations 
     },
-    timeRating:{
-        type: String, // Note: Doing integer calculation on a string?
+    timeRating:{// Dateformat 
+        type: String, // Note: Doing integer calculation on a string? -- Put date format. Hard/annoying to deal with type conversions
         required: true
     },
     comment:{
