@@ -1,10 +1,13 @@
 # Install dependencies for server
 cd /Nox
+
 npm install
+
 
 # Install dependencies for client
 cd /Nox/general_client
-npm run client-install
+
+npm install
 
 # Run the client & server with concurrently
 npm run dev
