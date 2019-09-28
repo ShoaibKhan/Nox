@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
     if (err) throw err;
     res.json(result);
 })
-    
+  
 });
 
 // @route   POST api/professor
