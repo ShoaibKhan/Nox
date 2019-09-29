@@ -1,29 +1,55 @@
-import React, { component } from 'react';
-import AppNavBar from './components/AppNavBar';
-import ShoppingList from './components/ShoppingList';
-import ItemModal from './components/itemModal';
-import { Provider } from 'react-redux';
-import store from './store';
-import { Container } from 'reactstrap';
-//import {createStore, applyMiddleware} from 'redux';
+import React, { Component } from 'react';
+import { HashRouter as Router, Route, Link, NavLink } from 'react-router-dom';
+import SignUpForm from './components/SignUpForm';
+import SignInForm from './components/SignInForm';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-//const store = createStore(() => [], {}, applyMiddleware());
+class App extends Component {
+    render() {
+        return ( < Router / > basename = "/react-auth-ui/" >
+            <
+            div > className = "App" < /div> <
+            div className = "App__Aside" > < /div> <
+            div className = "App__Form" >
+            <
+            div className = "PageSwitcher" >
+            <
+            NavLink to = "/sign-in"
+            activeClassName = "PageSwitcher__Item--Active"
+            className = "PageSwitcher__Item" > Sign In < /NavLink> <
+            NavLink exact to = "/"
+            activeClassName = "PageSwitcher__Item--Active"
+            className = "PageSwitcher__Item" > Sign Up < /NavLink> < /
+            div >
 
-function App() {
-  return (
-    <Provider store={store}>
-      <div className="App">
-        <AppNavBar />
-        <Container>
-          <ItemModal />
-          <ShoppingList />
-        </Container>
-      </div>
-    </Provider>
-  );
+            <
+            div className = "FormTitle" >
+            <
+            NavLink to = "/sign-in"
+            activeClassName = "FormTitle__Link--Active"
+            className = "FormTitle__Link" > Sign In < /NavLink> or <NavLink exact to="/
+            " activeClassName="
+            FormTitle__Link--Active " className="
+            FormTitle__Link ">Sign Up</NavLink> < /
+            div >
+
+            <
+            Route exact path = "/"
+            component = { SignUpForm } >
+            <
+            /Route> <
+            Route path = "/sign-in"
+            component = { SignInForm } >
+            <
+            /Route> < /
+            div >
+
+            <
+            /div> < /
+            Router >
+        );
+    }
 }
 
 export default App;
