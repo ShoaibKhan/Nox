@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const items = require('./routes/api/items');
+const professor = require('./routes/api/professor');
+const sessions = require('./routes/api/sessions');
+const student = require('./routes/api/student');
 
 const app = express();
 
@@ -20,6 +23,9 @@ mongoose
 
 //Use Routes
 app.use('/api/items', items);
+app.use('/api/professor', professor);
+app.use('/api/sessions', sessions);
+app.use('/api/student', student);
 
 const port =  process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server started on port ${port}`));

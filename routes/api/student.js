@@ -30,4 +30,4 @@ router.post('/', (req, res) => {
 // @access  Public (Should be private in real production)
 
 
-//module.exports = router;
+module.exports = router;

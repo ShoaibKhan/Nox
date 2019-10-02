@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const uuidv1 = require('uuid/v1');
+const uuidv4 = require('uuid/v4');
 
 function getDateTime() {
 
@@ -31,7 +31,7 @@ function getDateTime() {
 const studentSchema = new Schema({    
     sid: { // TBD: MAC Address / Device Model / Cookies / Student #
         type: String, 
-        default: uuidv1(),
+        default: uuidv4(),
         required: true
     },
     date: {

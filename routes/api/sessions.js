@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-//const uuid = require(uuid);
+
 
 //Professor Model
 const Session = require('../../models/Sessions');
@@ -42,4 +42,4 @@ router.delete('/', (req, res) => {
     
 });
 
-//module.exports = router;
+module.exports = router;

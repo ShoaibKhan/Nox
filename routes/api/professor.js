@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 //professor Model
-const Professor = require('../../models/professor');
+const Professor = require('../../models/Professor');
 
 // @route   GET api/professor
 // @desc    Get a professor
@@ -36,4 +36,4 @@ router.delete('/:pid', (req, res) => {
         .catch(err => res.status(404).json({success: false}));
 });
 
-//module.exports = router;
+module.exports = router;
