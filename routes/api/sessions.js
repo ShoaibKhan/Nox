@@ -9,11 +9,11 @@ const Session = require('../../models/Sessions');
 // @desc    Get a session
 // @access  Public
 router.get('/', (req, res) => {
-    Session.findOne({sesid: req.body.sesid}, function(err,result){
-    if (err) throw err;
-    res.json(result);
-})
-    
+    Session.findOne({ sesid: req.body.sesid }, function (err, result) {
+        if (err) throw err;
+        res.json(result);
+    })
+
 });
 
 // @route   POST api/sessions
@@ -34,12 +34,12 @@ router.post('/', (req, res) => {
 // @access  Public (Should be private in real production)
 router.delete('/', (req, res) => {
 
-    Session.findOne({sesid: req.body.sesid}, function(err,result){
-        if (err) res.status(404).json({success: false});
-        result => result.remove().then(() => res.json({success: true}))
-        .catch(err => res.status(404).json({success: false}));
+    Session.findOne({ sesid: req.body.sesid }, function (err, result) {
+        if (err) res.status(404).json({ success: false });
+        result => result.remove().then(() => res.json({ success: true }))
+            .catch(err => res.status(404).json({ success: false }));
     })
-    
+
 });
 
 module.exports = router;
