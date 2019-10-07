@@ -32,7 +32,7 @@ function getDateTime() {
 const studentSchema = new Schema({
     sid: { // TBD: MAC Address / Device Model / Cookies / Student #
         type: String,
-        required: true
+
     },
     date: {
         type: String,

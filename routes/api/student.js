@@ -6,8 +6,7 @@ const Student = require('../../models/Student');
 
 const uuidv4 = require('uuid/v4');
 const Session = require('../../models/Sessions');
-const app = express();
-app.use(cookieParser());
+
 // @route   GET api/student
 // @desc    Get a student
 // @access  Public
@@ -26,31 +25,27 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     const newStudent = new Student({
     });
-    // To do: Find existing student model
-    if (req.cookies.studentid != '' || req.cookies.studentid != null) {
-        newStudent.sid = req.cookies.studentid;
-
+    if (req.cookies.sid != '' && req.cookies.sid != null) {
+        newStudent.sid = req.cookies.sid;
+        // res.status(200).json(req.cookies.sid);
     }
     else {
         newStudent.sid = uuidv4();
-        res.cookie("studentid", newStudent.sid);
-        res.json("cookie:" + newStudent.sid)
-
+        res.cookie("sid", newStudent.sid);
+        // res.status(200).json(req.cookies.sid);
     }
     Session.findOne({ sesid: req.body.sesid }, function (err, result) {
         if (err) res.status(400)
         if (result != null) {
             newStudent.sesid = req.sesid
-
             res.status(200).send('Session found')
         }
         else {
-
             res.status(404).json('Error: ' + 'Session not found')
         }
     })
 
-    newStudent.save().then(student => res.json(student))
+    newStudent.save();
 });
 
 // To Do: Currently not working
