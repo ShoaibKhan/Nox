@@ -47,7 +47,7 @@ export class FormUserDetails extends Component {
         />
         <br />
         <Button
-          color="dark"
+          color="primary"
           variant="contained"
           onClick={this.continue}
         >Continue</Button>
