@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { Form, Button, FormGroup, FormControl, ControlLabel, Container } from "react-bootstrap";
-import ToggleButton from 'react-bootstrap/ToggleButton'
+import { Button, FormControl, Container } from "react-bootstrap";
 import Image from 'react-bootstrap/Image'
 import NoxLogo from '../images/noxLogo.png'
 import axios from 'axios';
@@ -63,14 +62,11 @@ export default class landingPage extends Component {
         // Create proxy in future
         axios.post("http://localhost:5000/api/student", joinSession)
             .then(res => console.log(res));
-
-
     }
 
     render() {
         return (
-
-            < div >
+            <div>
                 <Container style={{ width: 300 }}>
                     <div style={{ position: 'relative', right: 65 }}>
                         <Image src={NoxLogo} alt='Nox Logo' className='logo' />
