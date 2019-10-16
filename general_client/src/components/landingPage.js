@@ -5,6 +5,8 @@ import ToggleButton from 'react-bootstrap/ToggleButton'
 import Image from 'react-bootstrap/Image'
 import NoxLogo from '../images/noxLogo.png'
 import axios from 'axios';
+
+axios.defaults.withCredentials = true
 var style = {
     backgroundColor: "#F8F8F8",
     borderTop: "1px solid #E7E7E7",
@@ -50,7 +52,7 @@ export default class landingPage extends Component {
             
             // Proxy to avoid CORS error
             // Create proxy in future
-            axios.post("http://localhost:5000/api/student", joinSession)
+            axios.post("http://localhost:5000/api/student", { withCredentials: true }, joinSession)
                 .then(res => console.log(res));
 
             
