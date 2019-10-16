@@ -29,10 +29,11 @@ function getDateTime() {
 }
 
 // Creates Student Schema
-const studentSchema = new Schema({
-    sid: { // TBD: MAC Address / Device Model / Cookies / Student #
-        type: String,
-
+const studentSchema = new Schema({    
+    studentId: { // TBD: MAC Address / Device Model / Cookies / Student #
+        type: String,  
+       //default: uuidv1(),
+        required: true
     },
     date: {
         type: String,

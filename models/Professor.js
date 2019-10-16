@@ -28,15 +28,26 @@ function getDateTime() {
 
 }
 
+collection.createIndex( { professorId : -1 }, function(err, result) {
+    console.log(result);
+    callback(result);
+ };
 
-
-// Creates Professor Schema
+ // Creates Professor Schema
 const professorSchema = new Schema({
-    name: {
+    firstName: {
         type: String,
-        required: true
+        required: true,
+        trim: true, // Trims all trailing whitespaces. 
+        default: ''
     },
-    pid: {
+    lastName: {
+        type: String,
+        required: true,
+        trim: true, // Trims all trailing whitespaces. 
+        default: ''
+    },
+    professorId: { //See how to refer _id to this, as this is the Primary key
         type: String,
         default: uuidv4(),
         required: true
