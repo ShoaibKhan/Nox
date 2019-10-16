@@ -25,27 +25,9 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     const newStudent = new Student({
     });
-    if (req.cookies.sid != '' && req.cookies.sid != null) {
-        newStudent.sid = req.cookies.sid;
-        // res.status(200).json(req.cookies.sid);
-    }
-    else {
-        newStudent.sid = uuidv4();
-        res.cookie("sid", newStudent.sid);
-        // res.status(200).json(req.cookies.sid);
-    }
-    Session.findOne({ sesid: req.body.sesid }, function (err, result) {
-        if (err) res.status(400)
-        if (result != null) {
-            newStudent.sesid = req.sesid
-            res.status(200).send('Session found')
-        }
-        else {
-            res.status(404).json('Error: ' + 'Session not found')
-        }
-    })
+    res.clearCookie("sid")
 
-    newStudent.save();
+    //  newStudent.save();
 });
 
 // To Do: Currently not working

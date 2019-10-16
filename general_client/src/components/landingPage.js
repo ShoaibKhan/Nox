@@ -6,6 +6,9 @@ import NoxLogo from '../images/noxLogo.png'
 import axios from 'axios';
 import UserForm from './UserForm';
 
+axios.defaults.withCredentials = true
+
+
 var style = {
     backgroundColor: "#F8F8F8",
     borderTop: "1px solid #E7E7E7",
@@ -33,6 +36,7 @@ export default class landingPage extends Component {
             showComponent: false,
         };
         this._onButtonClick = this._onButtonClick.bind(this);
+        this.onJoinSession = this.onJoinSession.bind(this);
 
         this.state = {
             code: ''
@@ -49,14 +53,17 @@ export default class landingPage extends Component {
     onJoinSession(codeValue) {
         codeValue.preventDefault();
 
+
         this.setState({
             code: this.codeBox.current.value
         });
+
 
         const joinSession = {
             sesid: this.codeBox.current.value
         }
         console.log(joinSession)
+
 
         // Proxy to avoid CORS error
         // Create proxy in future
