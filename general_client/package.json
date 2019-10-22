@@ -27,7 +27,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:5000",
+  "proxy": "https://cslinux.utm.utoronto.ca/~khansho4/",
   "eslintConfig": {
     "extends": "react-app"
   },

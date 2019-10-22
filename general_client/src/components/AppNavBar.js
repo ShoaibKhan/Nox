@@ -29,9 +29,18 @@ class AppNavbar extends Component {
                         <NavbarBrand href='/'>Nox</NavbarBrand>
                         <NavbarToggler onClick={this.toggle} />
                         <Collapse isOpen={this.state.isOpen} navbar>
-                        <Nav className='ml-auto' navbar>
+                            <Nav className='ml-auto' navbar>
+                                <NavItem>
+                                    <NavLink href=''>Home</NavLink>
+                                </NavItem>
                                 <NavItem>
                                     <NavLink href='https://github.com/ShoaibAhmadKhan/Nox'>GitHub</NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink href='https://www.rickrolled.com/get-rolled'>Enable Dark Mode!</NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink href='https://cslinux.utm.utoronto.ca/~khansho4/'>Login</NavLink>
                                 </NavItem>
                             </Nav>
                         </Collapse>
