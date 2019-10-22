@@ -28,8 +28,6 @@ function getDateTime() {
 
 }
 
-
-
 // Creates Professor Schema
 const professorSchema = new Schema({
     firstName: {
