@@ -28,7 +28,7 @@ function getDateTime() {
 
 }
 
- // Creates Professor Schema
+// Creates Professor Schema
 const professorSchema = new Schema({
     firstName: {
         type: String,
