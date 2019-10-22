@@ -28,11 +28,6 @@ function getDateTime() {
 
 }
 
-collection.createIndex( { professorId : -1 }, function(err, result) {
-    console.log(result);
-    callback(result);
- };
-
  // Creates Professor Schema
 const professorSchema = new Schema({
     firstName: {
