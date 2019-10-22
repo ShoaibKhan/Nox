@@ -1,7 +1,7 @@
 {
-  "name": "mern-tutorial",
+  "name": "nox",
   "version": "1.0.0",
-  "description": "MERN tutorial",
+  "description": "Nox",
   "main": "sever.js",
   "scripts": {
     "client-install": "npm install --prefix client",
@@ -10,8 +10,8 @@
     "client": "npm start --prefix general_client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
-  "author": "Shoaib",
-  "license": "MIT",
+  "author": "ShibShib",
+  "license": "GNU",
   "dependencies": {
     "body-parser": "^1.19.0",
     "concurrently": "^4.1.1",

@@ -16,17 +16,15 @@ export class Success extends Component {
 
   render() {
     return (
-
-        <Dialog
+        <Dialog 
             open="true"
             fullWidth="true"
             maxWidth='sm'
           >
             <AppBar title="Success" />
             <h4>Session Created!</h4>
-            <p>Thank you "Insert Professor Here"</p>
+            <p>Your Session Key is: ADD SESSION KEY HERE"</p>
           </Dialog>
-
     );
   }
 }
