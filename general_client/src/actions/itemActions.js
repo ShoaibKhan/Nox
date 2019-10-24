@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEMS_LOADING } from './types'
+import { GET_ITEMS, ADD_ITEM, DOWNLOAD_ITEM, ITEMS_LOADING } from './types'
 
 export const getItems = () => dispatch => {
     dispatch(setItemsLoading());
@@ -9,12 +9,11 @@ export const getItems = () => dispatch => {
     }))
 }
 
-export const deleteItem = (id) => dispatch => {
-    axios.delete(`/api/items/${id}`).then(res =>
+export const downloadItem = (id) => dispatch => {
+    axios.download(`/api/items/${id}`).then(res =>
         dispatch({
-            type: DELETE_ITEM,
+            type: DOWNLOAD_ITEM,
             payload: id
-
         }))
 }
 

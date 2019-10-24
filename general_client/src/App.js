@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AppNavBar from './components/AppNavBar';
-import landingPage from './components/landingPage';
+import ProfView from './views/ProfView';
+import landingPage from './views/LandingPage';
 import { Provider } from 'react-redux';
 import store from './store';
 //import {createStore, applyMiddleware} from 'redux';
@@ -22,6 +23,7 @@ class App extends Component {
           </div>
         </Provider>
         <Route path="/" exact component={landingPage} />
+        <Route path="/ProfView" exact component={ProfView}/>
       </Router>
      );
   }
