@@ -11,10 +11,10 @@ function getDateTime() {
     var hour = date.getHours();
     hour = (hour < 10 ? "0" : "") + hour;
 
-    var min  = date.getMinutes();
+    var min = date.getMinutes();
     min = (min < 10 ? "0" : "") + min;
 
-    var sec  = date.getSeconds();
+    var sec = date.getSeconds();
     sec = (sec < 10 ? "0" : "") + sec;
 
     var year = date.getFullYear();
@@ -22,7 +22,7 @@ function getDateTime() {
     var month = date.getMonth() + 1;
     month = (month < 10 ? "0" : "") + month;
 
-    var day  = date.getDate();
+    var day = date.getDate();
     day = (day < 10 ? "0" : "") + day;
 
     return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
@@ -31,6 +31,7 @@ function getDateTime() {
 
 // Creates Sessions Schema
 const sessionsSchema = new Schema({
+
     sesid: { // Session ID
         type: String,
         default: uuidv4()
@@ -38,13 +39,16 @@ const sessionsSchema = new Schema({
     dateStart: { // Date Session Started
         type: String,
         default: getDateTime() //YYYY:MM:DD:HH:MM
-        
     },
-    professorId: { // ID of Professor Host
+
+    pid: { // ID of Professor Host
+        type: String,
+        default: uuidv4()
+    },
+    courseCode: { // ID of Professor Host
         type: String,
         required: true
-    },
-    
+    }
 });
 
 module.exports = sessions = mongoose.model('sessions', sessionsSchema);

@@ -10,13 +10,12 @@ import {
     Input
 } from 'reactstrap';
 import { connect } from 'react-redux';
-import { addItem } from '../actions/itemActions';
-//import PropTypes from 'prop-types';
+import { addSession } from '../actions/sessionActions';
 
 class ItemModal extends Component {
     state = {
         modal: false,
-        name: ''
+        session: ''
     };
 
     toggle = () => {
@@ -26,18 +25,18 @@ class ItemModal extends Component {
     };
 
     onChange = e => {
-        this.setState({ [e.target.name]: e.target.value });
+        this.setState({ [e.target.session]: e.target.value });
     };
 
     onSubmit = e => {
         e.preventDefault();
 
-        const newItem = {
-            name: this.state.name
+        const newSession = {
+            session: this.state.session
         };
 
         // Add item via addItem action
-        this.props.addItem(newItem);
+        this.props.addSession(newSession);
 
         // Close modal
         this.toggle();
@@ -63,11 +62,11 @@ class ItemModal extends Component {
                     <ModalBody>
                         <Form onSubmit={this.onSubmit}>
                             <FormGroup>
-                                <Label for='item'>Course Code</Label>
+                                <Label for='courseCode'>Course Code</Label>
                                 <Input
                                     type='text'
-                                    name='name'
-                                    id='item'
+                                    session='session'
+                                    id='session'
                                     placeholder='Enter Course Code'
                                     onChange={this.onChange}
                                 />
@@ -84,10 +83,10 @@ class ItemModal extends Component {
 }
 
 const mapStateToProps = state => ({
-    item: state.item
+    session: state.session
 });
 
 export default connect(
     mapStateToProps,
-    { addItem }
+    { addSession }
 )(ItemModal);

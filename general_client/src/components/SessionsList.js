@@ -1,4 +1,5 @@
 import React from 'react';
+import { ListGroup } from 'reactstrap';
 import { makeStyles } from '@material-ui/core/styles';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
@@ -11,6 +12,9 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import IconButton from '@material-ui/core/IconButton';
 
+var courses = ["CSC343H5", "STA256H5", "CSC258H5"];
+var sessions = ["Week 1 - LEC0102", "Week 2 - LEC0102"];
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
@@ -22,9 +26,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function NestedList() {
+export default function NestedList(props) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
     setOpen(!open);
@@ -37,45 +41,46 @@ export default function NestedList() {
       subheader={
         <ListSubheader component="div" id="nested-list-subheader">
           Larry's Courses
-        </ListSubheader>
+      </ListSubheader>
       }
       className={classes.root}
     >
-      <ListItem button>
-      <IconButton className={classes.button} aria-label="add">
-        <AddIcon />
-      </IconButton>
-        <ListItemText primary="CSC343H5F" />
-      </ListItem>
-      <ListItem button>
-      <IconButton className={classes.button} aria-label="add">
-        <AddIcon />
-      </IconButton>
-        <ListItemText primary="CSC258H5F" />
-      </ListItem>
-      <ListItem button onClick={handleClick}>
-      <IconButton className={classes.button} aria-label="add">
-        <AddIcon />
-      </IconButton>
-        <ListItemText primary="STA256H1S" />
-        {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
-          <IconButton className={classes.button} aria-label="download">
-        <DownloadIcon />
-      </IconButton>
-            <ListItemText primary="Week 1 - LEC0101" />
-          </ListItem>
-          <ListItem button className={classes.nested}>
-          <IconButton className={classes.button} aria-label="download">
-        <DownloadIcon />
-      </IconButton>
-            <ListItemText primary="Week 2 - LEC0102" />
-          </ListItem>
-        </List>
-      </Collapse>
-    </List>
+      {
+        courses.map(course =>
+          //For each "course" in courses_array, do the following:
+          <ListGroup>
+            {course === "CSC343H5" ?
+              <ListItem button onClick={handleClick}>
+                <IconButton className={classes.button} aria-label="add">
+                  <AddIcon />
+                </IconButton>
+                <ListItemText primary={course} />
+                {open ? <ExpandLess /> : <ExpandMore />}
+              </ListItem> :
+              <ListItem button>
+                <IconButton className={classes.button} aria-label="add">
+                  <AddIcon />
+                </IconButton>
+                <ListItemText primary={course} />
+              </ListItem>
+            }
+            {course === "CSC343H5" ?
+              <Collapse in={open} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding> {
+                  sessions.map(session =>
+                    <ListItem button className={classes.nested}>
+                      <IconButton
+                        className={classes.button}
+                        aria-label="download">
+                        <DownloadIcon />
+                      </IconButton>
+                      <ListItemText primary={session} />
+                    </ListItem>
+                  )}
+                </List>
+              </Collapse>
+              : null}
+          </ListGroup>)}
+    </List >
   );
 }

@@ -13,11 +13,9 @@ export default class ProfView extends Component {
     return (
       <Provider store={store}>
         <div className='ProfView'>
-          <Container>
+          <Container>  
             <ItemModal />
-              <div>
-                <SessionsList />
-              </div>
+            <SessionsList />
           </Container>
         </div>
       </Provider>

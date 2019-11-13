@@ -1,8 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+var cors = require('cors')
 
-const items = require('./routes/api/items');
 const professor = require('./routes/api/professor');
 const sessions = require('./routes/api/sessions');
 const student = require('./routes/api/student');
@@ -10,6 +10,9 @@ const student = require('./routes/api/student');
 const cookieParser = require('cookie-parser');
 
 const app = express();
+
+app.use(cors())
+app.enable('trust proxy')
 
 // Cookies
 app.use(cookieParser());
@@ -27,7 +30,6 @@ mongoose
     .catch(err => console.log(err));
 
 //Use Routes
-app.use('/api/items', items);
 app.use('/api/professor', professor);
 app.use('/api/sessions', sessions);
 app.use('/api/student', student);

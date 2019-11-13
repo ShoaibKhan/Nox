@@ -1,30 +1,29 @@
-//import uuid from 'uuid';
-import { GET_ITEMS, ADD_ITEM, DOWNLOAD_ITEM, ITEMS_LOADING } from '../actions/types'
+import { GET_SESSIONS, ADD_SESSION, DOWNLOAD_SESSION, SESSIONS_LOADING } from '../actions/types'
 
 const initialState = {
-    items: [],
+    sessions: [],
     loading: false
 };
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case GET_ITEMS:
+        case GET_SESSIONS:
             return {
                 ...state,
-                items: action.payload,
+                sessions: action.payload,
                 loading: false
             };
-        case DOWNLOAD_ITEM:
+        case DOWNLOAD_SESSION:
             return {
                 ...state,
-                items: state.items.filter(item => item._id !== action.payload)
+                sessions: state.sessions.filter(item => item._id !== action.payload)
             };
-        case ADD_ITEM:
+        case ADD_SESSION:
             return {
                 ...state,
-                items: [action.payload, ...state.items]
+                sessions: [action.payload, ...state.sessions]
             };
-        case ITEMS_LOADING:
+        case SESSIONS_LOADING:
             return {
                 ...state,
                 loading: true

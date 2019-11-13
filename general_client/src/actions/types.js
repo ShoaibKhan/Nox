@@ -1,4 +1,4 @@
-export const GET_ITEMS = 'GET_ITEMS';
-export const ADD_ITEM = 'ADD_ITEM';
-export const DOWNLOAD_ITEM = 'DOWNLOAD_ITEM';
-export const ITEMS_LOADING = 'ITEMS_LOADING';
+export const GET_SESSIONS = 'GET_SESSIONS';
+export const ADD_SESSION = 'ADD_SESSION';
+export const DOWNLOAD_SESSION = 'DOWNLOAD_SESSION';
+export const SESSIONS_LOADING = 'SESSIONS_LOADING';
