@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AppNavBar from './components/AppNavBar';
 import ProfView from './views/ProfView';
+import StudentView from './views/StudentView';
 import landingPage from './views/LandingPage';
 import { Provider } from 'react-redux';
 import store from './store';
@@ -23,7 +24,8 @@ class App extends Component {
           </div>
         </Provider>
         <Route path="/" exact component={landingPage} />
-        <Route path="/ProfView" exact component={ProfView}/>
+        <Route path="/Prof" exact component={ProfView}/>
+        <Route path="/Student" exact component={StudentView}/>
       </Router>
      );
   }

@@ -1,35 +1,49 @@
 .remove-btn {
-    margin-right: 0.5rem;
-  }
-  
-  .fade-enter {
-    opacity: 0.01;
-  }
-  
-  .fade-enter-active {
-    opacity: 1;
-    transition: opacity 1000ms ease-in;
-  }
-  
-  .fade-exit {
-    opacity: 1;
-  }
-  
-  .fade-exit-active {
-    opacity: 0.01;
-    transition: opacity 1000ms ease-in;
-  }
+  margin-right: 0.5rem;
+}
 
-  .center-div
-  {
-    position: absolute;
-    margin: auto;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 100px;
-    height: 100px;
-    background-color: #ccc;
-    border-radius: 3px;
-  }
+.fade-enter {
+  opacity: 0.01;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 1000ms ease-in;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0.01;
+  transition: opacity 1000ms ease-in;
+}
+
+.center-div {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100px;
+  height: 100px;
+  background-color: #ccc;
+  border-radius: 3px;
+}
+
+.btn-group button {
+  padding: 10px 24px; /* Some padding */
+  width: 50%; /* Set a width if needed */
+  display: block; /* Make the buttons appear below each other */
+}
+
+.btn-group button:not(:last-child) {
+  border-bottom: none; /* Prevent double borders */
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+  background-color: #3e8e41;
+}
