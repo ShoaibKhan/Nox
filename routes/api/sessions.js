@@ -16,12 +16,21 @@ router.get('/', (req, res) => {
 
 });
 
+router.get('/AllSessions', (req, res) => {
+    Session.find({ pid: req.body.pid }, function (err, result) {
+        if (err) throw err;
+        res.json(result);
+    })
+
+});
+
 // @route   POST api/sessions
 // @desc    Create a session
 // @access  Public (Should be private in real production)
 router.post('/', (req, res) => {
     const newSession = new Session({
-        pid: req.body.pid
+        pid: req.body.pid,
+        courseCode: req.body.courseCode
     });
 
     newSession.save().then(sessions => res.json(sessions))

@@ -6,6 +6,13 @@ const Student = require('../../models/Student');
 
 const uuidv4 = require('uuid/v4');
 const Session = require('../../models/Sessions');
+const cors = require('cors')
+
+var corsOptions = {
+    origin: 'http://localhost:3000/',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
 
 // @route   GET api/student
 // @desc    Get a student
@@ -15,6 +22,7 @@ router.get('/', (req, res) => {
         if (err) throw err;
         res.json(result);
     })
+    res.json({ success: true });
 
 });
 
@@ -23,9 +31,11 @@ router.get('/', (req, res) => {
 // @desc    Register a new student
 // @access  Public (Should be private in real production)
 router.post('/', (req, res) => {
-    const newStudent = new Student({
-    });
-    res.clearCookie("sid")
+    //const newStudent = new Student({
+    //});
+    //clearCookie("sid");
+    res.status(200).json({ success: true })
+
 
     //  newStudent.save();
 });

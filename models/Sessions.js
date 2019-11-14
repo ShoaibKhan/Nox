@@ -40,7 +40,7 @@ const sessionsSchema = new Schema({
         default: getDateTime() //YYYY:MM:DD:HH:MM
 
     },
-    professorId: { // ID of Professor Host
+    pid: { // ID of Professor Host
         type: String,
         required: true
     },

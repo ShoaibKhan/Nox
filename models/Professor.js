@@ -42,7 +42,7 @@ const professorSchema = new Schema({
         trim: true, // Trims all trailing whitespaces. 
         default: ''
     },
-    professorId: { //See how to refer _id to this, as this is the Primary key
+    pid: { //See how to refer _id to this, as this is the Primary key
         type: String,
         default: uuidv4(),
         required: true

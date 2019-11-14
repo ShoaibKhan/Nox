@@ -5,10 +5,12 @@ import Image from 'react-bootstrap/Image'
 import NoxLogo from '../images/noxLogo.png'
 import axios from 'axios';
 
+
 import UserForm from './UserForm';
 
-axios.defaults.withCredentials = true
+//axios.defaults.withCredentials = true
 
+//const cors = require('cors')
 
 var style = {
     backgroundColor: "#F8F8F8",
@@ -28,6 +30,11 @@ var phantom = {
     height: '60px',
     width: '100%',
 }
+
+const corsOptions = {
+    origin: 'http://localhost:5000/api/student'
+}
+
 export default class landingPage extends Component {
     constructor(props) {
         super(props);
@@ -66,8 +73,7 @@ export default class landingPage extends Component {
         console.log(joinSession)
 
 
-        // Proxy to avoid CORS error
-        // Create proxy in future
+
         axios.post("http://localhost:5000/api/student", joinSession)
             .then(res => console.log(res));
     }
@@ -77,9 +83,6 @@ export default class landingPage extends Component {
 
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '65vh' }}>
-
-
-
 
                 <Container style={{ width: 300 }}>
                     <Row className="show-grid">
