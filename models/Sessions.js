@@ -31,6 +31,7 @@ function getDateTime() {
 
 // Creates Sessions Schema
 const sessionsSchema = new Schema({
+
     sesid: { // Session ID
         type: String,
         default: uuidv4()
@@ -38,17 +39,15 @@ const sessionsSchema = new Schema({
     dateStart: { // Date Session Started
         type: String,
         default: getDateTime() //YYYY:MM:DD:HH:MM
-
     },
     pid: { // ID of Professor Host
         type: String,
-        required: true
+        default: uuidv4()
     },
-    courseCode: {
+    courseCode: { // ID of Professor Host
         type: String,
         required: true
     }
-
 });
 
 module.exports = sessions = mongoose.model('sessions', sessionsSchema);

@@ -12,8 +12,9 @@
   },
   "author": "ShibShib",
   "license": "GNU",
+  "proxy": "https://cslinux.utm.utoronto.ca/~khansho4/:4500",
   "dependencies": {
-    "@material-ui/core": "^4.4.3",
+    "@material-ui/core": "^4.5.1",
     "@material-ui/styles": "^4.4.3",
     "body-parser": "^1.19.0",
     "concurrently": "^4.1.1",
@@ -22,6 +23,7 @@
     "express": "^4.17.1",
     "material-ui": "^0.20.2",
     "mongoose": "^5.6.7",
+    "react-draggable": "^4.0.3",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.1.2",
     "redux": "^4.0.4",

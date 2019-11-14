@@ -9,7 +9,7 @@ const Session = require('../../models/Sessions');
 // @desc    Get a session
 // @access  Public
 router.get('/', (req, res) => {
-    Session.findOne({ sesid: req.body.sesid }, function (err, result) {
+    Session.find({ pid: req.body.pid }, function (err, result) {
         if (err) throw err;
         res.json(result);
     })
@@ -28,8 +28,8 @@ router.get('/AllSessions', (req, res) => {
 // @desc    Create a session
 // @access  Public (Should be private in real production)
 router.post('/', (req, res) => {
+    console.log(`Received POST request for course: ${req.body.courseCode}`)
     const newSession = new Session({
-        pid: req.body.pid,
         courseCode: req.body.courseCode
     });
 
