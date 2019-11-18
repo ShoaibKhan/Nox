@@ -1,4 +1,5 @@
 const express = require('express');
+
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 var cors = require('cors')
@@ -9,7 +10,7 @@ const student = require('./routes/api/student');
 var cors = require('cors')
 
 const cookieParser = require('cookie-parser');
-//const io = require('socket.io')(server)
+
 
 
 var corsOptions = {
@@ -18,17 +19,14 @@ var corsOptions = {
 }
 
 const app = express();
+const server = require('http').createServer(app);
 
+const io = require('socket.io')(server);
 
 // socket related events
 //const socketOps = require('./socketOps')
 //socketOps.allSocketOps(io)
 
-//app.use(function (req, res, next) {
-//    res.header("Access-Control-Allow-Origin", "*");
-//    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//    next();
-//});
 
 //app.options("*", cors(corsOptions))
 
@@ -58,16 +56,49 @@ app.use('/api/student', student);
 
 
 const port = process.env.PORT || 5000;
-app.listen(port, () => console.log(`Server started on port ${port}`));
+server.listen(port, () => console.log(`Server started on port ${port}`));
+
+
+
+// On port 5000, listen for clients. Calling it porty due to port alrdy being used
+//const socketPort = 5001;
+//io.listen(socketPort);
+//console.log('listening to ghgh on port ', port);
+
 
 // After connection, send events to client
 // For now, just sending the msg that we have connected
-//io.on('connection', () => { console.log("I've connected") });
 
-// On port 5000, listen for clients. Calling it porty due to port alrdy being used
-//const port = 5000;
-//io.listen(port);
-console.log('listening to boss Nox on port ', port);
+var sequenceNumberByClient = new Map();
+io.on('connection', (socket) => {
+    console.info(`Client connected [id=${socket.id}]`);
+    // initialize this client's sequence number
+    sequenceNumberByClient.set(socket, 1);
+
+
+    socket.on('disconnect', () => {
+        sequenceNumberByClient.delete(socket);
+        console.info(`Client gone [id=${socket.id}]`);
+    });
+    //const myParameters = { "newCode": "54321" };
+    //socket.emit('someEvent', myParameters);
+    //console.log(myParameters);
+
+    socket.on("newCodeToServer", (JsonParameters) => {
+        //this.codeBox.value = JsonParameters.newCode;
+        //const myParameters = { "newCode": "54321" };
+        console.log(JsonParameters.socketID);
+        io.sockets.connected[JsonParameters.socketID].emit('someEvent', JsonParameters);
+        console.log("SOCKET FUNCTION WENT THROUGH TO SERVER");
+    });
+
+
+});
+
+
+
+
+
 // NOTES:
 // GET request has all the data in the URL
 // POST request has all the data in the body, node.js

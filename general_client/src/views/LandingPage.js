@@ -4,6 +4,17 @@ import { Button, FormControl, Container, Row } from "react-bootstrap";
 import Image from 'react-bootstrap/Image'
 import NoxLogo from '../images/noxLogo.png'
 import axios from 'axios';
+import io from 'socket.io-client';
+import { callbackify } from 'util';
+
+// Establish socket connection
+let socket;
+if (!socket) {
+    socket = io('http://localhost:5000');
+}
+console.log('THIS IS CLIENT SOCKET INFO: ', socket);
+
+
 
 //axios.defaults.withCredentials = true
 
@@ -11,23 +22,44 @@ export default class LandingPage extends Component {
     constructor(props) {
         super(props);
         this.codeBox = React.createRef();
-        //this.onJoinSession = this.onJoinSession.bind(this);
+
+
+        // Binding our custom functions to .this
         this.state = {
+            placeholderValue: "Session ID",
             showComponent: false,
+            code: '',
+            borderColor: 'black'
         };
         this._onButtonClick = this._onButtonClick.bind(this);
         this.onJoinSession = this.onJoinSession.bind(this);
 
-        this.state = {
-            code: ''
-        }
+
+        //this.sendSocketIO = this.sendSocketIO.bind(this);
+        socket.on("someEvent", (JsonParameters) => {
+            this.setState({
+                placeholderValue: JsonParameters.newCode
+            });
+
+            console.log("SOCKET FUNCTION WENT THROUGH TO PROF CLIENT ", JsonParameters.newCode);
+            console.log(JsonParameters);
+        });
+
     }
+
+    // Socket Function
+
+
+
+
+
     // Enter Button clicked
     // To do: check if empty code
     _onButtonClick() {
         this.setState({
             showComponent: true,
         });
+
     }
 
     onJoinSession(codeValue) {
@@ -40,15 +72,34 @@ export default class LandingPage extends Component {
 
 
         const joinSession = {
-            sesid: this.codeBox.current.value
+            sesid: this.codeBox.current.value,
+            socketID: socket.id
         }
         console.log(joinSession)
 
 
-        // Proxy to avoid CORS error
-        // Create proxy in future
-        axios.post("http://localhost:5000/api/student", joinSession)
-            .then(res => console.log(res));
+
+
+        axios.get("http://localhost:5000/api/sessions/JoinSession", joinSession).then(res => {
+            // console.log(res);
+            console.log(this.state.borderColor);
+
+        }).catch((error, res) => {
+            console.log(this.state.borderColor);
+            console.log(error);
+            this.setState({
+                borderColor: error.status == 304 ? 'black' : 'red'
+            });
+        });
+
+
+
+
+        // send data via socket
+        // this.sendSocketIO();
+
+
+
     }
 
     render() {
@@ -60,11 +111,12 @@ export default class LandingPage extends Component {
                             <Image src={NoxLogo} alt='Nox Logo' />
                         </div>
                         <InputGroup >
-                            <FormControl
+                            <FormControl style={{ borderColor: this.state.borderColor }}
                                 ref={this.codeBox}
-                                placeholder="Session ID"
-                                aria-label="Session ID"
+                                placeholder={this.state.placeholderValue}
+                                aria-label={this.state.placeholderValue}
                                 aria-describedby="basic-addon2"
+
                             />
                         </InputGroup>
                         <Button style={{ width: 300 }} variant="dark" onClick={this.onJoinSession}>Enter</Button>

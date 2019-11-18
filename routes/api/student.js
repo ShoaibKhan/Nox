@@ -3,6 +3,7 @@ const router = express.Router();
 const cookieParser = require('cookie-parser');
 //Student Model
 const Student = require('../../models/Student');
+const io = require('socket.io-client');
 
 const uuidv4 = require('uuid/v4');
 const Session = require('../../models/Sessions');
@@ -13,29 +14,27 @@ var corsOptions = {
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
+// Establish socket connection
+let socket;
+if (!socket) {
+    socket = io('http://localhost:5000');
+}
 
-// @route   GET api/student
-// @desc    Get a student
-// @access  Public
-router.get('/', (req, res) => {
-    Student.findOne({ sid: req.body.sid }, function (err, result) {
-        if (err) throw err;
-        res.json(result);
-    })
-    res.json({ success: true });
 
-});
 
 
 // @route   POST api/student
 // @desc    Register a new student
 // @access  Public (Should be private in real production)
 router.post('/', (req, res) => {
-    //const newStudent = new Student({
-    //});
+    const newStudent = new Student({
+    });
     //clearCookie("sid");
     res.status(200).json({ success: true })
 
+    const myParameters = { "newCode": "54321", "socketID": req.body.socketID };
+    socket.emit('newCodeToServer', myParameters);
+    console.log(myParameters);
 
     //  newStudent.save();
 });
