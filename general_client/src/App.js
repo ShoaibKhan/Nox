@@ -3,6 +3,7 @@ import AppNavBar from './components/AppNavBar';
 import ProfView from './views/ProfView';
 import StudentView from './views/StudentView';
 import landingPage from './views/LandingPage';
+import DashBoard from './views/DashBoard';
 import { Provider } from 'react-redux';
 import store from './store';
 //import {createStore, applyMiddleware} from 'redux';
@@ -11,6 +12,7 @@ import './App.css';
 
 // Direct different react components to different URLS
 import { BrowserRouter as Router, Route } from "react-router-dom"
+import Dashboard from './views/DashBoard';
 
 //const store = createStore(() => [], {}, applyMiddleware());
 
@@ -26,6 +28,7 @@ class App extends Component {
         <Route path="/" exact component={landingPage} />
         <Route path="/Prof" exact component={ProfView}/>
         <Route path="/Student" exact component={StudentView}/>
+        <Route path="/DashBoard" exact component={DashBoard}/>
       </Router>
      );
   }
