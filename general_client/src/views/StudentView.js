@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import { addRecord } from '../actions/recordActions';
 import { connect } from 'react-redux';
 
+let value = 0;
+
 class StudentView extends Component {
     constructor(props) {
         super(props);
@@ -24,7 +26,7 @@ class StudentView extends Component {
     };
 
     onClick = (e) => {
-        console.log("Hi, ", e.target.value);
+        console.log("Hi, ", this.state);
 
         this.setState({ value: this.state.value });
 
@@ -47,14 +49,14 @@ class StudentView extends Component {
         console.log("Inside Render");
         return (
             <ButtonGroup vertical style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '65vh' }} size="lg">
-                <IconButton aria-label="happy" onClick={this.onClick} >
-                    <ConfidentIcon />
+                <IconButton aria-label="happy" onClick={this.onClick.bind(this, this.state.value=3)} size="medium">
+                    <ConfidentIcon size="large" />
                 </IconButton>
-                <IconButton aria-label="neutral" onClick={this.onClick}>
-                    <NeutralIcon />
+                <IconButton aria-label="neutral" value={2} onClick={this.onClick.bind(this, this.state.value=2)} size="medium">
+                    <NeutralIcon size="large" />
                 </IconButton>
-                <IconButton aria-label="confused" onClick={this.onClick}>
-                    <ConfusedIcon />
+                <IconButton aria-label="confused" value={1} onClick={this.onClick.bind(this, this.state.value=1)} size="medium">
+                    <ConfusedIcon size="large" />
                 </IconButton>
             </ButtonGroup>
         );
