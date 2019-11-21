@@ -32,7 +32,7 @@ router.post('/', (req, res) => {
     //clearCookie("sid");
     res.status(200).json({ success: true })
 
-    
+
     const myParameters = { "newCode": "54321", "socketID": req.body.socketID };
     // Websocket Cleint 
     // which sends the data to the websocket server --> in server. 

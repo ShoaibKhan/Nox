@@ -57,13 +57,15 @@ router.get('/AllSessions', (req, res) => {
 // req.cookies['cookieName']
 // res.clearCookie("cookie-name");
 router.post('/JoinSession', (req, res) => {
-
+    //res.send(req.cookies['sid'] === null);
     var student = req.cookies['sid'];
     console.log(student);
+    //res.send(req.cookies['sid'] == 'undefined');
     console.log('Result Cookie:', res.cookies);
-    if (student === 'undefined' || student === null) { // New Student
-        newStudent = new Student({});
-        res.cookie('sid', newStudent.sid);
+    if (student == 'undefined' || student == null) { // New Student
+        student = new Student({});
+        res.cookie('sid', student.sid);
+        // res.send(newStudent.sid);
         console.log("NEW STUDENT");
     }
     else { // Find Student in DB
@@ -80,8 +82,8 @@ router.post('/JoinSession', (req, res) => {
 
             }
             else { // No student exists, make a new one
-                newStudent = new Student({});
-                res.cookie('sid', newStudent.sid);
+                student = new Student({});
+                res.cookie('sid', student.sid);
                 //res.json(newStudent);
                 //res.status(404).json({ success: false });
             }
@@ -91,7 +93,7 @@ router.post('/JoinSession', (req, res) => {
     // store student's id in cookie
     // res.cookie('sid', student.sid);
 
-    console.log(student.sid);
+    //console.log(student.sid);
     // Find Session asked to join
     //res.send(req.body.sesid);
     Session.findOne({ sesid: req.body.sesid }, function (err, result) {
