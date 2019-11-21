@@ -16,7 +16,7 @@ console.log('THIS IS CLIENT SOCKET INFO: ', socket);
 
 
 
-//axios.defaults.withCredentials = true
+axios.defaults.withCredentials = true
 
 export default class LandingPage extends Component {
     constructor(props) {
@@ -36,6 +36,7 @@ export default class LandingPage extends Component {
 
 
         //this.sendSocketIO = this.sendSocketIO.bind(this);
+
         socket.on("someEvent", (JsonParameters) => {
             this.setState({
                 placeholderValue: JsonParameters.newCode
@@ -80,15 +81,18 @@ export default class LandingPage extends Component {
 
 
 
-        axios.get("http://localhost:5000/api/sessions/JoinSession", joinSession).then(res => {
-            // console.log(res);
-            console.log(this.state.borderColor);
+        axios.post("http://localhost:5000/api/sessions/JoinSession", joinSession).then(res => {
+            //console.log(res);
+            //console.log(res.data['success']);
+            this.setState({
+                borderColor: res.data['success'] ? 'green' : 'red'
+            });
 
         }).catch((error, res) => {
             console.log(this.state.borderColor);
             console.log(error);
             this.setState({
-                borderColor: error.status == 304 ? 'black' : 'red'
+                borderColor: error.status === 304 ? 'black' : 'red'
             });
         });
 
