@@ -42,11 +42,6 @@ class ItemModal extends Component {
         this.toggle();
     };
 
-    eventLogger = (e: MouseEvent, data: Object) => {
-        console.log('Event: ', e);
-        console.log('Data: ', data);
-    }; 
-
     render() {
         return (
             <div>

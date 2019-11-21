@@ -1,42 +1,71 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import store from '../store';
-
-import { makeStyles } from '@material-ui/core/styles';
+import React, { Component } from 'react';
 import ConfidentIcon from '@material-ui/icons/SentimentSatisfiedAltRounded';
 import NeutralIcon from '@material-ui/icons/SentimentDissatisfied';
 import ConfusedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
 import IconButton from '@material-ui/core/IconButton';
-import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import PropTypes from 'prop-types';
+import { addRecord } from '../actions/recordActions';
+import { connect } from 'react-redux';
 
-const useStyles = makeStyles(theme => ({
-    margin: {
-      margin: theme.spacing(1),
-    },
-    extendedIcon: {
-      marginRight: theme.spacing(1),
-    },
-  }));
+class StudentView extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            studentId: "",
+            sessionId: "",
+            old_value: null,
+            value: null,
+        };
+    }
 
-export default function StudentView() {
-    const classes = useStyles();
-    const handleClick = () => {
-        //Send a signal to the backend;
+    static propTypes = {
+        addRecord: PropTypes.func.isRequired,
     };
 
-    return (
-        <Provider store={store}>
+    onClick = (e) => {
+        console.log("Hi, ", e.target.value);
+
+        this.setState({ value: this.state.value });
+
+        console.log(`Old Valueasass ${this.state.old_value}, New Value ${this.state.value}`);
+
+        const newRecord = {
+            studentId: "Hey",
+            sessionId: "CSC343",
+            rating: this.state.value
+        };
+
+        this.setState({ old_value: this.state.value });
+
+        console.log(`Old Value ${this.state.old_value}, New Value ${this.state.value}`);
+
+        this.props.addRecord(newRecord);
+    }
+
+    render() {
+        console.log("Inside Render");
+        return (
             <ButtonGroup vertical style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '65vh' }} size="lg">
-                <IconButton aria-label="happy" onClick={handleClick} size="large" className={classes.margin}>
-                    <ConfidentIcon size="large" className={classes.margin}/>
+                <IconButton aria-label="happy" onClick={this.onClick} >
+                    <ConfidentIcon />
                 </IconButton>
-                <IconButton aria-label="neutral" onClick={handleClick} size="large" className={classes.margin}>
-                    <NeutralIcon size="large" className={classes.margin}/>
+                <IconButton aria-label="neutral" onClick={this.onClick}>
+                    <NeutralIcon />
                 </IconButton>
-                <IconButton aria-label="confused" onClick={handleClick} size="large" className={classes.margin}>
-                    <ConfusedIcon size="large" className={classes.margin}/>
+                <IconButton aria-label="confused" onClick={this.onClick}>
+                    <ConfusedIcon />
                 </IconButton>
             </ButtonGroup>
-        </Provider>
-    );
+        );
+    }
 }
+
+const mapStateToProps = state => ({
+    rating: state.value
+});
+
+export default connect(
+    mapStateToProps,
+    { addRecord }
+)(StudentView);

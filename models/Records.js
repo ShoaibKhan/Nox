@@ -16,14 +16,16 @@ const recordsSchema = new Schema({
         default: Date.now
     },
     rating: {
-        type: int,
+        type: Number,
         default: null, // Would this work? -- Yes, MongoDB can ignore null values in your calculations 
         minimum: 0,
-        maximum: 10,
-    },
-    timeRating:{// Dateformat 
-        type: String, // Note: Doing integer calculation on a string? -- Put date format. Hard/annoying to deal with type conversions
+        maximum: 2,
         required: true
+    },
+    timeRating:{// Dateformat
+        required: true,
+        type: Date,
+        default: Date.now
     },
     comment:{
         type: String,

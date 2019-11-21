@@ -95,7 +95,7 @@ export default class LandingPage extends Component {
             console.log(this.state.borderColor);
             console.log(error);
             this.setState({
-                borderColor: error.status == 304 ? 'black' : 'red'
+                borderColor: error.status === 304 ? 'black' : 'red'
             });
         });
 
@@ -123,7 +123,6 @@ export default class LandingPage extends Component {
                                 placeholder={this.state.placeholderValue}
                                 aria-label={this.state.placeholderValue}
                                 aria-describedby="basic-addon2"
-
                             />
                         </InputGroup>
                         <Button style={{ width: 300 }} variant="dark" onClick={this.onJoinSession}>Enter</Button>

@@ -22,12 +22,12 @@ class App extends Component {
           <div className="App">
             <AppNavBar />
           </div>
+          <Route path="/" exact component={landingPage} />
+          <Route path="/Prof" exact component={ProfView} />
+          <Route path="/Student" exact component={StudentView} />
         </Provider>
-        <Route path="/" exact component={landingPage} />
-        <Route path="/Prof" exact component={ProfView}/>
-        <Route path="/Student" exact component={StudentView}/>
       </Router>
-     );
+    );
   }
 }
 

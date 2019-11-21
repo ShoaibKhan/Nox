@@ -7,6 +7,7 @@ var cors = require('cors')
 const professor = require('./routes/api/professor');
 const sessions = require('./routes/api/sessions');
 const student = require('./routes/api/student');
+const records = require('./routes/api/records');
 var cors = require('cors')
 
 const cookieParser = require('cookie-parser');
@@ -53,8 +54,7 @@ mongoose
 app.use('/api/professor', professor);
 app.use('/api/sessions', sessions);
 app.use('/api/student', student);
-
-
+app.use('/api/records', records);
 
 const port = process.env.PORT || 5000;
 server.listen(port, () => console.log(`Server started on port ${port}`));
