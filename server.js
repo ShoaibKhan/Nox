@@ -19,10 +19,9 @@ var corsOptions = {
 }
 
 const app = express();
-
+// Creating Websocket Server
 const server = require('http').createServer(app);
-
-// Create Server socket (WSS)
+// Getting the websocket server
 const io = require('socket.io')(server);
 
 // socket related events
@@ -64,8 +63,6 @@ app.use('/api/student', student);
 const port = process.env.PORT || 5000;
 server.listen(port, () => console.log(`Server started on port ${port}`));
 
-
-
 // On port 5000, listen for clients. Calling it porty due to port alrdy being used
 //const socketPort = 5001;
 //io.listen(socketPort);
@@ -76,12 +73,18 @@ server.listen(port, () => console.log(`Server started on port ${port}`));
 // For now, just sending the msg that we have connected
 
 var sequenceNumberByClient = new Map();
+
+// Server saying connection
+// Server Socket = io
+// When a client connects to server
+// Takes in socket clients 
 io.on('connection', (socket) => {
     console.info(`Client connected [id=${socket.id}]`);
     // initialize this client's sequence number
     sequenceNumberByClient.set(socket, 1);
 
-
+    // If that client disconnects, do this
+    // Client socket = socket
     socket.on('disconnect', () => {
         sequenceNumberByClient.delete(socket);
         console.info(`Client gone [id=${socket.id}]`);
@@ -90,13 +93,19 @@ io.on('connection', (socket) => {
     //socket.emit('someEvent', myParameters);
     //console.log(myParameters);
 
-    //socket.on ( ) ... // recieve a message
-    // socket.emit ( ).. // send a message
+    //Socket on "newCodeToServer"  is a function u can specify
+    // on is for client communicating (mostly) to Client/Server -> Current, (Do something on the basis of something)
+    // on recieve a msg 
+    // Emit -> send a msg
+    // We create functions/events is a function which
 
+    // Recieves the data from clients
     socket.on("newCodeToServer", (JsonParameters) => {
         //this.codeBox.value = JsonParameters.newCode;
         //const myParameters = { "newCode": "54321" };
         console.log(JsonParameters.socketID);
+        //emits that data to some event in front end
+        //Gets all sockets that have connected, and then sends that data to the specif prof  
         io.sockets.connected[JsonParameters.socketID].emit('someEvent', JsonParameters);
         console.log("SOCKET FUNCTION WENT THROUGH TO SERVER");
     });

@@ -8,6 +8,7 @@ import io from 'socket.io-client';
 import { callbackify } from 'util';
 
 // Establish socket connection
+// Connecting to the server from clients end
 let socket;
 if (!socket) {
     socket = io('http://localhost:5000');
@@ -34,10 +35,18 @@ export default class LandingPage extends Component {
         this._onButtonClick = this._onButtonClick.bind(this);
         this.onJoinSession = this.onJoinSession.bind(this);
 
-
+        // Recieve a msg 
         //this.sendSocketIO = this.sendSocketIO.bind(this);
 
+
+        // On recieves a msg 
+        // Any event is created, takes in the data server has sent, 
+        // This.setState updates ur code on front end.
+        // This is the profs page implentation
+        // Profs need it. 
+
         socket.on("someEvent", (JsonParameters) => {
+            // Sets the front end state end to w.e the new values 
             this.setState({
                 placeholderValue: JsonParameters.newCode
             });
@@ -49,9 +58,6 @@ export default class LandingPage extends Component {
     }
 
     // Socket Function
-
-
-
 
 
     // Enter Button clicked
@@ -80,7 +86,7 @@ export default class LandingPage extends Component {
 
 
 
-
+        // Attempt to join a live session
         axios.post("http://localhost:5000/api/sessions/JoinSession", joinSession).then(res => {
             //console.log(res);
             //console.log(res.data['success']);
