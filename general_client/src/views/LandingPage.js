@@ -94,6 +94,7 @@ export default class LandingPage extends Component {
                 borderColor: res.data['success'] ? 'green' : 'red'
             });
 
+
         }).catch((error, res) => {
             console.log(this.state.borderColor);
             console.log(error);

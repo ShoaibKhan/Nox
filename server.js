@@ -12,6 +12,8 @@ var cors = require('cors')
 
 const cookieParser = require('cookie-parser');
 
+var sesidToStudentHashmap = {};
+var sesidToDataHashmap = {};
 
 
 var corsOptions = {
@@ -101,6 +103,104 @@ io.on('connection', (socket) => {
 
     // Recieves the data from clients
     socket.on("newCodeToServer", (JsonParameters) => {
+
+        // Existing student
+        if (studentHashmap[JsonParameters.sid][JsonParameters.sid] != undefined || studentHashmap[JsonParameters.sid] != null) {
+
+        }
+
+        // new student for that session
+        studentHashmap = {
+            rating: JsonParameters.rating,
+            time: JsonParameters.time,
+            oldrating: null
+        }
+
+        // example data for a sesid
+        // sesidToDataHashmap[1022]
+
+        // get data for a session
+        var datatb = sesidToDataHashmap[JsonParameters.sesid]
+
+        // simplify calling totalStudents
+        hashtb[totalStudents]
+
+        // Count totalStudents for a session
+        sesidToDataHashmap[JsonParameters.sesid][totalStudents]
+
+
+        // Add 1 to totalStudents for a session
+        sesidToDataHashmap[JsonParameters.sesid][totalStudents] += 1
+
+
+        // Add a student to a specific sesid
+        sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid] = studentHashmap
+
+        // Add a student to a specific sesid
+        sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid] = { rating: 1, time: '10:01', oldrating: 2 }
+
+        //Access a student to a specific sesid
+        sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid]
+
+        var sesidToDataHashmapExample = {
+            // sesid
+            1022: {
+                goodStudents: 0,
+                okayStudents: 0,
+                confusedStudents: 0,
+                totalStudents: 0
+
+            },
+            1044: {
+                goodStudents: 0,
+                okayStudents: 0,
+                confusedStudents: 0
+            }
+        }
+
+        var sesidToStudentHashmapExample = {
+            // sesid
+            1022: {
+                // sid for that sesid
+                0001: {
+                    rating: 2,
+                    time: '20:01',
+                    oldrating: null
+
+                },
+                0002: {
+                    rating: 1,
+                    time: '10:01',
+                    oldrating: 2
+                },
+                0003: {
+                    rating: 1,
+                    time: '15:01',
+                    oldrating: null
+                }
+
+            },
+            1233: {
+                005: {
+                    rating: 1,
+                    time: '15:01',
+                    oldrating: null
+
+                },
+                006: {
+                    rating: 1,
+                    time: '15:01',
+                    oldrating: 2
+                },
+                007: {
+                    rating: 1,
+                    time: '15:01',
+                    oldrating: null
+                }
+
+            }
+        }
+
         //this.codeBox.value = JsonParameters.newCode;
         //const myParameters = { "newCode": "54321" };
         console.log(JsonParameters.socketID);
