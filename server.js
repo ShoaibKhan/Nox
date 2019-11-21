@@ -16,7 +16,7 @@ const cookieParser = require('cookie-parser');
 
 var corsOptions = {
     origin: 'http://localhost:3000',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+    credentials: true
 }
 
 const app = express();
@@ -33,13 +33,17 @@ const io = require('socket.io')(server);
 //app.options("*", cors(corsOptions))
 
 
-// Cookies
-app.use(cookieParser());
+
 
 app.use(cors(corsOptions))
 
+// Cookies
+app.use(cookieParser());
+
 //Bodyparser Middleware
 app.use(bodyParser.json());
+//app.use(express.json()) // for parsing application/json
+//app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 //DB Config
 const db = require('./config/keys').mongoURI;

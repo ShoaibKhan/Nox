@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const uuidv4 = require('uuid/v4');
+const shortid = require('shortid');
 
 //var currentDate = new Date();
 
@@ -34,7 +35,7 @@ const sessionsSchema = new Schema({
 
     sesid: { // Session ID
         type: String,
-        default: uuidv4()
+        default: shortid.generate
     },
     dateStart: { // Date Session Started
         type: String,
@@ -44,7 +45,7 @@ const sessionsSchema = new Schema({
         type: String,
         default: uuidv4()
     },
-    courseCode: { // ID of Professor Host
+    courseCode: {
         type: String,
         required: true
     }
