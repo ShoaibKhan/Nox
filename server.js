@@ -34,9 +34,6 @@ const io = require('socket.io')(server);
 
 //app.options("*", cors(corsOptions))
 
-
-
-
 app.use(cors(corsOptions))
 
 // Cookies
