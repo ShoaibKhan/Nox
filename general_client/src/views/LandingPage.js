@@ -27,13 +27,15 @@ export default class LandingPage extends Component {
 
         // Binding our custom functions to .this
         this.state = {
-            placeholderValue: "Session ID",
+            placeholderValue: "Session Code",
             showComponent: false,
             code: '',
-            borderColor: 'black'
+            borderColor: 'black',
+            showError: false
         };
         this._onButtonClick = this._onButtonClick.bind(this);
         this.onJoinSession = this.onJoinSession.bind(this);
+
 
         // Recieve a msg 
         //this.sendSocketIO = this.sendSocketIO.bind(this);
@@ -91,14 +93,17 @@ export default class LandingPage extends Component {
             //console.log(res);
             //console.log(res.data['success']);
             this.setState({
-                borderColor: res.data['success'] ? 'green' : 'red'
-            });
-
-        }).catch((error, res) => {
+                borderColor: res.data['success'] ? 'green' : 'red',
+                showError: res.data['success'] ? false : true
+            })
+            const path = '/Student';
+            this.props.history.push(path);
+        }).catch((error, res) => { // Happens if Session not found
             console.log(this.state.borderColor);
             console.log(error);
             this.setState({
-                borderColor: error.status === 304 ? 'black' : 'red'
+                borderColor: error.status === 304 ? 'black' : 'red',
+                showError: error.status === 304 ? false : true
             });
         });
 
@@ -116,10 +121,18 @@ export default class LandingPage extends Component {
         return (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '65vh' }}>
                 <Container style={{ width: 300 }}>
+                    {this.state.showError && <div style={{
+                        backgroundColor: '#ff7272', color: 'white', padding: '1em',
+                        position: 'relative', width: 300, top: '-20px', left: '-15px'
+                    }}
+
+                    >Invalid Session Code</div>}
                     <Row className="show-grid">
+
                         <div style={{ position: 'relative', right: 50 }}>
                             <Image src={NoxLogo} alt='Nox Logo' />
                         </div>
+
                         <InputGroup >
                             <FormControl style={{ borderColor: this.state.borderColor }}
                                 ref={this.codeBox}
