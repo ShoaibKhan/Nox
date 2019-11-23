@@ -7,57 +7,47 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import PropTypes from 'prop-types';
 import { addRecord } from '../actions/recordActions';
 import { connect } from 'react-redux';
+import Cookies from 'universal-cookie';
 
-let value = 0;
+const cookies = new Cookies();
+cookies.set('sessionID', 'Pacman', { path: '/' });
+console.log(cookies.get('myCat')); // Pacman
 
 class StudentView extends Component {
     constructor(props) {
         super(props);
         this.changeBtnValue = this.changeBtnValue.bind(this);
         this.state = {
-            studentId: "",
-            sessionId: "",
+            studentID: "",
+            sessionID: "",
             old_value: null,
             value: null,
         };
 
     }
     changeBtnValue(btnValue) {
-        console.log('btn1 clicked');
         this.setState({
+            old_value: this.state.value,
             value: btnValue.currentTarget.value
         },
             () => console.log(this.state)
         );
 
+        const newRecord = {
+            studentID: this.state.studentID,
+            sessionID: this.state.sessionID,
+            old_value: this.state.old_value,
+            value: this.state.value
+        };
+
+        this.props.addRecord(newRecord);
     }
 
     static propTypes = {
         addRecord: PropTypes.func.isRequired,
     };
-    /*
-        onClick = (e) => {
-            console.log("Hi, ", this.state);
-    
-            this.setState({ value: this.state.value });
-    
-            console.log(`Old Valueasass ${this.state.old_value}, New Value ${this.state.value}`);
-    
-            const newRecord = {
-                studentId: "Hey",
-                sessionId: "CSC343",
-                rating: this.state.value
-            };
-    
-            this.setState({ old_value: this.state.value });
-    
-            console.log(`Old Value ${this.state.old_value}, New Value ${this.state.value}`);
-    
-            this.props.addRecord(newRecord);
-        }
-    */
+
     render() {
-        console.log("Inside Render");
         return (
             <ButtonGroup vertical style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '65vh' }} size="lg">
                 <IconButton aria-label="happy" onClick={this.changeBtnValue} value={3} size="medium">
@@ -75,7 +65,10 @@ class StudentView extends Component {
 }
 
 const mapStateToProps = state => ({
-    rating: state.value
+    studentID: state.studentID,
+    sessionID: state.sessionID,
+    value: state.value,
+    old_value: state.old_value
 });
 
 export default connect(

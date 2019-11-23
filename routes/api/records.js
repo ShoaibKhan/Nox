@@ -18,8 +18,8 @@ router.get('/', (req, res) => {
 // @access  Public
 router.post('/', (req, res) => {
     const newRecord = new Record({
-        studentId: req.body.studentId,
-        sessionId: req.body.sessionId
+        studentID: req.body.studentID,
+        sessionID: req.body.sessionID
     });
 });
 
