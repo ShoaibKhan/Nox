@@ -20,7 +20,7 @@ var corsOptions = {
     origin: 'http://localhost:3000',
     credentials: true
 }
-
+Axios.listen() 
 const app = express();
 // Creating Websocket Server
 const server = require('http').createServer(app);
@@ -30,12 +30,7 @@ const io = require('socket.io')(server);
 // socket related events
 //const socketOps = require('./socketOps')
 //socketOps.allSocketOps(io)
-
-
 //app.options("*", cors(corsOptions))
-
-
-
 
 app.use(cors(corsOptions))
 
@@ -92,7 +87,7 @@ io.on('connection', (socket) => {
         console.info(`Client gone [id=${socket.id}]`);
     });
     //const myParameters = { "newCode": "54321" };
-    //socket.emit('someEvent', myParameters);
+    //socket.emit('', myParameters);
     //console.log(myParameters);
 
     //Socket on "newCodeToServer"  is a function u can specify
@@ -102,19 +97,53 @@ io.on('connection', (socket) => {
     // We create functions/events is a function which
 
     // Recieves the data from clients
+    // We assume that the data incoming would be the following:
+    // SessionID, StudentID, Time, and the Rating
+
     socket.on("newCodeToServer", (JsonParameters) => {
 
+        /*
         // Existing student
         if (studentHashmap[JsonParameters.sid][JsonParameters.sid] != undefined || studentHashmap[JsonParameters.sid] != null) {
-
+            sid: JsonParameters.sid
+            rating: JsonParameters.rating,
+            time: JsonParameters.time,
+            oldrating: sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid].rating
         }
+        */
 
         // new student for that session
         studentHashmap = {
+            sid:JsonParameters.sid,
+            sesid:JsonParameters.sessid,
             rating: JsonParameters.rating,
             time: JsonParameters.time,
             oldrating: null
         }
+
+        // Updating the state of the Hashmap
+        function NumberOfStudentsCalculation (sid,sesid,rating,oldrating,time){
+            // Student is Confused
+            if (rating == 1) {
+                sesidToDataHashmap[sesid][confusedStudents] += 1
+            }
+            // Student is understanding okay
+            if (rating == 2){
+                sesidToDataHashmap[sesid][OkayStudents] += 1
+            }
+            // Student is understanding well
+            if (rating == 3){
+                sesidToDataHashmap[sesid][goodStudents] += 1
+            }
+        }
+
+        //Send the data after getting it from the Hashmap
+        function sendData(JsonParameters.socketID){
+            io.sockets.connected[JsonParameters.socketID].emit("data1", sesidToDataHashmap[JsonParameters.sesid][goodStudents] , sesidToDataHashmap[JsonParameters.sesid][okayStudents], 
+            sesidToDataHashmap[JsonParameters.sesid][confusedStudents]);
+            console.log("SOCKET FUNCTION WENT THROUGH TO SERVER");
+        }
+
 
         // example data for a sesid
         // sesidToDataHashmap[1022]
@@ -128,10 +157,8 @@ io.on('connection', (socket) => {
         // Count totalStudents for a session
         sesidToDataHashmap[JsonParameters.sesid][totalStudents]
 
-
         // Add 1 to totalStudents for a session
         sesidToDataHashmap[JsonParameters.sesid][totalStudents] += 1
-
 
         // Add a student to a specific sesid
         sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid] = studentHashmap
@@ -141,6 +168,7 @@ io.on('connection', (socket) => {
 
         //Access a student to a specific sesid
         sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid]
+
 
         var sesidToDataHashmapExample = {
             // sesid
@@ -204,17 +232,15 @@ io.on('connection', (socket) => {
         //this.codeBox.value = JsonParameters.newCode;
         //const myParameters = { "newCode": "54321" };
         console.log(JsonParameters.socketID);
-        //emits that data to some event in front end
+        sendData(sonParameters.socketID)
+        //emits that data to event in front end
         //Gets all sockets that have connected, and then sends that data to the specif prof  
-        io.sockets.connected[JsonParameters.socketID].emit('someEvent', JsonParameters);
+        io.sockets.connected[JsonParameters.socketID].emit(sendData(), JsonParameters);
         console.log("SOCKET FUNCTION WENT THROUGH TO SERVER");
     });
 
 
 });
-
-
-
 
 
 // NOTES:

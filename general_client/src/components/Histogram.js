@@ -5,33 +5,20 @@ export class Histogram extends Component{
   //Initial state 
   constructor(props){
     super(props);
-
     this.state = {
-        data:{
-          title: "Student's Understanding Progression",
-          labels: ['Too fast', 'Okay', 'Too slow'],
-          datasets:[{
-              label: '# of Students',
-              data:[39,51,24],
-              backgroundColor:[
-                'rgba(255, 99, 132, 0.6)',
-                'rgba(54, 162, 235, 0.6)',
-                'rgba(255, 206, 86, 0.6)'
-              ],
-              borderWidth:4,
-              borderColor:'#777',
-              hoverBorderWidth:3,
-              hoverBorderColor: '#000'
-          }]
-        }
+      chartData:props.chartData
     }
-  }   
+  }
+
+  static defaultProps = {
+    displayTitle:true
+  }
 
   render(){
     return (
      <div style={{position: "fixed", width:1800, height:200}}>
         <Bar
-        
+         data={this.state.chartData}
          options={{
             title:{
               display:true, 
@@ -49,8 +36,8 @@ export class Histogram extends Component{
             },
             responsive:true,
           }}
-          data={this.state.data}
-          />
+         // data={this.state.data}
+      />
      </div>
     )
   }

@@ -7,9 +7,6 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import PropTypes from 'prop-types';
 import { addRecord } from '../actions/recordActions';
 import { connect } from 'react-redux';
-import good from '../images/good.png';
-import okay from '../images/okay.png';
-import confused from '../images/confused.png';
 
 let value = 0;
 
@@ -26,8 +23,7 @@ class StudentView extends Component {
 
     }
     changeBtnValue(btnValue) {
-        console.log(btnValue.target.value);
-
+        console.log('btn1 clicked');
         this.setState({
             value: btnValue.currentTarget.value
         },
@@ -64,9 +60,15 @@ class StudentView extends Component {
         console.log("Inside Render");
         return (
             <ButtonGroup vertical style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '65vh' }} size="lg">
-                <button value={3} onClick={this.changeBtnValue} style={{ border: '5px solid white', borderRadius: '40%' }}><img src={good} style={{ width: '100px', height: '100px' }} /></button>
-                <button value={2} onClick={this.changeBtnValue} style={{ border: '5px solid white', borderRadius: '40%' }}><img src={okay} style={{ width: '100px', height: '100px' }} /></button>
-                <button value={1} onClick={this.changeBtnValue} style={{ border: '5px solid white', borderRadius: '40%' }}><img src={confused} style={{ width: '100px', height: '100px' }} /></button>
+                <IconButton aria-label="happy" onClick={this.changeBtnValue} value={3} size="medium">
+                    <ConfidentIcon size="large" />
+                </IconButton>
+                <IconButton aria-label="neutral" onClick={this.changeBtnValue} value={2} size="medium">
+                    <NeutralIcon size="large" />
+                </IconButton>
+                <IconButton aria-label="confused" onClick={this.changeBtnValue} value={1} size="medium">
+                    <ConfusedIcon size="large" />
+                </IconButton>
             </ButtonGroup>
         );
     }
