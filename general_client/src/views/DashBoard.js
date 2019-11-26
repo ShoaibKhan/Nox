@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 //import LineChart from '../components/LineChart';
 import Histogram from '../components/Histogram';
 import io  from 'socket.io-client';
+import data1 from '../../../server.js'
 
 // Establish socket connection for the Professor to recieve data
 let socket;
@@ -30,7 +31,6 @@ export class Dashboard extends Component {
     this.setState({
         placeholderValue: JsonParameters.newCode
     });
-
   });
   */
 
@@ -47,8 +47,8 @@ export class Dashboard extends Component {
  
   getChartData(){
     // Ajax calls here
-    socket.on('data1', (res) =>{
-      this.state.datasets.data = data1;
+    socket.on('sendData', (res) =>{
+      this.state.datasets.data = data1
       this.state.update();
     })
     this.setState({

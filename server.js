@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 var cors = require('cors')
-
+//import data from "./general_client/src/views/DashBoard";
 const professor = require('./routes/api/professor');
 const sessions = require('./routes/api/sessions');
 const student = require('./routes/api/student');
@@ -137,14 +137,6 @@ io.on('connection', (socket) => {
             }
         }
 
-        //Send the data after getting it from the Hashmap
-        function sendData(JsonParameters.socketID){
-            io.sockets.connected[JsonParameters.socketID].emit("data1", sesidToDataHashmap[JsonParameters.sesid][goodStudents] , sesidToDataHashmap[JsonParameters.sesid][okayStudents], 
-            sesidToDataHashmap[JsonParameters.sesid][confusedStudents]);
-            console.log("SOCKET FUNCTION WENT THROUGH TO SERVER");
-        }
-
-
         // example data for a sesid
         // sesidToDataHashmap[1022]
 
@@ -229,17 +221,25 @@ io.on('connection', (socket) => {
             }
         }
 
-        //this.codeBox.value = JsonParameters.newCode;
-        //const myParameters = { "newCode": "54321" };
+        // Sending the data to the server, after all calculations have been stored
+        // inside of the Hashmap
+        console.log(JsonParameters.socketID);
+        function sendData(JsonParameters.socketID){
+        io.sockets.connected[JsonParameters.socketID].emit("", sesidToDataHashmap[JsonParameters.sesid][goodStudents] , sesidToDataHashmap[JsonParameters.sesid][okayStudents], 
+        sesidToDataHashmap[JsonParameters.sesid][confusedStudents]);
+        console.log("SOCKET FUNCTION WENT THROUGH TO SERVER");
+        }; 
+        /*
+        this.codeBox.value = JsonParameters.newCode;
+        const myParameters = { "newCode": "54321" };
         console.log(JsonParameters.socketID);
         sendData(sonParameters.socketID)
         //emits that data to event in front end
         //Gets all sockets that have connected, and then sends that data to the specif prof  
         io.sockets.connected[JsonParameters.socketID].emit(sendData(), JsonParameters);
         console.log("SOCKET FUNCTION WENT THROUGH TO SERVER");
+        */
     });
-
-
 });
 
 
