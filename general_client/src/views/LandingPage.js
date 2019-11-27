@@ -107,15 +107,8 @@ export default class LandingPage extends Component {
                 showError: error.status === 304 ? false : true
             });
         });
-
-
-
-
         // send data via socket
         // this.sendSocketIO();
-
-
-
     }
 
     render() {

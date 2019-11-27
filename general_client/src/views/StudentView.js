@@ -1,67 +1,53 @@
 import React, { Component } from 'react';
-import ConfidentIcon from '@material-ui/icons/SentimentSatisfiedAltRounded';
-import NeutralIcon from '@material-ui/icons/SentimentDissatisfied';
-import ConfusedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
-import IconButton from '@material-ui/core/IconButton';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import PropTypes from 'prop-types';
 import { addRecord } from '../actions/recordActions';
 import { connect } from 'react-redux';
 import good from '../images/good.png';
 import okay from '../images/okay.png';
 import confused from '../images/confused.png';
+import axios from 'axios';
 
-let value = 0;
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
+const sid = cookies.get('sid');
+const sessionID = cookies.get('sessionID');
+
+console.log('sid', sid);
+console.log('sessionID', sessionID);
+
+axios.defaults.withCredentials = true
 
 class StudentView extends Component {
     constructor(props) {
         super(props);
         this.changeBtnValue = this.changeBtnValue.bind(this);
+
         this.state = {
-            studentId: "",
-            sessionId: "",
-            old_value: null,
-            value: null,
+            studentID: sid,
+            sessionID: sessionID,
+            old_value: 0,
+            value: 0,
         };
 
     }
     changeBtnValue(btnValue) {
-        console.log(btnValue.target.value);
+        const newRecord = {
+            studentID: this.state.studentID,
+            sessionID: this.state.sessionID,
+            old_value: this.state.value,
+            value: btnValue.currentTarget.value,
+        }
+
+        this.props.addRecord(newRecord);
 
         this.setState({
+            old_value: this.state.value,
             value: btnValue.currentTarget.value
-        },
-            () => console.log(this.state)
-        );
-
+        });
     }
 
-    static propTypes = {
-        addRecord: PropTypes.func.isRequired,
-    };
-    /*
-        onClick = (e) => {
-            console.log("Hi, ", this.state);
-    
-            this.setState({ value: this.state.value });
-    
-            console.log(`Old Valueasass ${this.state.old_value}, New Value ${this.state.value}`);
-    
-            const newRecord = {
-                studentId: "Hey",
-                sessionId: "CSC343",
-                rating: this.state.value
-            };
-    
-            this.setState({ old_value: this.state.value });
-    
-            console.log(`Old Value ${this.state.old_value}, New Value ${this.state.value}`);
-    
-            this.props.addRecord(newRecord);
-        }
-    */
     render() {
-        console.log("Inside Render");
         return (
             <ButtonGroup vertical style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '65vh' }} size="lg">
                 <button value={3} onClick={this.changeBtnValue} style={{ border: '5px solid white', borderRadius: '40%' }}><img src={good} style={{ width: '100px', height: '100px' }} /></button>
@@ -73,7 +59,10 @@ class StudentView extends Component {
 }
 
 const mapStateToProps = state => ({
-    rating: state.value
+    studentID: state.studentID,
+    sessionID: state.sessionID,
+    value: state.value,
+    old_value: state.old_value
 });
 
 export default connect(

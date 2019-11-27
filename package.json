@@ -10,7 +10,7 @@
     "client": "npm start --prefix general_client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
-  "author": "ShibShib",
+  "author": "Nox_sqwad",
   "license": "GNU",
   "dependencies": {
     "@material-ui/core": "^4.5.1",
@@ -24,6 +24,7 @@
     "material-ui": "^0.20.2",
     "mongoose": "^5.6.7",
     "react-chartjs-2": "^2.8.0",
+    "react-cookie": "^4.0.1",
     "react-draggable": "^4.0.3",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.1.2",
@@ -32,6 +33,7 @@
     "shortid": "^2.2.15",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
+    "universal-cookie": "^4.0.2",
     "uuid": "^3.3.3"
   },
   "devDependencies": {

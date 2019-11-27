@@ -1,20 +1,18 @@
 const express = require('express');
-
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-var cors = require('cors')
 
 const professor = require('./routes/api/professor');
 const sessions = require('./routes/api/sessions');
 const student = require('./routes/api/student');
 const records = require('./routes/api/records');
-var cors = require('cors')
+
+var cors = require('cors');
 
 const cookieParser = require('cookie-parser');
 
 var sesidToStudentHashmap = {};
 var sesidToDataHashmap = {};
-
 
 var corsOptions = {
     origin: 'http://localhost:3000',
@@ -35,8 +33,6 @@ const io = require('socket.io')(server);
 //app.options("*", cors(corsOptions))
 
 
-
-
 app.use(cors(corsOptions))
 
 // Cookies
@@ -52,7 +48,7 @@ const db = require('./config/keys').mongoURI;
 
 //Connect to Mongo
 mongoose
-    .connect(db, { useNewUrlParser: true, useCreateIndex: true })
+    .connect(db, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useNewUrlParser: true })
     .then(() => console.log('MongoDB Connected!'))
     .catch(err => console.log(err));
 
@@ -212,8 +208,6 @@ io.on('connection', (socket) => {
 
 
 });
-
-
 
 
 

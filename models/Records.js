@@ -3,11 +3,11 @@ const Schema = mongoose.Schema;
 
 // Creates records Schema
 const recordsSchema = new Schema({
-    studentId: {
+    studentID: {
         type: String,
         required: true
     },
-    sessionId: {
+    sessionID: {
         type: String,
         required: true
     },
@@ -15,15 +15,21 @@ const recordsSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    rating: {
+    value: {
         type: Number,
-        default: null, // Would this work? -- Yes, MongoDB can ignore null values in your calculations 
+        default: 0, // Would this work? -- Yes, MongoDB can ignore null values in your calculations 
+        minimum: 0,
+        maximum: 2,
+        required: true
+    },
+    old_value: {
+        type: Number,
+        default: 0, // Would this work? -- Yes, MongoDB can ignore null values in your calculations 
         minimum: 0,
         maximum: 2,
         required: true
     },
     timeRating:{// Dateformat
-        required: true,
         type: Date,
         default: Date.now
     },
