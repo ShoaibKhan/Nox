@@ -13,6 +13,7 @@ import { callbackify } from 'util';
 let socket;
 if (!socket) {
     socket = io('http://localhost:5000');
+    console.log(socket);
 }
 console.log('THIS IS CLIENT SOCKET INFO: ', socket);
 

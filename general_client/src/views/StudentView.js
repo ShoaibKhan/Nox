@@ -38,9 +38,8 @@ class StudentView extends Component {
             old_value: this.state.value,
             value: btnValue.currentTarget.value,
         }
-
+        
         this.props.addRecord(newRecord);
-
         this.setState({
             old_value: this.state.value,
             value: btnValue.currentTarget.value

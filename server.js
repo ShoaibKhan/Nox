@@ -89,7 +89,6 @@ io.on('connection', (socket) => {
         console.info(`Client gone [id=${socket.id}]`);
     });
 
-
     var returnJSON = NumberOfStudentsCalculation
     socket.on("newCodeToServer", (myParameters) => {
         console.log(myParameters.socketID);

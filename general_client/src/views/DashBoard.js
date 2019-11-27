@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import Histogram from '../components/Histogram';
 import io from 'socket.io-client';
 //import data1 from '../../../server.js'
-
 // Establish socket connection for the Professor to recieve data
 let socket;
 if (!socket) {
@@ -38,8 +37,7 @@ export class Dashboard extends Component {
           ]
         }
       }
-      
-  
+
       socket.on("Data", (JsonParameters) => {
         // Sets the front end state end to w.e the new values 
        
@@ -70,10 +68,6 @@ export class Dashboard extends Component {
     });
 
     }
-      //this.getChartData = this.getChartData.bind(this);
-    
-    
-    
     
   // Set up Profs socket to recieve data: 
   // This will recieve the data from the server
@@ -103,8 +97,7 @@ export class Dashboard extends Component {
   // Function to get the chart data from the socket (from socket not yet implemented)
   // Basically going to update the ChartData of the current state
   getChartData(){
-    // Get the data from the sockets here and set the state
-    
+    // Get the data from the sockets here and set the stat
     this.setState({
       chartData: 
     })
