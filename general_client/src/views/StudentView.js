@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import PropTypes from 'prop-types';
 import { addRecord } from '../actions/recordActions';
 import { connect } from 'react-redux';
 import good from '../images/good.png';
@@ -8,10 +7,14 @@ import okay from '../images/okay.png';
 import confused from '../images/confused.png';
 import axios from 'axios';
 
-//import Cookies from 'universal-cookie';
+import Cookies from 'universal-cookie';
 
-//const cookies = new Cookies();
-//cookies.set('sessionID', 'Pacman', { path: '/' });
+const cookies = new Cookies();
+const sid = cookies.get('sid');
+const sessionID = cookies.get('sessionID');
+
+console.log('sid', sid);
+console.log('sessionID', sessionID);
 
 axios.defaults.withCredentials = true
 
@@ -21,29 +24,27 @@ class StudentView extends Component {
         this.changeBtnValue = this.changeBtnValue.bind(this);
 
         this.state = {
-            studentID: "",
-            sessionID: "",
+            studentID: sid,
+            sessionID: sessionID,
             old_value: 0,
             value: 0,
         };
 
     }
     changeBtnValue(btnValue) {
-        this.setState({
-            old_value: this.state.value,
-            value: btnValue.currentTarget.value
-        },
-            () => console.log(this.state)
-        );
-
         const newRecord = {
             studentID: this.state.studentID,
             sessionID: this.state.sessionID,
-            old_value: this.state.old_value,
-            value: this.state.value
+            old_value: this.state.value,
+            value: btnValue.currentTarget.value,
         }
 
         this.props.addRecord(newRecord);
+
+        this.setState({
+            old_value: this.state.value,
+            value: btnValue.currentTarget.value
+        });
     }
 
     render() {

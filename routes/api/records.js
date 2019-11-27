@@ -23,7 +23,7 @@ router.post('/', (req, res) => {
         value: req.body.value,
         old_value: req.body.old_value
     });
-    newRecord.save().then(records => res.json(records));
+    newRecord.save().then(record => res.json(record));
 });
 
 module.exports = router;

@@ -7,7 +7,7 @@ const sessions = require('./routes/api/sessions');
 const student = require('./routes/api/student');
 const records = require('./routes/api/records');
 
-var cors = require('cors')
+var cors = require('cors');
 
 const cookieParser = require('cookie-parser');
 
