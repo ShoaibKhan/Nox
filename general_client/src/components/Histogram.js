@@ -9,6 +9,11 @@ export class Histogram extends Component{
       chartData:props.chartData
     }
   }
+  componentWillReceiveProps(nextProps) {
+    if(nextProps != undefined && nextProps != null){
+    this.setState({chartData: nextProps.chartData});
+    }
+}
 
   static defaultProps = {
     displayTitle:true

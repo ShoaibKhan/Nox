@@ -13,28 +13,69 @@ if (!socket) {
 console.log('THIS IS PROFESSOR CLIENT SOCKET INFO: ', socket);
   
 export class Dashboard extends Component {
-    constructor(){
-      super();
+    constructor(props){
+      super(props);
       this.state = {
-        chartData:{}
+        okayStudents: 0,
+        goodStudents: 0 ,
+        confusedStudents: 0,
+        chartData:{
+          labels: ['Good', 'Okay', 'Confused'],
+          datasets:[
+            {
+              label:'# Of Students',
+              data:[0, 0,0],
+              backgroundColor:[
+                'rgba(255, 99, 132, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(255, 206, 86, 0.6)'
+              ],
+              borderWidth:4,
+              borderColor:'#777',
+              hoverBorderWidth:3,
+              hoverBorderColor: '#000'
+            }
+          ]
+        }
       }
-    }
-      //this.getChartData = this.getChartData.bind(this);
-      /*
-    socket.on("Data", (JsonParameters) => {
+      
+  
+      socket.on("Data", (JsonParameters) => {
         // Sets the front end state end to w.e the new values 
-      /*
-        this.getChartData();
+      
+       
         this.setState({
-            placeholderValue: JsonParameters.socketID
+          chartData:{
+            labels: ['Good', 'Okay', 'Confused'],
+            datasets:[
+              {
+                label:'# Of Students',
+                data:[JsonParameters.confusedStudents, JsonParameters.okayStudents,JsonParameters.goodStudents],
+                backgroundColor:[
+                  'rgba(255, 99, 132, 0.6)',
+                  'rgba(54, 162, 235, 0.6)',
+                  'rgba(255, 206, 86, 0.6)'
+                ],
+                borderWidth:4,
+                borderColor:'#777',
+                hoverBorderWidth:3,
+                hoverBorderColor: '#000'
+              }
+            ]
+          }
         });
+        console.log("THE STATE IS:" ,this.state);
         console.log("SOCKET FUNCTION WENT THROUGH TO PROF CLIENT ", JsonParameters.socketID);
         console.log(JsonParameters);
         console.log(5);
     });
-    };
+
+    }
+      //this.getChartData = this.getChartData.bind(this);
     
-    */
+    
+    
+    
   // Set up Profs socket to recieve data: 
   // This will recieve the data from the server
   // Then pass it along to each chart component
@@ -53,30 +94,11 @@ export class Dashboard extends Component {
   }
 */
   componentWillMount(){
-    this.getchartData();
+    this.getChartData();
   }
   
-  getchartData(){
-    this.setState({
-      chartData:{
-        labels: ['Good', 'Okay', 'Confused'],
-        datasets:[
-          {
-            label:'# Of Students',
-            data:[ 100,12 ,12],
-            backgroundColor:[
-              'rgba(255, 99, 132, 0.6)',
-              'rgba(54, 162, 235, 0.6)',
-              'rgba(255, 206, 86, 0.6)'
-            ],
-            borderWidth:4,
-            borderColor:'#777',
-            hoverBorderWidth:3,
-            hoverBorderColor: '#000'
-          }
-        ]
-      }
-    });
+  getChartData(){
+    
   }
   /*
   // Function to get the chart data from the socket (from socket not yet implemented)
