@@ -30,7 +30,8 @@ router.post('/', (req, res) => {
     res.status(200).json({ success: true })
 
     // Sending hardcoded data to test if it gets displayed on graph. 
-    const myParameters = { "sid": "54321" , "socketID": req.body.socketID };
+    const myParameters = { "sid": req.body.sid, sesid:"qwerty", "Time": "10:50", "rating": req.body.rating, "socketID": req.body.socketID };
+    
     // Websocket Cleint 
     // which sends the data to the websocket server --> in server. 
     socket.emit('newCodeToServer', myParameters);
