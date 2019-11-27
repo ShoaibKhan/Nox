@@ -11,25 +11,20 @@ if (!socket) {
     console.log(socket);
 }
 console.log('THIS IS PROFESSOR CLIENT SOCKET INFO: ', socket);
-
-  /*
-  this.setState({
-    placeholderValue: JsonParametersTest.sid
-  /)
-*/
-
-  export class Dashboard extends Component {
+  
+export class Dashboard extends Component {
     constructor(){
       super();
-      
       this.state = {
         chartData:{}
       }
-      this.getChartData = this.getChartData.bind(this);
-
+    }
+      //this.getChartData = this.getChartData.bind(this);
+      /*
     socket.on("Data", (JsonParameters) => {
         // Sets the front end state end to w.e the new values 
-        this.getChartData(JsonParameters);
+      /*
+        this.getChartData();
         this.setState({
             placeholderValue: JsonParameters.socketID
         });
@@ -38,7 +33,8 @@ console.log('THIS IS PROFESSOR CLIENT SOCKET INFO: ', socket);
         console.log(5);
     });
     };
-
+    
+    */
   // Set up Profs socket to recieve data: 
   // This will recieve the data from the server
   // Then pass it along to each chart component
@@ -55,16 +51,19 @@ console.log('THIS IS PROFESSOR CLIENT SOCKET INFO: ', socket);
     this.state.datasets.data = [Good, Okay, Confused];
     this.state.update();
   }
-  */ 
-  getChartData(JsonParameters){
-// goodStudents,okayStudents,confusedStudents
+*/
+  componentWillMount(){
+    this.getchartData();
+  }
+  
+  getchartData(){
     this.setState({
       chartData:{
         labels: ['Good', 'Okay', 'Confused'],
         datasets:[
           {
             label:'# Of Students',
-            data:[ JsonParameters.confusedStudents,JsonParameters.okayStudents , JsonParameters.goodStudents],
+            data:[ 100,12 ,12],
             backgroundColor:[
               'rgba(255, 99, 132, 0.6)',
               'rgba(54, 162, 235, 0.6)',
