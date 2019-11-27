@@ -29,8 +29,8 @@ class StudentView extends Component {
             old_value: 0,
             value: 0,
         };
-
     }
+    
     changeBtnValue(btnValue) {
         const newRecord = {
             studentID: this.state.studentID,
@@ -38,8 +38,9 @@ class StudentView extends Component {
             old_value: this.state.value,
             value: btnValue.currentTarget.value,
         }
-        
+
         this.props.addRecord(newRecord);
+
         this.setState({
             old_value: this.state.value,
             value: btnValue.currentTarget.value
@@ -49,15 +50,9 @@ class StudentView extends Component {
     render() {
         return (
             <ButtonGroup vertical style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '65vh' }} size="lg">
-                <IconButton aria-label="happy" onClick={this.changeBtnValue} value={3} size="medium">
-                    <ConfidentIcon size="large" />
-                </IconButton>
-                <IconButton aria-label="neutral" onClick={this.changeBtnValue} value={2} size="medium">
-                    <NeutralIcon size="large" />
-                </IconButton>
-                <IconButton aria-label="confused" onClick={this.changeBtnValue} value={1} size="medium">
-                    <ConfusedIcon size="large" />
-                </IconButton>
+                <button value={3} onClick={this.changeBtnValue} style={{ border: '5px solid white', borderRadius: '40%' }}><img src={good} style={{ width: '100px', height: '100px' }} /></button>
+                <button value={2} onClick={this.changeBtnValue} style={{ border: '5px solid white', borderRadius: '40%' }}><img src={okay} style={{ width: '100px', height: '100px' }} /></button>
+                <button value={1} onClick={this.changeBtnValue} style={{ border: '5px solid white', borderRadius: '40%' }}><img src={confused} style={{ width: '100px', height: '100px' }} /></button>
             </ButtonGroup>
         );
     }
