@@ -105,42 +105,42 @@ io.on('connection', (socket) => {
     socket.on("newCodeToServer", (JsonParameters) => {
 
         // Existing student
-        if (studentHashmap[JsonParameters.sid][JsonParameters.sid] != undefined || studentHashmap[JsonParameters.sid] != null) {
+        //if (studentHashmap[JsonParameters.sid][JsonParameters.sid] != undefined || studentHashmap[JsonParameters.sid] != null) {
 
-        }
+        // }
 
         // new student for that session
-        studentHashmap = {
-            rating: JsonParameters.rating,
-            time: JsonParameters.time,
-            oldrating: null
-        }
+        // studentHashmap = {
+        //    rating: JsonParameters.rating,
+        //    time: JsonParameters.time,
+        //    oldrating: null
+        // }
 
         // example data for a sesid
         // sesidToDataHashmap[1022]
 
         // get data for a session
-        var datatb = sesidToDataHashmap[JsonParameters.sesid]
+        //var datatb = sesidToDataHashmap[JsonParameters.sesid]
 
         // simplify calling totalStudents
-        hashtb[totalStudents]
+        //hashtb[totalStudents]
 
         // Count totalStudents for a session
-        sesidToDataHashmap[JsonParameters.sesid][totalStudents]
+        //sesidToDataHashmap[JsonParameters.sesid][totalStudents]
 
 
         // Add 1 to totalStudents for a session
-        sesidToDataHashmap[JsonParameters.sesid][totalStudents] += 1
+        //sesidToDataHashmap[JsonParameters.sesid][totalStudents] += 1
 
 
         // Add a student to a specific sesid
-        sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid] = studentHashmap
+        //sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid] = studentHashmap
 
         // Add a student to a specific sesid
-        sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid] = { rating: 1, time: '10:01', oldrating: 2 }
+        //sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid] = { rating: 1, time: '10:01', oldrating: 2 }
 
         //Access a student to a specific sesid
-        sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid]
+        //sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid]
 
         var sesidToDataHashmapExample = {
             // sesid
