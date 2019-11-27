@@ -211,8 +211,6 @@ io.on('connection', (socket) => {
 
 
 
-
-
 // NOTES:
 // GET request has all the data in the URL
 // POST request has all the data in the body, node.js
