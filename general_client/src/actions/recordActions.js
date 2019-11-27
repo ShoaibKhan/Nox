@@ -10,7 +10,7 @@ export const getRecords = () => dispatch => {
         }))
 }
 
-export const downloadSession = record => dispatch => {
+export const downloadRecord = record => dispatch => {
     axios.download('records', { baseURL: "http://localhost:5000/api/" })
         .then(res => dispatch({
             type: DOWNLOAD_RECORD,

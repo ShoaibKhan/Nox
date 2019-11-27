@@ -15,7 +15,7 @@ import { addSession } from '../actions/sessionActions';
 class ItemModal extends Component {
     state = {
         modal: false,
-        session: ''
+        session: "default"
     };
 
     toggle = () => {

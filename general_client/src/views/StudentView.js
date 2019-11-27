@@ -6,7 +6,6 @@ import good from '../images/good.png';
 import okay from '../images/okay.png';
 import confused from '../images/confused.png';
 import axios from 'axios';
-
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
