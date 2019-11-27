@@ -3,9 +3,8 @@ const Schema = mongoose.Schema;
 const uuidv4 = require('uuid/v4');
 const shortid = require('shortid');
 
-
 //var currentDate = new Date();
-var num = 0; // Need in order to use toString() method
+
 function getDateTime() {
 
     var date = new Date();
@@ -31,24 +30,16 @@ function getDateTime() {
 
 }
 
-function getARandomArbitrary(min, max) { // max = 99 999, min= 10 000
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    console.log(Math.floor(Math.random() * (max - min)) + min);
-    return Math.floor(Math.random() * (max - min)) + min;
-}
-
 // Creates Sessions Schema
 const sessionsSchema = new Schema({
 
     sesid: { // Session ID
         type: String,
-        default: Math.floor(Math.random() * (99999 - 10000)) + 10000 // this returns a number and will always be the same
-        // till the server restarts, so assign random value outside
+        default: shortid.generate
     },
     dateStart: { // Date Session Started
         type: String,
-        default: Date.now() //YYYY:MM:DD:HH:MM
+        default: getDateTime() //YYYY:MM:DD:HH:MM
     },
     pid: { // ID of Professor Host
         type: String,
@@ -61,24 +52,4 @@ const sessionsSchema = new Schema({
 });
 
 module.exports = sessions = mongoose.model('sessions', sessionsSchema);
-/*
-// Note: we need to check if sesid already exists, wherever this model is being created
-function getRandomArbitrary(min, max) { // max = 99 999, min= 10 000
-    var randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
-    sessions.findOne({ sesid: randomNum }, function (err, result) {
-        if (err) { // Internal Error
-            return String(randomNum);
-        }
-        else if (result && result.sesid === randomNum) { // duplicate session exists
-            return getRandomArbitrary(10000 ,99999 )
-        }
-        else { // Did not find Session
-            return String(randomNum);
-        }
 
-    })
-}
-
-sessionsSchema.sesid = getRandomArbitrary(99999, 10000)
-console.log(sessionsSchema.sesid)
-*/

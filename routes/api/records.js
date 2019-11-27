@@ -26,4 +26,6 @@ router.post('/', (req, res) => {
     newRecord.save().then(record => res.json(record));
 });
 
+
+
 module.exports = router;

@@ -5,7 +5,20 @@ export class Histogram extends Component{
   //Initial state 
   constructor(props){
     super(props);
+    this.state = {
+      chartData:props.chartData
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    if(nextProps != undefined && nextProps != null){
+    this.setState({chartData: nextProps.chartData});
+    }
+}
 
+  static defaultProps = {
+    displayTitle:true
+  }
+  /*
     this.state = {
         data:{
           title: "Student's Understanding Progression",
@@ -26,12 +39,12 @@ export class Histogram extends Component{
         }
     }
   }   
-
+*/
   render(){
     return (
      <div style={{position: "fixed", width:1800, height:200}}>
         <Bar
-        
+         data={this.state.chartData}
          options={{
             title:{
               display:true, 
@@ -49,8 +62,8 @@ export class Histogram extends Component{
             },
             responsive:true,
           }}
-          data={this.state.data}
-          />
+         // data={this.state.data}
+      />
      </div>
     )
   }
