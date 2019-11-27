@@ -8,7 +8,7 @@ const Record = require('../../models/Records');
 // @desc    Get ALL records given criterias
 // @access  Public
 router.get('/', (req, res) => {
-    Records.find()
+    Record.find()
         .sort({ date: -1})  
         .then(records => res.json(records))
 });
@@ -19,18 +19,11 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     const newRecord = new Record({
         studentID: req.body.studentID,
-        sessionID: req.body.sessionID
+        sessionID: req.body.sessionID,
+        value: req.body.value,
+        old_value: req.body.old_value
     });
-});
-
-// To Do: Currently not working
-// @route   DELETE api/records/:pid
-// @desc    Delete a record
-// @access  Public (Should be private in real production)
-router.delete('/:pid', (req, res) => {
-    Professor.findById(req.params.id)
-        .then(professor => professor.remove().then(() => res.json({success: true})))
-        .catch(err => res.status(404).json({success: false}));
+    newRecord.save().then(records => res.json(records));
 });
 
 module.exports = router;

@@ -1,33 +1,37 @@
 import axios from 'axios';
-import { GET_RECORDS, ADD_RECORDS, DOWNLOAD_RECORDS, RECORDS_LOADING } from '../actions/types'
+import { GET_RECORDS, ADD_RECORD, DOWNLOAD_RECORD, RECORDS_LOADING } from './types'
 
 export const getRecords = () => dispatch => {
     dispatch(setRecordsLoading());
-    axios.get('/api/records')
+    axios.get('records', { baseURL: "http://localhost:5000/api/"})
     .then(res => dispatch({
         type: GET_RECORDS,
         payload: res.data
     }))
 }
 
-export const downloadSession = (Record) => dispatch => {
-    axios.download(`/api/records/${Record}`).then(res =>
+export const downloadSession = record => dispatch => {
+    axios.download('records', { baseURL: "http://localhost:5000/api/"}).then(res =>
         dispatch({
-            type: DOWNLOAD_RECORDS,
-            payload: Record
+            type: DOWNLOAD_RECORD,
+            payload: res.record
         }))
 }
 
-export const addRecord = (Record) => dispatch => {
+export const addRecord = (record) => dispatch => {
     axios
-        .post('records', Record, { baseURL: "http://localhost:5000/api/"})
-        .then(res => {
-            dispatch({
-                type: ADD_RECORDS,
-                payload: res.data
-            })
-        })
-}
+      .post('records', record, { baseURL: "http://localhost:5000/api/"})
+      .then(res =>
+        dispatch({
+          type: ADD_RECORD,
+          payload: res.data
+        }),
+        console.log("hi", record)
+      )
+      .catch(err =>
+        console.log(err)
+      );
+  };
 
 export const setRecordsLoading = () => {
     return {

@@ -1,8 +1,4 @@
 import React, { Component } from 'react';
-import ConfidentIcon from '@material-ui/icons/SentimentSatisfiedAltRounded';
-import NeutralIcon from '@material-ui/icons/SentimentDissatisfied';
-import ConfusedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
-import IconButton from '@material-ui/core/IconButton';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import PropTypes from 'prop-types';
 import { addRecord } from '../actions/recordActions';
@@ -10,20 +6,25 @@ import { connect } from 'react-redux';
 import good from '../images/good.png';
 import okay from '../images/okay.png';
 import confused from '../images/confused.png';
+import axios from 'axios';
 
-const cookies = new Cookies();
-cookies.set('sessionID', 'Pacman', { path: '/' });
-console.log(cookies.get('myCat')); // Pacman
+//import Cookies from 'universal-cookie';
+
+//const cookies = new Cookies();
+//cookies.set('sessionID', 'Pacman', { path: '/' });
+
+axios.defaults.withCredentials = true
 
 class StudentView extends Component {
     constructor(props) {
         super(props);
         this.changeBtnValue = this.changeBtnValue.bind(this);
+
         this.state = {
             studentID: "",
             sessionID: "",
-            old_value: null,
-            value: null,
+            old_value: 0,
+            value: 0,
         };
 
     }
@@ -40,14 +41,10 @@ class StudentView extends Component {
             sessionID: this.state.sessionID,
             old_value: this.state.old_value,
             value: this.state.value
-        };
+        }
 
         this.props.addRecord(newRecord);
     }
-
-    static propTypes = {
-        addRecord: PropTypes.func.isRequired,
-    };
 
     render() {
         return (
