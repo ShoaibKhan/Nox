@@ -20,9 +20,6 @@ if (!socket) {
     socket = io('http://localhost:5000');
 }
 
-
-
-
 // @route   POST api/student
 // @desc    Register a new student
 // @access  Public (Should be private in real production)
@@ -32,13 +29,14 @@ router.post('/', (req, res) => {
     //clearCookie("sid");
     res.status(200).json({ success: true })
 
-
-    const myParameters = { "newCode": "54321", "socketID": req.body.socketID };
+    // Sending hardcoded data to test if it gets displayed on graph. 
+    const myParameters = { "sid": "54321" , "socketID": req.body.socketID };
     // Websocket Cleint 
     // which sends the data to the websocket server --> in server. 
     socket.emit('newCodeToServer', myParameters);
+    console.log(5);
     console.log(myParameters);
-
+    
     //  newStudent.save();
 });
 

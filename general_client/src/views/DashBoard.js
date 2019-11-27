@@ -1,26 +1,42 @@
 import React, { Component } from 'react';
 //import LineChart from '../components/LineChart';
 import Histogram from '../components/Histogram';
-import io  from 'socket.io-client';
-import data1 from '../../../server.js'
+import io from 'socket.io-client';
+//import data1 from '../../../server.js'
 
 // Establish socket connection for the Professor to recieve data
 let socket;
 if (!socket) {
     socket = io('http://localhost:5000');
+    console.log(socket);
 }
 console.log('THIS IS PROFESSOR CLIENT SOCKET INFO: ', socket);
 
+  /*
+  this.setState({
+    placeholderValue: JsonParametersTest.sid
+  /)
+*/
 
-export class Dashboard extends Component {
-  constructor(){
-    super();
-    this.state = {
-      // Initially, its going to be an empty array
-      //need to fill it up with data coming from sockets 
-      chartData: {}
-    }
-  }
+  export class Dashboard extends Component {
+    constructor(){
+      super();
+      this.state = {
+        chartData:{}
+      }
+
+    socket.on("someEvent", (JsonParameters) => {
+        // Sets the front end state end to w.e the new values 
+        this.setState({
+            placeholderValue: JsonParameters.socketID
+        });
+        console.log("SOCKET FUNCTION WENT THROUGH TO PROF CLIENT ", JsonParameters.socketID);
+        console.log(JsonParameters);
+        console.log(5);
+    });
+
+    };
+
   
   // Set up Profs socket to recieve data: 
   // This will recieve the data from the server
@@ -33,27 +49,18 @@ export class Dashboard extends Component {
     });
   });
   */
-
-  componentWillMount(){
-    this.getChartData();
-  }
-  //let current_state = this.state
   /*
-  updateChartData(this.state){
-    this.state.datasets.data = data;
-    chart.update();
+  RecievingData(Good, Okay, Confused){
+    this.state.datasets.data = [Good, Okay, Confused];
+    this.state.update();
   }
-  */
- 
+  */ 
+
   getChartData(){
-    // Ajax calls here
-    socket.on('sendData', (res) =>{
-      this.state.datasets.data = data1
-      this.state.update();
-    })
+    
     this.setState({
       chartData:{
-        labels: ['Too fast', 'Okay', 'Too slow'],
+        labels: ['Good', 'Okay', 'Confused'],
         datasets:[
           {
             label:'# Of Students',
@@ -92,5 +99,4 @@ export class Dashboard extends Component {
         );
       }
     }
-      
 export default Dashboard;

@@ -9,12 +9,12 @@ import { callbackify } from 'util';
 
 // Establish socket connection
 // Connecting to the server from clients end
+
 let socket;
 if (!socket) {
     socket = io('http://localhost:5000');
 }
 console.log('THIS IS CLIENT SOCKET INFO: ', socket);
-
 
 
 axios.defaults.withCredentials = true
@@ -38,13 +38,13 @@ export default class LandingPage extends Component {
         // Recieve a msg 
         //this.sendSocketIO = this.sendSocketIO.bind(this);
 
-
         // On recieves a msg 
         // Any event is created, takes in the data server has sent, 
         // This.setState updates ur code on front end.
         // This is the profs page implentation
         // Profs need it. 
-        /*
+        
+        
         socket.on("someEvent", (JsonParameters) => {
             // Sets the front end state end to w.e the new values 
             this.setState({
@@ -54,12 +54,12 @@ export default class LandingPage extends Component {
             console.log("SOCKET FUNCTION WENT THROUGH TO PROF CLIENT ", JsonParameters.newCode);
             console.log(JsonParameters);
         });
-        */
+        
     }
 
     // Socket Function
 
-
+    
     // Enter Button clicked
     // To do: check if empty code
     _onButtonClick() {
@@ -77,13 +77,12 @@ export default class LandingPage extends Component {
             code: this.codeBox.current.value
         });
 
-
         const joinSession = {
             sesid: this.codeBox.current.value,
             socketID: socket.id
         }
         console.log(joinSession)
-
+        
 
 
         // Attempt to join a live session
@@ -108,9 +107,6 @@ export default class LandingPage extends Component {
 
         // send data via socket
         // this.sendSocketIO();
-
-
-
     }
 
     render() {

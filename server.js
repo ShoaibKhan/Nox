@@ -20,7 +20,8 @@ var corsOptions = {
     origin: 'http://localhost:3000',
     credentials: true
 }
-Axios.listen() 
+
+// Axios.listen() 
 const app = express();
 // Creating Websocket Server
 const server = require('http').createServer(app);
@@ -96,12 +97,14 @@ io.on('connection', (socket) => {
     // Emit -> send a msg
     // We create functions/events is a function which
 
+    /*
+    const myParametersTest = { "sid": "54321" ,"socketID": req.body.socketID };
+    socket.emit('Test', myParametersTest);
+    console.log(myParametersTest);
+    */
     // Recieves the data from clients
     // We assume that the data incoming would be the following:
-    // SessionID, StudentID, Time, and the Rating
-
-    socket.on("newCodeToServer", (JsonParameters) => {
-
+    // SessionID, StudentID, Time, and the Rating and SocketID are incoming
         /*
         // Existing student
         if (studentHashmap[JsonParameters.sid][JsonParameters.sid] != undefined || studentHashmap[JsonParameters.sid] != null) {
@@ -111,6 +114,11 @@ io.on('connection', (socket) => {
             oldrating: sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid].rating
         }
         */
+
+       socket.on("newCodeToServer", (JsonParameters) => {
+        console.log(myParameters);
+        console.log(5);
+        io.sockets.connected[JsonParameters.socketID].emit('someEvent', JsonParameters);
 
         // new student for that session
         studentHashmap = {
@@ -136,6 +144,37 @@ io.on('connection', (socket) => {
                 sesidToDataHashmap[sesid][goodStudents] += 1
             }
         }
+
+        // Send the updated data to the prof
+        // Sending the data to the server, after all calculations have been stored inside of Hashmap
+
+        
+         // Sending hardcoded data to test if it gets displayed on graph. 
+        /*
+        const myParameters = { "sid": "54321" ,"socketID": req.body.socketID };
+        socket.emit('Test', myParametersTest);
+        console.log(myParametersTest);
+        */ 
+        console.log(JsonParameters.socketID);
+        io.sockets.connected[JsonParameters.socketID].emit("Data", {
+            Good: sesidToDataHashmap[JsonParameters.sesid][goodStudents],
+            Okay: sesidToDataHashmap[JsonParameters.sesid][okayStudents], 
+            Confused: sesidToDataHashmap[JsonParameters.sesid][confusedStudents]
+            }
+        );
+
+        /*
+        sendData(JsonParameters.socketID){
+        io.sockets.connected[JsonParameters.socketID].emit("Data", sesidToDataHashmap[JsonParameters.sesid][goodStudents] , sesidToDataHashmap[JsonParameters.sesid][okayStudents], 
+        sesidToDataHashmap[JsonParameters.sesid][confusedStudents]);
+        console.log("SOCKET FUNCTION WENT THROUGH TO SERVER");
+        };
+        */ 
+
+
+
+
+
 
         // example data for a sesid
         // sesidToDataHashmap[1022]
@@ -220,16 +259,21 @@ io.on('connection', (socket) => {
 
             }
         }
+        /*
+        const myParametersTest = { "sid": "54321" ,"socketID": req.body.socketID };
+        socket.emit('Test', myParametersTest);
+        console.log(myParametersTest);
+        */
 
+        /*
         // Sending the data to the server, after all calculations have been stored
         // inside of the Hashmap
         console.log(JsonParameters.socketID);
-        function sendData(JsonParameters.socketID){
+        sendData(JsonParameters.socketID){
         io.sockets.connected[JsonParameters.socketID].emit("", sesidToDataHashmap[JsonParameters.sesid][goodStudents] , sesidToDataHashmap[JsonParameters.sesid][okayStudents], 
         sesidToDataHashmap[JsonParameters.sesid][confusedStudents]);
         console.log("SOCKET FUNCTION WENT THROUGH TO SERVER");
         }; 
-        /*
         this.codeBox.value = JsonParameters.newCode;
         const myParameters = { "newCode": "54321" };
         console.log(JsonParameters.socketID);
