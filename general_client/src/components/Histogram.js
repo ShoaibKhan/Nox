@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
-import {Bar} from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
+import { Button, FormControl, Container, Row } from "react-bootstrap";
 
-export class Histogram extends Component{
+export class Histogram extends Component {
   //Initial state 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      chartData:props.chartData
+      chartData: props.chartData
     }
   }
   componentWillReceiveProps(nextProps) {
-    if(nextProps != undefined && nextProps != null){
-    this.setState({chartData: nextProps.chartData});
+    if (nextProps != undefined && nextProps != null) {
+      this.setState({ chartData: nextProps.chartData });
     }
-}
+  }
 
   static defaultProps = {
-    displayTitle:true
+    displayTitle: true
   }
   /*
     this.state = {
@@ -40,31 +41,28 @@ export class Histogram extends Component{
     }
   }   
 */
-  render(){
+  render() {
     return (
-     <div style={{position: "fixed", width:1800, height:200}}>
-        <Bar
-         data={this.state.chartData}
-         options={{
-            title:{
-              display:true, 
-              text: 'Number of Students per slot',
-              fontsize:40,
-              fontcolor:'black'
-            },
-            layout:{
-                padding:{
-                    left:1200,
-                    right:0,
-                    bottom:400,
-                    top:0
-                }
-            },
-            responsive:true,
-          }}
-         // data={this.state.data}
-      />
-     </div>
+      <div style={{ display: 'flex', justifyContent: 'right', alignItems: 'center', }}>
+        <Container >
+          <Bar
+            data={this.state.chartData}
+            options={{
+              title: {
+                display: true,
+                text: 'Number of Students per slot',
+                fontsize: 40,
+                fontcolor: 'black'
+              },
+              layout: {
+
+              },
+              responsive: true,
+            }}
+          // data={this.state.data}
+          />
+        </Container>
+      </div>
     )
   }
 }
