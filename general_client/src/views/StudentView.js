@@ -30,11 +30,11 @@ class StudentView extends Component {
             value: 0,
         };
     }
-    
+
     changeBtnValue(btnValue) {
         const newRecord = {
-            studentID: this.state.studentID,
-            sessionID: this.state.sessionID,
+            studentID: cookies.get('sid'),
+            sessionID: cookies.get('sesid'),
             old_value: this.state.value,
             value: btnValue.currentTarget.value,
         }
@@ -43,7 +43,7 @@ class StudentView extends Component {
 
         this.setState({
             old_value: this.state.value,
-            value: btnValue.currentTarget.value
+            value: btnValue.currentTarget.value,
         });
     }
 
