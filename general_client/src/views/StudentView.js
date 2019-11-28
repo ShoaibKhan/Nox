@@ -29,8 +29,8 @@ class StudentView extends Component {
             old_value: 0,
             value: 0,
         };
-
     }
+    
     changeBtnValue(btnValue) {
         const newRecord = {
             studentID: this.state.studentID,
@@ -40,6 +40,7 @@ class StudentView extends Component {
         }
 
         this.props.addRecord(newRecord);
+
         this.setState({
             old_value: this.state.value,
             value: btnValue.currentTarget.value
