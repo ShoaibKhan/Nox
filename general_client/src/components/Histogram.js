@@ -3,7 +3,7 @@ import { Bar } from 'react-chartjs-2';
 import { Button, FormControl, Container, Row } from "react-bootstrap";
 
 export class Histogram extends Component {
-  //Initial state 
+  //Initial state of the Histogram, Waits for data to come in. 
   constructor(props) {
     super(props);
     this.state = {
@@ -15,51 +15,29 @@ export class Histogram extends Component {
       this.setState({ chartData: nextProps.chartData });
     }
   }
-
+  // Default Properties the Chart will display
   static defaultProps = {
     displayTitle: true
   }
-  /*
-    this.state = {
-        data:{
-          title: "Student's Understanding Progression",
-          labels: ['Too fast', 'Okay', 'Too slow'],
-          datasets:[{
-              label: '# of Students',
-              data:[39,51,24],
-              backgroundColor:[
-                'rgba(255, 99, 132, 0.6)',
-                'rgba(54, 162, 235, 0.6)',
-                'rgba(255, 206, 86, 0.6)'
-              ],
-              borderWidth:4,
-              borderColor:'#777',
-              hoverBorderWidth:3,
-              hoverBorderColor: '#000'
-          }]
-        }
-    }
-  }   
-*/
   render() {
     return (
       <div style={{ display: 'flex', justifyContent: 'right', alignItems: 'center', }}>
         <Container >
           <Bar
+          // Data is stateless, as the data changes, the state changes
             data={this.state.chartData}
             options={{
               title: {
                 display: true,
-                text: 'Number of Students per slot',
-                fontsize: 40,
-                fontcolor: 'black'
+                text: 'Number of Students per Category',
+                fontSize: 30,
+                fontColor: 'Black'
               },
               layout: {
-
+                
               },
               responsive: true,
             }}
-          // data={this.state.data}
           />
         </Container>
       </div>

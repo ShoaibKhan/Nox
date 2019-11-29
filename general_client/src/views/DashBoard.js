@@ -16,29 +16,13 @@ export class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+     // Initially, we have 0 students in each category. 
       okayStudents: 0,
       goodStudents: 0,
       confusedStudents: 0,
-      chartData: {
-        labels: ['Good', 'Okay', 'Confused'],
-        datasets: [
-          {
-            label: '# Of Students',
-            data: [0, 0, 0],
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.6)',
-              'rgba(54, 162, 235, 0.6)',
-              'rgba(255, 206, 86, 0.6)'
-            ],
-            borderWidth: 4,
-            borderColor: '#777',
-            hoverBorderWidth: 3,
-            hoverBorderColor: '#000'
-          }
-        ]
-      }
     }
 
+    // As the data comes in from the socket, the chart is re-updated.
     socket.on("Data", (JsonParameters) => {
       // Sets the front end state end to w.e the new values 
       console.log("PROF IS: ", JsonParameters);
@@ -50,14 +34,14 @@ export class Dashboard extends Component {
               label: '# Of Students',
               data: [JsonParameters.goodStudents, JsonParameters.okayStudents, JsonParameters.confusedStudents],
               backgroundColor: [
-                'rgba(255, 99, 132, 0.6)',
-                'rgba(54, 162, 235, 0.6)',
-                'rgba(255, 206, 86, 0.6)'
+                'rgb(0,128,0,1)',
+                'rgba(255, 255, 0, 1)',
+                'rgba(255, 0, 0, 1)'
               ],
               borderWidth: 4,
-              borderColor: '#777',
-              hoverBorderWidth: 3,
-              hoverBorderColor: '#000'
+              borderColor: 'Black',
+              hoverBorderWidth: 8,
+              hoverBorderColor: 'Black'
             }
           ]
         }
