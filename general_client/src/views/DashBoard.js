@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 //import LineChart from '../components/LineChart';
 import Histogram from '../components/Histogram';
 import io from 'socket.io-client';
-//import data1 from '../../../server.js'
-// Establish socket connection for the Professor to recieve data
+
+
+// Establish socket connection for the Professor
+// This will allow the Professor to recieve Data from the server
 let socket;
 if (!socket) {
   socket = io('http://localhost:5000');
@@ -31,7 +33,7 @@ export class Dashboard extends Component {
           labels: ['Good', 'Okay', 'Confused'],
           datasets: [
             {
-              label: '# Of Students',
+              label: 'Number Of Students',
               data: [JsonParameters.goodStudents, JsonParameters.okayStudents, JsonParameters.confusedStudents],
               backgroundColor: [
                 'rgb(0,128,0,1)',
@@ -39,55 +41,16 @@ export class Dashboard extends Component {
                 'rgba(255, 0, 0, 1)'
               ],
               borderWidth: 4,
-              borderColor: 'Black',
+              borderColor: 'Grey',
               hoverBorderWidth: 8,
               hoverBorderColor: 'Black'
             }
           ]
         }
-      });
-      console.log("THE STATE IS:", this.state);
-      console.log("SOCKET FUNCTION WENT THROUGH TO PROF CLIENT ", JsonParameters.socketID);
-      console.log(JsonParameters);
-      console.log(5);
-    });
-
-  }
-
-  // Set up Profs socket to recieve data: 
-  // This will recieve the data from the server
-  // Then pass it along to each chart component
-  /*
-  socket.on("someEvent", (rating) => {
-    // Sets the front end state end to w.e the new values 
-    this.setState({
-        placeholderValue: JsonParameters.newCode
-    });
-  });
-  */
-  /*
-  RecievingData(Good, Okay, Confused){
-    this.state.datasets.data = [Good, Okay, Confused];
-    this.state.update();
-  }
-*/
-  componentWillMount() {
-    this.getChartData();
-  }
-
-  getChartData() {
-
-  }
-  /*
-  // Function to get the chart data from the socket (from socket not yet implemented)
-  // Basically going to update the ChartData of the current state
-  getChartData(){
-    // Get the data from the sockets here and set the stat
-    this.setState({
-      chartData: 
+      })
     })
   }
-  */
+
   render() {
     return (
       <div >

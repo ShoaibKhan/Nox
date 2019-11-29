@@ -10,12 +10,13 @@ export class Histogram extends Component {
       chartData: props.chartData
     }
   }
+  // After the props/data comes in, set new state. 
   componentWillReceiveProps(nextProps) {
     if (nextProps != undefined && nextProps != null) {
       this.setState({ chartData: nextProps.chartData });
     }
   }
-  // Default Properties the Chart will display
+  // Default actions the Chart will display
   static defaultProps = {
     displayTitle: true
   }
@@ -26,15 +27,30 @@ export class Histogram extends Component {
           <Bar
           // Data is stateless, as the data changes, the state changes
             data={this.state.chartData}
+            // Some options for our graph
             options={{
               title: {
                 display: true,
-                text: 'Number of Students per Category',
+                text: 'Students Level of Understanding',
                 fontSize: 30,
                 fontColor: 'Black'
               },
-              layout: {
-                
+              legend:{
+                display:true,
+                position: 'bottom',
+                labels:{
+                  fontColor: "#000"
+                }
+              },
+              tooltips:{
+                enabled: true
+              },
+              scales: {
+                yAxes: [
+                  {
+                    beginAtZero: true
+                  }
+                ]
               },
               responsive: true,
             }}
