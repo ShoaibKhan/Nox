@@ -28,10 +28,11 @@ export default class LandingPage extends Component {
 
         // Binding our custom functions to .this
         this.state = {
-            placeholderValue: "Session ID",
+            placeholderValue: "Session Code",
             showComponent: false,
             code: '',
-            borderColor: 'black'
+            borderColor: 'black',
+            showError: false
         };
         this._onButtonClick = this._onButtonClick.bind(this);
         this.onJoinSession = this.onJoinSession.bind(this);
@@ -44,8 +45,8 @@ export default class LandingPage extends Component {
         // This.setState updates ur code on front end.
         // This is the profs page implentation
         // Profs need it. 
-        
-        
+
+
         socket.on("someEvent", (JsonParameters) => {
             // Sets the front end state end to w.e the new values 
             this.setState({
@@ -55,12 +56,12 @@ export default class LandingPage extends Component {
             console.log("SOCKET FUNCTION WENT THROUGH TO PROF CLIENT ", JsonParameters.newCode);
             console.log(JsonParameters);
         });
-        
+
     }
 
     // Socket Function
 
-    
+
     // Enter Button clicked
     // To do: check if empty code
     _onButtonClick() {
@@ -83,7 +84,7 @@ export default class LandingPage extends Component {
             socketID: socket.id
         }
         console.log(joinSession)
-        
+
 
 
         // Attempt to join a live session
@@ -91,15 +92,19 @@ export default class LandingPage extends Component {
             //console.log(res);
             //console.log(res.data['success']);
             this.setState({
-                borderColor: res.data['success'] ? 'green' : 'red'
+                borderColor: res.data['success'] ? 'green' : 'red',
+                showError: res.data['success'] ? false : true
             });
+            const path = '/Student';
+            this.props.history.push(path);
 
 
         }).catch((error, res) => {
             console.log(this.state.borderColor);
             console.log(error);
             this.setState({
-                borderColor: error.status === 304 ? 'black' : 'red'
+                borderColor: error.status === 304 ? 'black' : 'red',
+                showError: error.status === 304 ? false : true
             });
         });
         // send data via socket
@@ -110,6 +115,12 @@ export default class LandingPage extends Component {
         return (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '65vh' }}>
                 <Container style={{ width: 300 }}>
+                    {this.state.showError && <div style={{
+                        backgroundColor: '#ff7272', color: 'white', padding: '1em',
+                        position: 'relative', width: 300, top: '-20px', left: '-15px'
+                    }}
+
+                    >Invalid Session Code</div>}
                     <Row className="show-grid">
                         <div style={{ position: 'relative', right: 50 }}>
                             <Image src={NoxLogo} alt='Nox Logo' />

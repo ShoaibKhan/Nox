@@ -6,69 +6,54 @@ import io from 'socket.io-client';
 // Establish socket connection for the Professor to recieve data
 let socket;
 if (!socket) {
-    socket = io('http://localhost:5000');
-    console.log(socket);
+  socket = io('http://localhost:5000');
+  console.log(socket);
+
 }
 console.log('THIS IS PROFESSOR CLIENT SOCKET INFO: ', socket);
-  
+
 export class Dashboard extends Component {
-    constructor(props){
-      super(props);
-      this.state = {
-        okayStudents: 0,
-        goodStudents: 0 ,
-        confusedStudents: 0,
-        chartData:{
+  constructor(props) {
+    super(props);
+    this.state = {
+     // Initially, we have 0 students in each category. 
+      okayStudents: 0,
+      goodStudents: 0,
+      confusedStudents: 0,
+    }
+
+    // As the data comes in from the socket, the chart is re-updated.
+    socket.on("Data", (JsonParameters) => {
+      // Sets the front end state end to w.e the new values 
+      console.log("PROF IS: ", JsonParameters);
+      this.setState({
+        chartData: {
           labels: ['Good', 'Okay', 'Confused'],
-          datasets:[
+          datasets: [
             {
-              label:'# Of Students',
-              data:[0, 0,0],
-              backgroundColor:[
-                'rgba(255, 99, 132, 0.6)',
-                'rgba(54, 162, 235, 0.6)',
-                'rgba(255, 206, 86, 0.6)'
+              label: '# Of Students',
+              data: [JsonParameters.goodStudents, JsonParameters.okayStudents, JsonParameters.confusedStudents],
+              backgroundColor: [
+                'rgb(0,128,0,1)',
+                'rgba(255, 255, 0, 1)',
+                'rgba(255, 0, 0, 1)'
               ],
-              borderWidth:4,
-              borderColor:'#777',
-              hoverBorderWidth:3,
-              hoverBorderColor: '#000'
+              borderWidth: 4,
+              borderColor: 'Black',
+              hoverBorderWidth: 8,
+              hoverBorderColor: 'Black'
             }
           ]
         }
-      }
-
-      socket.on("Data", (JsonParameters) => {
-        // Sets the front end state end to w.e the new values 
-       
-        this.setState({
-          chartData:{
-            labels: ['Good', 'Okay', 'Confused'],
-            datasets:[
-              {
-                label:'# Of Students',
-                data:[JsonParameters.confusedStudents, JsonParameters.okayStudents,JsonParameters.goodStudents],
-                backgroundColor:[
-                  'rgba(255, 99, 132, 0.6)',
-                  'rgba(54, 162, 235, 0.6)',
-                  'rgba(255, 206, 86, 0.6)'
-                ],
-                borderWidth:4,
-                borderColor:'#777',
-                hoverBorderWidth:3,
-                hoverBorderColor: '#000'
-              }
-            ]
-          }
-        });
-        console.log("THE STATE IS:" ,this.state);
-        console.log("SOCKET FUNCTION WENT THROUGH TO PROF CLIENT ", JsonParameters.socketID);
-        console.log(JsonParameters);
-        console.log(5);
+      });
+      console.log("THE STATE IS:", this.state);
+      console.log("SOCKET FUNCTION WENT THROUGH TO PROF CLIENT ", JsonParameters.socketID);
+      console.log(JsonParameters);
+      console.log(5);
     });
 
-    }
-    
+  }
+
   // Set up Profs socket to recieve data: 
   // This will recieve the data from the server
   // Then pass it along to each chart component
@@ -86,12 +71,12 @@ export class Dashboard extends Component {
     this.state.update();
   }
 */
-  componentWillMount(){
+  componentWillMount() {
     this.getChartData();
   }
-  
-  getChartData(){
-    
+
+  getChartData() {
+
   }
   /*
   // Function to get the chart data from the socket (from socket not yet implemented)
@@ -103,13 +88,13 @@ export class Dashboard extends Component {
     })
   }
   */
-      render() {
-        return (
-          <div >
-            <Histogram chartData={this.state.chartData} />
-        </div>
-            // <LineChart chartData={this.state.chartData} />
-        );
-      }
-    }
+  render() {
+    return (
+      <div >
+        <Histogram chartData={this.state.chartData} />
+      </div>
+      // <LineChart chartData={this.state.chartData} />
+    );
+  }
+}
 export default Dashboard;

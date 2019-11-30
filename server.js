@@ -81,19 +81,23 @@ io.on('connection', (socket) => {
     console.info(`Client connected [id=${socket.id}]`);
     // initialize this client's sequence number
     sequenceNumberByClient.set(socket, 1);
-
+    var profID = "";
     // If that client disconnects, do this
     // Client socket = socket
     socket.on('disconnect', () => {
         sequenceNumberByClient.delete(socket);
         console.info(`Client gone [id=${socket.id}]`);
     });
+    socket.on("Prof", (JsonParameters) => {
+        profID = JsonParameters.profID;
+    });
 
     var returnJSON = NumberOfStudentsCalculation
     socket.on("newCodeToServer", (myParameters) => {
         console.log(myParameters.socketID);
         var returnJSON = NumberOfStudentsCalculation(myParameters);
-        io.sockets.connected[myParameters.socketID].emit("Data", returnJSON);
+        io.sockets.emit("Data", returnJSON);
+        //io.sockets.connected[JsonParameters].emit("Data", returnJSON);
     }
     );
 });
@@ -137,42 +141,41 @@ function NumberOfStudentsCalculation(JsonParameters) {
             sesidToDataHashmap[JsonParameters.sesid].goodStudents -= 1
         }
     }
+    //3-5
+    sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid].oldrating = sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid].rating
+    sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid].rating = JsonParameters.rating
+    sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid].time = JsonParameters.time
 
-//3-5
-sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid].oldrating = sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid].rating
-sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid].rating = JsonParameters.rating
-sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid].time = JsonParameters.time
 
+    //Existing User
+    if (JsonParameters.rating != null && JsonParameters.rating != undefined) {
+        // If the student is feeling lost
+        if (JsonParameters.rating == 1) {
+            sesidToDataHashmap[JsonParameters.sesid].confusedStudents += 1
+        }
+        // Student is feeling okay
+        if (JsonParameters.rating == 2) {
+            sesidToDataHashmap[JsonParameters.sesid].okayStudents += 1
+        }
+        // Student is understanding well
+        if (JsonParameters.rating == 3) {
+            sesidToDataHashmap[JsonParameters.sesid].goodStudents += 1
+        }
+    }
+    // Adding all the student totals
+    sesidToDataHashmap[JsonParameters.sesid].totalStudents =
+        + sesidToDataHashmap[JsonParameters.sesid].goodStudents
+        + sesidToDataHashmap[JsonParameters.sesid].okayStudents
+        + sesidToDataHashmap[JsonParameters.sesid].confusedStudents;
 
-//Existing User
-if (JsonParameters.rating != null && JsonParameters.rating != undefined) {
-    // If the student is feeling lost
-    if (JsonParameters.rating == 1) {
-        sesidToDataHashmap[JsonParameters.sesid].confusedStudents += 1
-    }
-    // Student is feeling okay
-    if (JsonParameters.rating == 2) {
-        sesidToDataHashmap[JsonParameters.sesid].okayStudents += 1
-    }
-    // Student is understanding well
-    if (JsonParameters.rating == 3) {
-        sesidToDataHashmap[JsonParameters.sesid].goodStudents += 1
-    }
+    // Calcluating Avrg
+
+    // Create JSON to return
+    var studentCount = {
+        goodStudents: sesidToDataHashmap[JsonParameters.sesid].goodStudents,
+        okayStudents: sesidToDataHashmap[JsonParameters.sesid].okayStudents,
+        confusedStudents: sesidToDataHashmap[JsonParameters.sesid].confusedStudents
+    };
+
+    return studentCount;
 }
-// Adding all the student totals
-sesidToDataHashmap[JsonParameters.sesid].totalStudents =
-    + sesidToDataHashmap[JsonParameters.sesid].goodStudents
-    + sesidToDataHashmap[JsonParameters.sesid].okayStudents
-    + sesidToDataHashmap[JsonParameters.sesid].confusedStudents;
-
-// Calcluating Avrg
-
-// Create JSON to return
-var studentCount = {
-    goodStudents: sesidToDataHashmap[JsonParameters.sesid].goodStudents,
-    okayStudents: sesidToDataHashmap[JsonParameters.sesid].okayStudents,
-    confusedStudents: sesidToDataHashmap[JsonParameters.sesid].confusedStudents
-};
-
-return studentCount;
-    }

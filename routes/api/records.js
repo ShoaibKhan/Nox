@@ -1,15 +1,21 @@
 const express = require('express');
 const router = express.Router();
+const io = require('socket.io-client');
 
 //Records Model
 const Record = require('../../models/Records');
+
+let socket;
+if (!socket) {
+    socket = io('http://localhost:5000');
+}
 
 // @route   GET api/records
 // @desc    Get ALL records given criterias
 // @access  Public
 router.get('/', (req, res) => {
     Record.find()
-        .sort({ date: -1})  
+        .sort({ date: -1 })
         .then(records => res.json(records))
 });
 
@@ -23,7 +29,16 @@ router.post('/', (req, res) => {
         value: req.body.value,
         old_value: req.body.old_value
     });
+    const myParameters = { "sid": req.body.studentID, sesid: req.body.sessionID, "Time": "10:50", "rating": req.body.value, "socketID": "" };
+
+    // Websocket Cleint 
+    // which sends the data to the websocket server --> in server. 
+    socket.emit('newCodeToServer', myParameters);
+    console.log(5);
+    console.log(myParameters);
+
     newRecord.save().then(record => res.json(record));
+
 });
 
 
