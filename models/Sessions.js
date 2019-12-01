@@ -43,7 +43,7 @@ const sessionsSchema = new Schema({
     },
     pid: { // ID of Professor Host
         type: String,
-        default: uuidv4()
+        required: true
     },
     courseCode: {
         type: String,

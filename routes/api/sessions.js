@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');
 const Student = require('../../models/Student');
 
 
-//Professor Model
+//Session Model
 const Session = require('../../models/Sessions');
 
 const cookieConfig = {
@@ -17,12 +17,12 @@ const cookieConfig = {
 // @route   GET api/sessions
 // @desc    Get a session
 // @access  Public
+
 router.get('/', (req, res) => {
     Session.find({ pid: req.body.pid }, function (err, result) {
         if (err) throw err;
         res.json(result);
     })
-
 });
 
 router.get('/AllSessions', (req, res) => {
@@ -41,7 +41,6 @@ router.get('/AllSessions', (req, res) => {
             res.status(404).json(result);
         }
     })
-
 });
 
 // If Session not found

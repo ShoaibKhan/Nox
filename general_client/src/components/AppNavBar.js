@@ -37,10 +37,10 @@ class AppNavbar extends Component {
                                     <NavLink href='https://github.com/ShoaibAhmadKhan/Nox'>GitHub</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink href='https://www.rickrolled.com/get-rolled'>Dark Mode!</NavLink>
+                                    <NavLink href='https://www.rickrolled.com/get-rolled'>Dark Mode!!</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink href='https://cslinux.utm.utoronto.ca/~khansho4/'>Login</NavLink>
+                                    <NavLink href='/prof'>Professor Login</NavLink>
                                 </NavItem>
                             </Nav>
                         </Collapse>
