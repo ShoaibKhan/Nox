@@ -14,11 +14,32 @@ const cookieConfig = {
     // signed: true // if you use the secret with cookieParser
 };
 
-// @route   GET api/sessions
+router.post('/FindSession', (req, res) => {
+    Session.findOne({ sesid: req.body.sesid }, function (err, result) {
+        //res.send(result);
+        if (err) { // Internal Error
+            //callback(err);
+            res.status(err.status).send({ success: false });
+            return;
+        }
+        else if (result && result.sesid === req.body.sesid) { // Found Session
+            //res.cookie('sesid', result.sesid);
+            res.send({ success: true });
+            console.log(result);
+        }
+        else { // Did not find Session
+            console.log('DID NOT FIND SESSION');
+            res.status(404).send({ success: false, response: 'DID NOT FIND SESSION' });
+            console.log(result);
+        }
+        //res.json(result);
+
+    })
+})
+
+// @route   GET api/sessions/AllSessions
 // @desc    Get a session
 // @access  Public
-
-
 
 router.get('/AllSessions', (req, res) => {
     Session.find({ pid: req.query.pid }, function (err, result) {
@@ -122,7 +143,8 @@ router.post('/', (req, res) => {
     console.log(`Received POST request for course: ${req.body.courseCode}`)
     const newSession = new Session({
         courseCode: req.body.courseCode,
-        pid: req.body.pid
+        pid: req.body.pid,
+        sesid: req.body.sesid
     });
 
 

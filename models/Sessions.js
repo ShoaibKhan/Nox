@@ -35,7 +35,7 @@ const sessionsSchema = new Schema({
 
     sesid: { // Session ID
         type: String,
-        default: shortid.generate
+        required: true
     },
     dateStart: { // Date Session Started
         type: String,

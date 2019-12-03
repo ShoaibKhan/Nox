@@ -3,6 +3,12 @@ import { GET_SESSIONS, GET_COURSES, ADD_SESSION, ADD_COURSE, DOWNLOAD_SESSION, S
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
+function getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
+}
+
 export const getCourses = (pid) => dispatch => {
     dispatch(setSessionsLoading());
     axios.get("http://localhost:5000/api/sessions/AllSessions", {
@@ -35,8 +41,11 @@ export const downloadSession = (sesid) => dispatch => {
 }
 
 export const addCourse = (Course) => dispatch => {
-    axios
-        .post('sessions', Course, { baseURL: "http://localhost:5000/api/" })
+    var sesid = getRandomIntInclusive(100000, 999999);
+    var notUnique = 1;
+
+    Course.sesid = String(sesid);
+    axios.post('sessions', Course, { baseURL: "http://localhost:5000/api/" })
         .then(res => {
             console.log(`Received response from server: ${{ res }}`)
             dispatch({
@@ -46,9 +55,17 @@ export const addCourse = (Course) => dispatch => {
             cookies.set('sesid', res.data.sesid);
             window.location = "/Dashboard";
         })
+
+
+  
+
+
+ 
 }
 
 export const addSession = (Session) => dispatch => {
+    var sesid = getRandomIntInclusive(100000, 999999);
+    Session.sesid = `123132312`;
     axios
         .post('sessions', Session, { baseURL: "http://localhost:5000/api/" })
         .then(res => {
@@ -57,6 +74,8 @@ export const addSession = (Session) => dispatch => {
                 type: ADD_SESSION,
                 payload: res.data
             })
+            cookies.set('sesid', res.data.sesid);
+            window.location = "/Dashboard";
         })
 }
 
