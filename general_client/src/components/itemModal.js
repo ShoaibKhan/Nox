@@ -10,7 +10,7 @@ import {
     Input
 } from 'reactstrap';
 import { connect } from 'react-redux';
-import { addSession } from '../actions/sessionActions';
+import { addCourse } from '../actions/sessionActions';
 import axios from 'axios';
 
 axios.defaults.withCredentials = true
@@ -33,19 +33,19 @@ class ItemModal extends Component {
     };
 
     onChange = e => {
-        this.setState({ [e.target.courseCode]: e.target.value });
+        this.setState({ courseCode: e.target.value });
     };
 
     onSubmit = e => {
         e.preventDefault();
 
-        const newSession = {
-            pid: "testProf", //Get from cookies once authentication is up and running
-            courseCode: "this.state.courseCode",
+        const newCourse = {
+            pid: "Furki", //Get from cookies once authentication is up and running
+            courseCode: this.state.courseCode,
         };
 
         // Add item via addItem action
-        this.props.addSession(newSession);
+        this.props.addCourse(newCourse);
 
         // Close modal
         this.toggle();
@@ -92,5 +92,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { addSession }
+    { addCourse }
 )(ItemModal);

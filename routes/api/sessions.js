@@ -18,22 +18,18 @@ const cookieConfig = {
 // @desc    Get a session
 // @access  Public
 
-router.get('/', (req, res) => {
-    Session.find({ pid: req.body.pid }, function (err, result) {
-        if (err) throw err;
-        res.json(result);
-    })
-});
+
 
 router.get('/AllSessions', (req, res) => {
-    Session.find({ pid: req.body.pid }, function (err, result) {
+    Session.find({ pid: req.query.pid }, function (err, result) {
         if (err) { // Internal Error
             //callback(err);
             res.status(err.status).send({ success: false });
             return;
         }
-        else if (result && result.pid === req.body.pid) { // Found Sessions
+        else if (result && result[0].pid == req.query.pid) { // Found Sessions
             console.log(result);
+            console.log('THIS IS IT');
             res.json(result);
         }
         else {

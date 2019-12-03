@@ -4,6 +4,10 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
 import { getSessions, downloadSession } from '../actions/sessionActions';
 import PropTypes from 'prop-types';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
+const sessionID = cookies.get('sesid');
 
 class SessionsList extends Component {
   constructor(props) {
@@ -65,11 +69,13 @@ export default connect(
 )(SessionsList);
 
 
-
-
 /*
-import React from 'react';
-import { ListGroup } from 'reactstrap';
+import React, { Component } from 'react';
+import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { connect } from 'react-redux';
+import { getSessions, downloadSession } from '../actions/sessionActions';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
@@ -82,9 +88,6 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import IconButton from '@material-ui/core/IconButton';
 
-var courses = ["CSC343H5", "STA256H5", "CSC258H5"];
-var sessions = ["Week 1 - LEC0102", "Week 2 - LEC0102"];
-
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
@@ -96,70 +99,138 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function NestedList(props) {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+const classes = useStyles();
+const [open, setOpen] = React.useState(false);
 
-  const handleClick = () => {
+class SessionsList extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      pid: "Furki",
+      courseCode: "Default"
+    };
+  }
+
+  static propTypes = {
+    getSessions: PropTypes.func.isRequired,
+    session: PropTypes.object.isRequired,
+    getCourses: PropTypes.func.isRequired,
+    course: PropTypes.object.isRequired,
+  };
+
+  componentDidMount() {
+    this.props.getSessions(this.state.pid);
+    this.props.getCourses(this.state.pid, this.state.courseCode)
+  }
+
+  onDownloadClick = id => {
+    this.props.downloadSession(id);
+  };
+
+  handleClick = () => {
     setOpen(!open);
   };
 
-  return (
-    <List
-      component="nav"
-      aria-labelledby="nested-list-subheader"
-      subheader={
-        <ListSubheader component="div" id="nested-list-subheader">
-          Larry's Courses
+  render() {
+    const { sessions } = this.props.session;
+    const { courses } = this.props.course;
+    return (
+      <List
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+        subheader={
+          <ListSubheader component="div" id="nested-list-subheader">
+            Larry's Courses
       </ListSubheader>
-      }
-      className={classes.root}
-    >
-      {
-        courses.map(course =>
-          //For each "course" in courses_array, do the following:
-          <ListGroup>
-            {course === "CSC343H5" ?
-              <ListItem button onClick={handleClick}>
-                <IconButton className={classes.button} aria-label="add">
-                  <AddIcon />
-                </IconButton>
-                <ListItemText primary={course} />
-                {open ? <ExpandLess /> : <ExpandMore />}
-              </ListItem> :
-              <ListItem button>
-                <IconButton className={classes.button} aria-label="add">
-                  <AddIcon />
-                </IconButton>
-                <ListItemText primary={course} />
-              </ListItem>
-            }
-            {course === "CSC343H5" ?
-              <Collapse in={open} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding> {
-                  sessions.map(session =>
-                    <ListItem button className={classes.nested}>
-                      <IconButton
-                        className={classes.button}
-                        aria-label="download">
-                        <DownloadIcon />
-                      </IconButton>
-                      <ListItemText primary={session} />
-                    </ListItem>
-                  )}
-                </List>
-              </Collapse>
-              : null}
-          </ListGroup>)}
-    </List >
-  );
+        }
+        className={classes.root}
+      >
+        {
+          courses.map(course =>
+            //For each "course" in courses_array, do the following:
+            <ListGroup>
+              {
+                <ListItem button onClick={handleClick}>
+                  <IconButton className={classes.button} aria-label="add">
+                    <AddIcon />
+                  </IconButton>
+                  <ListItemText primary={course} />
+                  {open ? <ExpandLess /> : <ExpandMore />}
+                </ListItem>
+              }
+              {course === "CSC343H5" ?
+                <Collapse in={open} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding> {
+                    sessions.map(session =>
+                      <ListItem button className={classes.nested}>
+                        <IconButton
+                          className={classes.button}
+                          aria-label="download">
+                          <DownloadIcon />
+                        </IconButton>
+                        <ListItemText primary={session} />
+                      </ListItem>
+                    )}
+                  </List>
+                </Collapse>
+                : null}
+            </ListGroup>)}
+      </List >
+    );
+  }
+
+
+      <Container>
+  <ListGroup>
+    <TransitionGroup className='sessions-list'>
+      {sessions.map(({ _id, courseCode }) => (
+        <CSSTransition key={_id} timeout={500} classNames='fade'>
+          <ListGroupItem>
+            <Button
+              className='remove-btn'
+              color='danger'
+              size='sm'
+              onClick={this.onDownloadClick.bind(this, _id)}
+            >
+              &times;
+                    </Button>
+            {courseCode}
+          </ListGroupItem>
+        </CSSTransition>
+      ))}
+    </TransitionGroup>
+  </ListGroup>
+</Container>
+    );
+  }
 }
-*/
 
+const mapStateToProps = state => ({
+  session: state.session
+});
 
+export default connect(
+  mapStateToProps,
+  { getSessions, downloadSession }
+)(SessionsList);
 
+//---------------------------------------------------------------------------------------------------
 
+var courses = ["CSC343H5", "STA256H5", "CSC258H5"];
+var sessions = ["Week 1 - LEC0102", "Week 2 - LEC0102"];
 
+return (
+  <List
+    component="nav"
+    aria-labelledby="nested-list-subheader"
+    subheader={
+      <ListSubheader component="div" id="nested-list-subheader">
+        Larry's Courses
+      </ListSubheader>
+    }
+    className={classes.root}
+  >
 
 /*
 
