@@ -35,7 +35,7 @@ const sessionsSchema = new Schema({
 
     sesid: { // Session ID
         type: String,
-        default: shortid.generate
+        required: true
     },
     dateStart: { // Date Session Started
         type: String,
@@ -43,7 +43,7 @@ const sessionsSchema = new Schema({
     },
     pid: { // ID of Professor Host
         type: String,
-        default: uuidv4()
+        required: true
     },
     courseCode: {
         type: String,

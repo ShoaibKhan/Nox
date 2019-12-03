@@ -21,7 +21,6 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     const newProfessor = new Professor({
         name: req.body.name
-
     });
     newProfessor.save().then(professor => res.json(professor))
 });
