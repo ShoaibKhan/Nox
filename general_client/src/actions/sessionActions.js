@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_SESSIONS, GET_COURSES, ADD_SESSION, ADD_COURSE, DOWNLOAD_SESSION, SESSIONS_LOADING } from './types';
+import { GET_SESSIONS, ADD_SESSION, ADD_COURSE, DOWNLOAD_SESSION, SESSIONS_LOADING } from './types';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
@@ -11,11 +11,11 @@ function getRandomIntInclusive(min, max) {
 
 export const getCourses = (pid) => dispatch => {
     dispatch(setSessionsLoading());
-    axios.get("http://localhost:5000/api/sessions/AllSessions", {
+    axios.get("http://localhost:5000/api/sessions/FindCourse", {
         params: { pid: pid }
     })
         .then(res => dispatch({
-            type: GET_COURSES,
+            type: GET_SESSIONS,
             payload: res.data
         }))
 }
@@ -42,7 +42,6 @@ export const downloadSession = (sesid) => dispatch => {
 
 export const addCourse = (Course) => dispatch => {
     var sesid = getRandomIntInclusive(100000, 999999);
-    var notUnique = 1;
 
     Course.sesid = String(sesid);
     axios.post('sessions', Course, { baseURL: "http://localhost:5000/api/" })
@@ -55,12 +54,6 @@ export const addCourse = (Course) => dispatch => {
             cookies.set('sesid', res.data.sesid);
             window.location = "/Dashboard";
         })
-
-
-  
-
-
- 
 }
 
 export const addSession = (Session) => dispatch => {
@@ -84,4 +77,3 @@ export const setSessionsLoading = () => {
         type: SESSIONS_LOADING
     };
 }
-

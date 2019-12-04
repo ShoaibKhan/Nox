@@ -28,11 +28,13 @@ export class Dashboard extends Component {
       // Initially, we have 0 students in each category. 
       okayStudents: 0,
       goodStudents: 0,
-      confusedStudents: 0
+      confusedStudents: 0,
+      average_rating: null
     }
 
     var that = this;
 
+    // As the data comes in from the socket, the chart is re-updated.
     if (!socket) {
       socket = io('http://localhost:5000');
       socket.on('connect', function onConnect() {
@@ -41,6 +43,7 @@ export class Dashboard extends Component {
         socket.on("Data", (JsonParameters) => {
           // Sets the front end state end to w.e the new values 
           console.log("PROF IS: ", JsonParameters);
+          // Sets the front end state end to w.e the new values 
           that.setState({
             chartData: {
               labels: ['Good', 'Okay', 'Confused'],
@@ -59,13 +62,14 @@ export class Dashboard extends Component {
                   hoverBorderColor: 'Black'
                 }
               ]
-            }
-          })
-        })
-      });
 
+            }
+          });
+        });
+      });
     }
   }
+
 
   render() {
     return (
@@ -74,6 +78,11 @@ export class Dashboard extends Component {
           <h2>Session Code: {sessionID}</h2>
         </div>
         <Histogram chartData={this.state.chartData} />
+        <input style={{ position: "right", backgroundColor: 'lightblue', fontSize: 40, height: 100, width: 250, textAlign: "center" }}
+          type="text"
+          placeholder={"Average"}
+          value={this.state.average_rating}
+        />
       </div>
       // <LineChart chartData={this.state.chartData} />
     );

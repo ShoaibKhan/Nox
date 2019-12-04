@@ -3,7 +3,6 @@ const router = express.Router();
 const cookieParser = require('cookie-parser');
 const Student = require('../../models/Student');
 
-
 //Session Model
 const Session = require('../../models/Sessions');
 
@@ -32,8 +31,6 @@ router.post('/FindSession', (req, res) => {
             res.status(404).send({ success: false, response: 'DID NOT FIND SESSION' });
             console.log(result);
         }
-        //res.json(result);
-
     })
 })
 
@@ -42,7 +39,7 @@ router.post('/FindSession', (req, res) => {
 // @access  Public
 
 router.get('/AllSessions', (req, res) => {
-    Session.find({ pid: req.query.pid }, function (err, result) {
+    Session.find({ pid: req.query.pid, courseCode: req.query.courseCode }, function (err, result) {
         if (err) { // Internal Error
             //callback(err);
             res.status(err.status).send({ success: false });
@@ -58,6 +55,20 @@ router.get('/AllSessions', (req, res) => {
             res.status(404).json(result);
         }
     })
+});
+
+router.get('/FindCourse', (req, res) => {
+    Session.find({ pid: req.query.pid }).distinct('courseCode', req.query.sesid, function (err, result) { //see the use of distinct
+        if (err) { // Internal Error
+            //callback(err);
+            res.status(err.status).send({ success: false });
+            return;
+        }
+        else {
+            console.log('THIS IS IT');
+            res.json(result);
+        }
+    });
 });
 
 // If Session not found
