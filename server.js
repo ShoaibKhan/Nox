@@ -169,12 +169,15 @@ function NumberOfStudentsCalculation(JsonParameters) {
         + sesidToDataHashmap[JsonParameters.sesid].confusedStudents;
 
     // Calcluating Avrg
+    average_rating = ((sesidToDataHashmap[JsonParameters.sesid].goodStudents)*3 + (sesidToDataHashmap[JsonParameters.sesid].okayStudents)*2 + (sesidToDataHashmap[JsonParameters.sesid].confusedStudents)*1) / (sesidToDataHashmap[JsonParameters.sesid].totalStudents) 
+
 
     // Create JSON to return
     var studentCount = {
         goodStudents: sesidToDataHashmap[JsonParameters.sesid].goodStudents,
         okayStudents: sesidToDataHashmap[JsonParameters.sesid].okayStudents,
-        confusedStudents: sesidToDataHashmap[JsonParameters.sesid].confusedStudents
+        confusedStudents: sesidToDataHashmap[JsonParameters.sesid].confusedStudents,
+        average_rating
     };
 
     return studentCount;
