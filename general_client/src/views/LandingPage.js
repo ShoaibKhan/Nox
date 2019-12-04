@@ -4,18 +4,11 @@ import { Button, FormControl, Container, Row } from "react-bootstrap";
 import Image from 'react-bootstrap/Image'
 import NoxLogo from '../images/noxLogo.png'
 import axios from 'axios';
-import io from 'socket.io-client';
 import { callbackify } from 'util';
 
 // Establish socket connection
 // Connecting to the server from clients end
 
-let socket;
-if (!socket) {
-    socket = io('http://localhost:5000');
-    console.log(socket);
-}
-console.log('THIS IS CLIENT SOCKET INFO: ', socket);
 
 
 axios.defaults.withCredentials = true
@@ -46,7 +39,7 @@ export default class LandingPage extends Component {
         // This is the profs page implentation
         // Profs need it. 
 
-
+        /*
         socket.on("someEvent", (JsonParameters) => {
             // Sets the front end state end to w.e the new values 
             this.setState({
@@ -56,7 +49,7 @@ export default class LandingPage extends Component {
             console.log("SOCKET FUNCTION WENT THROUGH TO PROF CLIENT ", JsonParameters.newCode);
             console.log(JsonParameters);
         });
-
+        */
     }
 
     // Socket Function
@@ -80,8 +73,7 @@ export default class LandingPage extends Component {
         });
 
         const joinSession = {
-            sesid: this.codeBox.current.value,
-            socketID: socket.id
+            sesid: this.codeBox.current.value
         }
         console.log(joinSession)
 

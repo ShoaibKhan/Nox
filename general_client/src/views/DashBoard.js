@@ -5,9 +5,15 @@ import io from 'socket.io-client';
 //import data1 from '../../../server.js'
 // Establish socket connection for the Professor to recieve data
 let socket;
+
+// TO DO: Assign sesID when you create one
+let sesID = "iwq_ZWuh";
 if (!socket) {
   socket = io('http://localhost:5000');
-  console.log(socket);
+  socket.on('connect', function () {
+    socket.emit('proffesorSocket', { sesid: sesID, socketID: socket.id });
+    console.log(socket.id);
+  });
 
 }
 console.log('THIS IS PROFESSOR CLIENT SOCKET INFO: ', socket);

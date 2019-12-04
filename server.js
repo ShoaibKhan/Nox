@@ -81,21 +81,36 @@ io.on('connection', (socket) => {
     console.info(`Client connected [id=${socket.id}]`);
     // initialize this client's sequence number
     sequenceNumberByClient.set(socket, 1);
-    var profID = "";
+    var profID;
     // If that client disconnects, do this
     // Client socket = socket
     socket.on('disconnect', () => {
         sequenceNumberByClient.delete(socket);
         console.info(`Client gone [id=${socket.id}]`);
     });
-    socket.on("Prof", (JsonParameters) => {
-        profID = JsonParameters.profID;
+    socket.on("proffesorSocket", (JsonParameters) => {
+        console.log(JsonParameters);
+        // Session does not exist in hashtable then make it
+        if (sesidToDataHashmap[JsonParameters.sesid] == undefined || sesidToDataHashmap[JsonParameters.sesid] == null) {
+            sesidToDataHashmap[JsonParameters.sesid] = {
+                goodStudents: 0,
+                okayStudents: 0,
+                confusedStudents: 0,
+                totalStudents: 0,
+                socketID: null
+
+            }
+        }
+        // Add socketID into hashtable
+        sesidToDataHashmap[JsonParameters.sesid].socketID = JsonParameters.socketID;
+        console.log('THIS is profs socket id: ', sesidToDataHashmap[JsonParameters.sesid]);
     });
 
     var returnJSON = NumberOfStudentsCalculation
     socket.on("newCodeToServer", (myParameters) => {
         console.log(myParameters.socketID);
         var returnJSON = NumberOfStudentsCalculation(myParameters);
+        console.log(sesidToDataHashmap[myParameters.sesid]);
         io.sockets.emit("Data", returnJSON);
         //io.sockets.connected[JsonParameters].emit("Data", returnJSON);
     }
@@ -123,7 +138,9 @@ function NumberOfStudentsCalculation(JsonParameters) {
             goodStudents: 0,
             okayStudents: 0,
             confusedStudents: 0,
-            totalStudents: 0
+            totalStudents: 0,
+            socketID: null
+
         }
     }
     // step 2
