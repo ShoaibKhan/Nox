@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
-import { getCourses, downloadSession } from '../actions/sessionActions';
+import { getCourses, addCourse, downloadSession } from '../actions/sessionActions';
 import PropTypes from 'prop-types';
 import Cookies from 'universal-cookie';
 
@@ -29,6 +29,8 @@ class SessionsList extends Component {
     this.state = {
       pid: "Furki"
     };
+
+    this.changeBtnValue = this.changeBtnValue.bind(this);
   }
 
   static propTypes = {
@@ -45,6 +47,15 @@ class SessionsList extends Component {
     this.props.downloadSession(id);
   };
 
+  changeBtnValue(btnValue) {
+    const newCourse = {
+      pid: "Furki", //Get from cookies once authentication is up and running
+      courseCode: "NEW SESSION"
+    };
+
+    this.props.addCourse(newCourse);
+  }
+
   render() {
     const { sessions } = this.props.session;
     return (
@@ -54,7 +65,7 @@ class SessionsList extends Component {
             {sessions.map(session => (
               <CSSTransition timeout={500} classNames='fade'>
                 <ListItem button>
-                  <IconButton aria-label="add">
+                  <IconButton aria-label="add" courseCode={session} onClick={this.changeBtnValue}>
                     <AddIcon />
                   </IconButton>
                   <ListItemText primary={session} />
@@ -74,7 +85,7 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getCourses, downloadSession }
+  { getCourses, addCourse, downloadSession }
 )(SessionsList);
 
 
