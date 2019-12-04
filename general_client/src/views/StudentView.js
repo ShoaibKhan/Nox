@@ -6,15 +6,11 @@ import good from '../images/good.png';
 import okay from '../images/okay.png';
 import confused from '../images/confused.png';
 import axios from 'axios';
-
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
 const sid = cookies.get('sid');
 const sessionID = cookies.get('sesid');
-
-console.log('sid', sid);
-console.log('sessionID', sessionID);
 
 axios.defaults.withCredentials = true
 

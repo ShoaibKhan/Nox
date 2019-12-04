@@ -12,7 +12,6 @@ import './App.css';
 
 // Direct different react components to different URLS
 import { BrowserRouter as Router, Route } from "react-router-dom"
-import Dashboard from './views/DashBoard';
 
 class App extends Component {
   render() {

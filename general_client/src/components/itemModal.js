@@ -10,13 +10,21 @@ import {
     Input
 } from 'reactstrap';
 import { connect } from 'react-redux';
-import { addSession } from '../actions/sessionActions';
+import { addCourse } from '../actions/sessionActions';
+import axios from 'axios';
+
+axios.defaults.withCredentials = true
 
 class ItemModal extends Component {
-    state = {
-        modal: false,
-        session: ''
-    };
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            modal: false,
+            pid: "testProf",
+            courseCode: "default"
+        };
+    }
 
     toggle = () => {
         this.setState({
@@ -25,18 +33,19 @@ class ItemModal extends Component {
     };
 
     onChange = e => {
-        this.setState({ [e.target.session]: e.target.value });
+        this.setState({ courseCode: e.target.value });
     };
 
     onSubmit = e => {
         e.preventDefault();
 
-        const newSession = {
-            session: this.state.session
+        const newCourse = {
+            pid: "Furki", //Get from cookies once authentication is up and running
+            courseCode: this.state.courseCode,
         };
 
         // Add item via addItem action
-        this.props.addSession(newSession);
+        this.props.addCourse(newCourse);
 
         // Close modal
         this.toggle();
@@ -60,8 +69,8 @@ class ItemModal extends Component {
                                 <Label for='courseCode'>Course Code</Label>
                                 <Input
                                     type='text'
-                                    session='session'
-                                    id='session'
+                                    courseCode='courseCode'
+                                    id='courseCode'
                                     placeholder='Enter Course Code'
                                     onChange={this.onChange}
                                 />
@@ -78,10 +87,10 @@ class ItemModal extends Component {
 }
 
 const mapStateToProps = state => ({
-    session: state.session
+    courseCode: state.courseCode
 });
 
 export default connect(
     mapStateToProps,
-    { addSession }
+    { addCourse }
 )(ItemModal);
