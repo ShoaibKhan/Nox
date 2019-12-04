@@ -1,5 +1,4 @@
 export const GET_SESSIONS = 'GET_SESSIONS';
-export const GET_COURSES = 'GET_COURSES';
 export const ADD_SESSION = 'ADD_SESSION';
 export const ADD_COURSE = 'ADD_COURSE';
 export const DOWNLOAD_SESSION = 'DOWNLOAD_SESSION';
