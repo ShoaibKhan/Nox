@@ -12,7 +12,7 @@ export class Histogram extends Component {
   }
   // After the props/data comes in, set new state. 
   componentWillReceiveProps(nextProps) {
-    if (nextProps != undefined && nextProps != null) {
+    if (nextProps !== undefined && nextProps !== null) {
       this.setState({ chartData: nextProps.chartData });
     }
   }

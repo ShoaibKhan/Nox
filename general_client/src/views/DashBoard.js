@@ -22,6 +22,7 @@ export class Dashboard extends Component {
       okayStudents: 0,
       goodStudents: 0,
       confusedStudents: 0,
+      average_rating: null
     }
 
     // As the data comes in from the socket, the chart is re-updated.
@@ -29,6 +30,7 @@ export class Dashboard extends Component {
       // Sets the front end state end to w.e the new values 
       console.log("PROF IS: ", JsonParameters);
       this.setState({
+        average_rating: JsonParameters.average_rating,
         chartData: {
           labels: ['Good', 'Okay', 'Confused'],
           datasets: [
@@ -55,6 +57,11 @@ export class Dashboard extends Component {
     return (
       <div >
         <Histogram chartData={this.state.chartData} />
+        <input style={{ position:"right", backgroundColor:'lightblue', fontSize:40, height:100, width:250, textAlign:"center" }}
+            type="text"
+            placeholder={"Average"}
+            value={this.state.average_rating}
+         />
       </div>
       // <LineChart chartData={this.state.chartData} />
     );
