@@ -231,14 +231,14 @@ body {
 
 .messages > li {
   font-size: 15px;
-  color: black;
+  color: white;
   background-attachment: fixed;
-  background: #f1f3f5;
+  background: #4387f3;
   border-radius: 20px;
   border-bottom-left-radius: 0px;
   margin: 0 0 10px 0;
   padding: 3px 6px;
-  border: 1px solid rgb(56, 56, 56);
+  
   width: fit-content;
 
 }
