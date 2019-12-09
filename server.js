@@ -108,24 +108,26 @@ io.on('connection', (socket) => {
     });
 
     var returnJSON = NumberOfStudentsCalculation
+    socket.on("newCommentToServer", (studentJson) => {
+        io.sockets.connected[sesidToDataHashmap[studentJson.sesid].socketID].emit("incomingComment", studentJson);
+    });
     socket.on("newCodeToServer", (myParameters) => {
         console.log(myParameters.socketID);
         var returnJSON = NumberOfStudentsCalculation(myParameters);
         console.log("sessions data is..... ", sesidToDataHashmap[myParameters.sesid]);
         //io.sockets.emit("Data", returnJSON);
         io.sockets.connected[sesidToDataHashmap[myParameters.sesid].socketID].emit("Data", returnJSON);
-    }
-    );
+    });
 });
 function NumberOfStudentsCalculation(JsonParameters) {
     // Not an existing user
     // TO DO: check undefined and null
 
-    // Initializing 
+    // Initializing session table for new session in student hashmap
     if (sesidToStudentHashmap[JsonParameters.sesid] == undefined || sesidToStudentHashmap[JsonParameters.sesid] == null) {
         sesidToStudentHashmap[JsonParameters.sesid] = {};
     }
-    // Initializing an empty student table
+    // Initializing an empty student table for new students
     if (sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid] == undefined || sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid] == null) {
         sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid] = {
             rating: undefined,
@@ -133,7 +135,7 @@ function NumberOfStudentsCalculation(JsonParameters) {
             oldrating: null
         };
     }
-
+    // Initializing session table for new session in session hashmap
     if (sesidToDataHashmap[JsonParameters.sesid] == undefined || sesidToDataHashmap[JsonParameters.sesid] == null) {
         sesidToDataHashmap[JsonParameters.sesid] = {
             goodStudents: 0,
@@ -187,7 +189,7 @@ function NumberOfStudentsCalculation(JsonParameters) {
         + sesidToDataHashmap[JsonParameters.sesid].confusedStudents;
 
     // Calcluating Avrg
-    average_rating = ((sesidToDataHashmap[JsonParameters.sesid].goodStudents)*3 + (sesidToDataHashmap[JsonParameters.sesid].okayStudents)*2 + (sesidToDataHashmap[JsonParameters.sesid].confusedStudents)*1) / (sesidToDataHashmap[JsonParameters.sesid].totalStudents) 
+    average_rating = ((sesidToDataHashmap[JsonParameters.sesid].goodStudents) * 3 + (sesidToDataHashmap[JsonParameters.sesid].okayStudents) * 2 + (sesidToDataHashmap[JsonParameters.sesid].confusedStudents) * 1) / (sesidToDataHashmap[JsonParameters.sesid].totalStudents)
 
 
     // Create JSON to return

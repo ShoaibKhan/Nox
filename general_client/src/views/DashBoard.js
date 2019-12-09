@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import Histogram from '../components/Histogram';
 import io from 'socket.io-client';
 import Cookies from 'universal-cookie';
+import '../CSS/Chat.css';
+import '../CSS/Histogram.css';
+import { Button, FormControl, Container, Row } from "react-bootstrap";
 
 
 // Get current session id from cookie
@@ -22,14 +25,15 @@ console.log('THIS IS PROFESSOR CLIENT SOCKET INFO: ', socket);
 export class Dashboard extends Component {
   constructor(props) {
     super(props);
-
+    this.messages = React.createRef();
 
     this.state = {
       // Initially, we have 0 students in each category. 
       okayStudents: 0,
       goodStudents: 0,
       confusedStudents: 0,
-      average_rating: null
+      average_rating: null,
+      allMessages: []
     }
 
     var that = this;
@@ -40,6 +44,12 @@ export class Dashboard extends Component {
       socket.on('connect', function onConnect() {
         socket.emit('proffesorSocket', { sesid: sessionID, socketID: socket.id });
         console.log(socket.id);
+        socket.on("incomingComment", commentJson => {
+          console.log(commentJson);
+          that.setState({
+            allMessages: that.state.allMessages.concat(commentJson)
+          });
+        });
         socket.on("Data", (JsonParameters) => {
           // Sets the front end state end to w.e the new values 
           console.log("PROF IS: ", JsonParameters);
@@ -74,16 +84,50 @@ export class Dashboard extends Component {
   render() {
     return (
       <div >
-        <div class="header" style={{ position: "relative", left: "30px" }}>
-          <h2>Session Code: {sessionID}</h2>
+
+        <div className="header" style={{ position: "relative", left: "5%" }}>
+          <h2>Session Code: {sessionID}
+            <input style={{ display: 'inline', left: '3%', position: "relative", maxWidth: '200px', backgroundColor: 'lightblue', fontSize: 30, height: '15%', width: '25%', textAlign: "center" }}
+              type="text"
+              placeholder={"Average:"}
+              value={this.state.average_rating}>
+            </input>
+
+          </h2>
         </div>
-        <Histogram chartData={this.state.chartData} />
-        <input style={{ position: "right", backgroundColor: 'lightblue', fontSize: 40, height: 100, width: 250, textAlign: "center" }}
-          type="text"
-          placeholder={"Average"}
-          value={this.state.average_rating}
-        />
-      </div>
+
+        <div >
+
+          <Histogram chartData={this.state.chartData} >
+          </Histogram>
+
+          <div className="chat_window">
+            <div className="top_menu">
+              <div className="buttons">
+                <div className="button close"></div>
+                <div className="button minimize"></div>
+                <div className="button maximize"></div>
+              </div>
+              <div className="title">Chat Feed</div>
+            </div>
+            <ul ref={this.messages} id="messages" className="messages">
+              {this.state.allMessages.map((item, i) => <li key={i}>{item.comment} </li>)}
+
+            </ul>
+
+            <div className="bottom_wrapper clearfix">
+
+            </div>
+          </div>
+
+        </div>
+
+
+
+
+      </div >
+
+
       // <LineChart chartData={this.state.chartData} />
     );
   }

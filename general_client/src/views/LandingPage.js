@@ -6,6 +6,7 @@ import NoxLogo from '../images/noxLogo.png'
 import axios from 'axios';
 import { callbackify } from 'util';
 
+
 // Establish socket connection
 // Connecting to the server from clients end
 
@@ -109,7 +110,8 @@ export default class LandingPage extends Component {
                 <Container style={{ width: 300 }}>
                     {this.state.showError && <div style={{
                         backgroundColor: '#ff7272', color: 'white', padding: '1em',
-                        position: 'relative', width: 300, top: '-20px', left: '-15px'
+                        position: 'relative', width: 300, top: '-20px', left: '-15px',
+                        animation: 'FadeAnimation 1s ease-in .2s forwards'
                     }}
 
                     >Invalid Session Code</div>}

@@ -22,40 +22,40 @@ export class Histogram extends Component {
   }
   render() {
     return (
-      <div style={{ display: 'flex', justifyContent: 'right', alignItems: 'center', }}>
-        <Container >
-          <Bar
+      <div className="Graph">
+
+        <Bar
           // Data is stateless, as the data changes, the state changes
-            data={this.state.chartData}
-            // Some options for our graph
-            options={{
-              title: {
-                display: true,
-                text: 'Students Level of Understanding',
-                fontSize: 30,
-                fontColor: 'Black'
-              },
-              legend:{
-                display:true,
-                position: 'bottom',
-                labels:{
-                  fontColor: "#000"
+          data={this.state.chartData}
+          // Some options for our graph
+          options={{
+            title: {
+              display: true,
+              text: 'Students Level of Understanding',
+              fontSize: 30,
+              fontColor: 'Black'
+            },
+            legend: {
+              display: true,
+              position: 'bottom',
+              labels: {
+                fontColor: "#000"
+              }
+            },
+            tooltips: {
+              enabled: true
+            },
+            scales: {
+              yAxes: [
+                {
+                  beginAtZero: true
                 }
-              },
-              tooltips:{
-                enabled: true
-              },
-              scales: {
-                yAxes: [
-                  {
-                    beginAtZero: true
-                  }
-                ]
-              },
-              responsive: true,
-            }}
-          />
-        </Container>
+              ]
+            },
+            responsive: true,
+          }}
+        />
+
       </div>
     )
   }

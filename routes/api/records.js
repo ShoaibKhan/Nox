@@ -23,21 +23,48 @@ router.get('/', (req, res) => {
 // @desc    Create a record
 // @access  Public
 router.post('/', (req, res) => {
-    const newRecord = new Record({
-        studentID: req.body.studentID,
-        sessionID: req.body.sessionID,
-        value: req.body.value,
-        old_value: req.body.old_value
-    });
-    const myParameters = { "sid": req.body.studentID, sesid: req.body.sessionID, "Time": "10:50", "rating": req.body.value, "socketID": "" };
+    // TO DO: New comment 
+    if (req.body.isComment != undefined && req.body.isComment != null && req.body.isComment == "true") {
+        console.log(req);
+        const newRecord = new Record({
+            studentID: req.body.studentID,
+            sessionID: req.body.sessionID,
+            value: 0,
+            old_value: 0,
+            comment: req.body.comment
 
-    // Websocket Cleint 
-    // which sends the data to the websocket server --> in server. 
-    socket.emit('newCodeToServer', myParameters);
-    console.log(5);
-    console.log(myParameters);
+        });
+        const myParameters = { "comment": req.body.comment, "sid": req.body.studentID, sesid: req.body.sessionID, "Time": "10:50", "socketID": "" };
 
-    newRecord.save().then(record => res.json(record));
+        // Websocket Cleint 
+        // which sends the data to the websocket server --> in server. 
+        socket.emit('newCommentToServer', myParameters);
+        console.log(5);
+        console.log(myParameters);
+        newRecord.save();
+        res.json(myParameters);
+
+        newRecord.save().then(record => res.json(record)).catch(error => res.send(error));
+    }
+    // New rating
+    else {
+        const newRecord = new Record({
+            studentID: req.body.studentID,
+            sessionID: req.body.sessionID,
+            value: req.body.value,
+            old_value: req.body.old_value
+        });
+        const myParameters = { "sid": req.body.studentID, sesid: req.body.sessionID, "Time": "10:50", "rating": req.body.value, "socketID": "" };
+
+        // Websocket Cleint 
+        // which sends the data to the websocket server --> in server. 
+        socket.emit('newCodeToServer', myParameters);
+        console.log(5);
+        console.log(myParameters);
+
+        newRecord.save().then(record => res.json(record));
+    }
+
 
 });
 
