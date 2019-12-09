@@ -44,7 +44,7 @@ body {
   box-shadow: 0 1px 30px rgba(0, 0, 0, 0.1);
 }
 .top_menu .buttons {
-  margin: 3px 0 0 20px;
+  margin: 0px 0 0 20px;
   position: absolute;
 }
 .top_menu .buttons .button {
@@ -55,7 +55,8 @@ body {
   margin-right: 10px;
   position: relative;
 }
-.top_menu .buttons .button.close {
+
+.top_menu .buttons .button.exit {
   background-color: #f5886e;
 }
 .top_menu .buttons .button.minimize {

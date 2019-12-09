@@ -73,7 +73,8 @@ export class Dashboard extends Component {
                 }
               ]
 
-            }
+            },
+            average_rating: JsonParameters.average_rating
           });
         });
       });
@@ -87,10 +88,10 @@ export class Dashboard extends Component {
 
         <div className="header" style={{ position: "relative", left: "5%" }}>
           <h2>Session Code: {sessionID}
-            <input style={{ display: 'inline', left: '3%', position: "relative", maxWidth: '200px', backgroundColor: 'lightblue', fontSize: 30, height: '15%', width: '25%', textAlign: "center" }}
+            <input style={{ display: 'inline', left: '3%', position: "relative", maxWidth: '100px', backgroundColor: 'lightblue', fontSize: 30, height: '15%', width: '25%', textAlign: "center" }}
               type="text"
-              placeholder={"Average:"}
-              value={this.state.average_rating}>
+              placeholder={"Avg"}
+              value={"Avg: " + this.state.average_rating}>
             </input>
 
           </h2>
@@ -104,7 +105,7 @@ export class Dashboard extends Component {
           <div className="chat_window">
             <div className="top_menu">
               <div className="buttons">
-                <div className="button close"></div>
+                <div className="button exit"></div>
                 <div className="button minimize"></div>
                 <div className="button maximize"></div>
               </div>
