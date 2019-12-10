@@ -5,6 +5,7 @@ import StudentView from './views/StudentView';
 import LandingPage from './views/LandingPage';
 import DashBoard from './views/DashBoard';
 import { Provider } from 'react-redux';
+import Cookies from 'universal-cookie';
 import store from './store';
 //import {createStore, applyMiddleware} from 'redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -12,6 +13,17 @@ import './App.css';
 
 // Direct different react components to different URLS
 import { BrowserRouter as Router, Route } from "react-router-dom"
+
+const cookies = new Cookies();
+const sid = cookies.get('sid');
+const sessionID = cookies.get('sesid');
+
+
+function requireAuth(nextState, replace) {
+  if (cookies.get('sid') == undefined || cookies.get('sesid') == undefined || true) {
+    window.location = "/";
+  }
+}
 
 class App extends Component {
   render() {
@@ -23,7 +35,7 @@ class App extends Component {
           </div>
           <Route path="/" exact component={LandingPage} />
           <Route path="/Prof" exact component={ProfView} />
-          <Route path="/Student" exact component={StudentView} />
+          <Route path="/Student" exact component={StudentView} onEnter={requireAuth} />
           <Route path="/DashBoard" exact component={DashBoard} />
         </Provider>
       </Router>

@@ -3,6 +3,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { addRecord, addCommentRecord } from '../actions/recordActions';
 import { connect } from 'react-redux';
 import good from '../images/good.png';
+import { Route, Redirect } from 'react-router'
 import okay from '../images/okay.png';
 import confused from '../images/confused.png';
 import axios from 'axios';
@@ -30,6 +31,10 @@ class StudentView extends Component {
             isComment: 'false',
             allMessages: []
         };
+
+        //if (cookies.get('sid') == undefined || cookies.get('sesid') == undefined) {
+        //   window.location = "/";
+        // }
     }
 
     sendComment(btnValue) {
@@ -86,64 +91,76 @@ class StudentView extends Component {
     }
 
     render() {
-        return (
-            <div>
+        if (cookies.get('sid') == undefined || cookies.get('sesid') == undefined) {
+            //return <Redirect to='/' />;
+            window.location = "/";
+        }
+        else {
+            return (
+                <div>
 
 
-                <div className='student_buttons'>
-                    <ButtonGroup vertical size="lg">
-                        <button value={3} onClick={this.changeBtnValue} style={{ border: '5px solid white', borderRadius: '40%' }}><img src={good} style={{ width: '100px', height: '100px' }} /></button>
-                        <button value={2} onClick={this.changeBtnValue} style={{ border: '5px solid white', borderRadius: '40%' }}><img src={okay} style={{ width: '100px', height: '100px' }} /></button>
-                        <button value={1} onClick={this.changeBtnValue} style={{ border: '5px solid white', borderRadius: '40%' }}><img src={confused} style={{ width: '100px', height: '100px' }} /></button>
-                    </ButtonGroup>
-                </div>
+                    <div className='student_buttons'>
+                        <ButtonGroup className='student_btn_layout' >
+                            <button value={3} onClick={this.changeBtnValue} className='student_button'><img src={good} className='student_img' />
+                                <div className="student_label_good">Good</div>
+                            </button>
+                            <button value={2} onClick={this.changeBtnValue} className='student_button'><img src={okay} className='student_img' />
+                                <div className="student_label_okay">Okay</div>
+                            </button>
+                            <button value={1} onClick={this.changeBtnValue} className='student_button'><img src={confused} className='student_img' />
+                                <div className="student_label_confused">Confused</div>
+                            </button>
+                        </ButtonGroup>
+                    </div>
 
-                <div className="chat_window2">
-                    {this.state.showPopup && <div className="top_menu" style={{
-                        backgroundColor: '#47cf73', color: 'white', padding: '1em',
-                        position: 'relative',
-                        borderRadius: '10px',
-                        float: 'none',
+                    <div className="chat_window2">
+                        {this.state.showPopup && <div className="top_menu" style={{
+                            backgroundColor: '#47cf73', color: 'white', padding: '1em',
+                            position: 'relative',
+                            borderRadius: '10px',
+                            float: 'none',
 
-                        align: 'center',
-                        transform: 'translateX(-50 %)',
+                            align: 'center',
+                            transform: 'translateX(-50 %)',
 
 
 
-                    }}>Message Succesfully Sent.</div>}
-                    <div className="top_menu">
+                        }}>Message Succesfully Sent.</div>}
+                        <div className="top_menu">
 
-                        <div className="buttons">
-                            <div className="button exit"></div>
-                            <div className="button minimize"></div>
-                            <div className="button maximize"></div>
+                            <div className="buttons">
+                                <div className="button exit"></div>
+                                <div className="button minimize"></div>
+                                <div className="button maximize"></div>
+                            </div>
+
+
+                            <div className="title">Chat</div>
+
                         </div>
 
+                        <ul id="messages" className="messages">
+                            {this.state.allMessages.map((item, i) => <li key={i}>{item} </li>)}
 
-                        <div className="title">Chat</div>
+                        </ul>
 
-                    </div>
-
-                    <ul id="messages" className="messages">
-                        {this.state.allMessages.map((item, i) => <li key={i}>{item} </li>)}
-
-                    </ul>
-
-                    <div className="bottom_wrapper2 clearfix">
-                        <i id="typing"></i>
-                        <form id="form">
-                            <div className="message_input_wrapper">
-                                <input ref={this.messageBox} id="message" className="message_input" placeholder="Type your message here..." />
-                            </div>
-                            <button onClick={this.sendComment} className="send_message">
-                                Send
+                        <div className="bottom_wrapper2 clearfix">
+                            <i id="typing"></i>
+                            <form id="form">
+                                <div className="message_input_wrapper">
+                                    <input ref={this.messageBox} id="message" className="message_input" placeholder="Type your message here..." />
+                                </div>
+                                <button onClick={this.sendComment} className="send_message">
+                                    Send
         </button>
-                        </form>
+                            </form>
+                        </div>
                     </div>
-                </div>
 
-            </div >
-        );
+                </div >
+            );
+        }
     }
 }
 

@@ -33,7 +33,8 @@ export class Dashboard extends Component {
       goodStudents: 0,
       confusedStudents: 0,
       average_rating: null,
-      allMessages: []
+      allMessages: [],
+      avgColorRGB: 'grey'
     }
 
     var that = this;
@@ -62,9 +63,9 @@ export class Dashboard extends Component {
                   label: 'Number Of Students',
                   data: [JsonParameters.goodStudents, JsonParameters.okayStudents, JsonParameters.confusedStudents],
                   backgroundColor: [
-                    'rgb(0,128,0,1)',
-                    'rgba(255, 255, 0, 1)',
-                    'rgba(255, 0, 0, 1)'
+                    'rgba(0,255,0,0.3)', // good
+                    'rgba(255,255,0,0.3)', // okay
+                    'rgba(255,0,0,0.3)' // confused
                   ],
                   borderWidth: 4,
                   borderColor: 'Grey',
@@ -74,7 +75,8 @@ export class Dashboard extends Component {
               ]
 
             },
-            average_rating: JsonParameters.average_rating
+            average_rating: JsonParameters.average_rating,
+            avgColorRGB: JsonParameters.avgRGB
           });
         });
       });
@@ -86,9 +88,9 @@ export class Dashboard extends Component {
     return (
       <div >
 
-        <div className="header" style={{ position: "relative", left: "5%" }}>
+        <div className="header" style={{ position: "relative", left: "1%" }}>
           <h2>Session Code: {sessionID}
-            <input style={{ display: 'inline', left: '3%', position: "relative", maxWidth: '100px', backgroundColor: 'lightblue', fontSize: 30, height: '15%', width: '25%', textAlign: "center" }}
+            <input style={{ display: 'inline', left: '3%', position: "relative", maxWidth: '120px', backgroundColor: this.state.avgColorRGB, fontSize: 30, height: '15%', width: '25%', textAlign: "center" }}
               type="text"
               placeholder={"Avg"}
               value={"Avg: " + this.state.average_rating}>

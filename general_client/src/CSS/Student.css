@@ -16,10 +16,34 @@ body {
     float: left;
     display: inline;
     width: 49%;
-  
     left: 20%;
-    right: 20px;
     position: relative;
+}
+
+.student_label_good{
+  text-align: center;
+  left: 20%;
+  color: #a3d063;
+  font-weight: bold;
+  padding-top: 5px;
+  padding-left: 45%;
+  font-size: 20px;
+}
+.student_label_okay{
+  text-align: center;
+  color: #fdbf68;
+  font-weight: bold;
+  padding-left: 45%;
+  padding-top: 5px;
+  font-size: 20px;
+}
+.student_label_confused{
+  text-align: center;
+  color: #f5886e;
+  font-weight: bold;
+  padding-top: 5px;
+  padding-left: 10%;
+  font-size: 20px;
 }
 
 @media (max-width:60em){
@@ -28,12 +52,79 @@ body {
     left: 0;
     right: 0;
     text-align: center;
-    align: center;
+    align-self: center;
     width: calc(100% - 20px);
-     display: block;
+     display:inline-block;
     }
+  
+}
+.student_btn_layout{
+  flex-direction: column;
+  display: inline-flex;
+  justify-content: center;  
 }
 
+
+.student_img{
+  width: 100px;
+  height: 100px;
+  opacity: 1;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+ .student_img:hover  {
+  opacity: 0.5;
+}
+
+
+
+
+.student_button{
+  border: 1px solid white; 
+  padding: 0px 0px !important;
+  border-radius: 100%;
+  position: relative;
+  padding-left: 200px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+    background: white;
+}
+
+.student_button:active{  /* remove blue onclick outline */
+  outline: none;
+  border: none;
+}
+.student_button:focus {outline:0;} /* remove blue onclick outline */
+
+
+ .student_button:hover {
+  background-color: white!important;
+  color: white !important;
+  }
+
+
+ 
+
+@media (max-width:60em){
+  .student_button{
+    border: 1px solid white; 
+    border-radius: 100%;
+    background: white;
+    width: 100%;
+  }
+  .student_btn_layout{
+    flex-direction: row-reverse;
+  }
+  .student_label_good{
+    padding-left: 0px;
+  }
+  .student_label_okay{
+    padding-left: 0px;
+  }
+  .student_label_confused{
+    padding-left: 0px;
+  }
+}
 .chat_window2 {
   position: relative;
   width: 50%;

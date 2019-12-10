@@ -116,7 +116,15 @@ io.on('connection', (socket) => {
         var returnJSON = NumberOfStudentsCalculation(myParameters);
         console.log("sessions data is..... ", sesidToDataHashmap[myParameters.sesid]);
         //io.sockets.emit("Data", returnJSON);
-        io.sockets.connected[sesidToDataHashmap[myParameters.sesid].socketID].emit("Data", returnJSON);
+
+        // Ensure Profs Socket exists before emitting
+        if (sesidToDataHashmap[myParameters.sesid].socketID != null &&
+            sesidToDataHashmap[myParameters.sesid].socketID != undefined &&
+            io.sockets.connected[sesidToDataHashmap[myParameters.sesid].socketID] != undefined &&
+            io.sockets.connected[sesidToDataHashmap[myParameters.sesid].socketID] != null) {
+
+            io.sockets.connected[sesidToDataHashmap[myParameters.sesid].socketID].emit("Data", returnJSON);
+        }
     });
 });
 function NumberOfStudentsCalculation(JsonParameters) {
@@ -191,13 +199,26 @@ function NumberOfStudentsCalculation(JsonParameters) {
     // Calcluating Avrg
     average_rating = ((sesidToDataHashmap[JsonParameters.sesid].goodStudents) * 3 + (sesidToDataHashmap[JsonParameters.sesid].okayStudents) * 2 + (sesidToDataHashmap[JsonParameters.sesid].confusedStudents) * 1) / (sesidToDataHashmap[JsonParameters.sesid].totalStudents)
 
+    // Calculate RGB corresponding to avg
+    var avgRGB = '';
+    if (average_rating >= 2.25) { // good
+        avgRGB = 'rgba(0,255,0,0.3)';
+    }
+    else if (average_rating <= 1.75) { // confused
+        avgRGB = 'rgba(255,0,0,0.3)';
+    }
+    else { //okay
+        avgRGB = 'rgba(255,255,0,0.3)';
+    }
 
     // Create JSON to return
     var studentCount = {
         goodStudents: sesidToDataHashmap[JsonParameters.sesid].goodStudents,
         okayStudents: sesidToDataHashmap[JsonParameters.sesid].okayStudents,
         confusedStudents: sesidToDataHashmap[JsonParameters.sesid].confusedStudents,
-        average_rating
+        average_rating: average_rating,
+        avgRGB: avgRGB
+
     };
 
     return studentCount;
