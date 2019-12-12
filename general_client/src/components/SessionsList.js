@@ -39,7 +39,7 @@ class SessionsList extends Component {
 
   componentDidMount() {
     this.props.getCourses(this.state.pid);
-    console.log(getCourses(this.state.pid));
+    //console.log(getCourses(this.state.pid));
   }
 
   onDownloadClick = id => {
