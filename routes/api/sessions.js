@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const cookieParser = require('cookie-parser');
 const Student = require('../../models/Student');
+const uuidv4 = require('uuid/v4');
 
 //Session Model
 const Session = require('../../models/Sessions');
@@ -85,20 +86,23 @@ router.get('/FindCourse', (req, res) => {
 // res.clearCookie("cookie-name");
 router.post('/JoinSession', (req, res) => {
     //res.send(req.cookies['sid'] === null);
-    var student = req.cookies['sid'];
+    var student;
+    student = req.cookies['sid'];
     console.log(student);
     //res.send(req.cookies['sid'] == 'undefined');
     console.log('Result Cookie:', res.cookies);
-    if (student == 'undefined' || student == null) { // New Student
-        student = new Student({});
-        res.cookie('sid', student.sid);
+    if (student == 'undefined' || student == null || student == undefined) { // New Student
+        let aStudent = new Student({ sid: uuidv4() });
+        student = aStudent.sid;
+        res.cookie('sid', aStudent.sid);
         // res.send(newStudent.sid);
         console.log("NEW STUDENT");
+        //res.send('NEW STUDENT');
     }
     else { // Find Student in DB
-        Student.findOne({ sid: student.sid }, function (err, result) {
+        Student.findOne({ sid: student }, function (err, result) {
             if (err) { // Internal Error
-                callback(err);
+                //callback(err);
                 res.status(err.status);
                 return;
             }
@@ -109,10 +113,12 @@ router.post('/JoinSession', (req, res) => {
 
             }
             else { // No student exists, make a new one
-                student = new Student({});
-                res.cookie('sid', student.sid);
+                let aStudent = new Student({ sid: uuidv4() });
+                student = aStudent.sid;
+                res.cookie('sid', aStudent.sid)
+                //.json({ success: false });;
                 //res.json(newStudent);
-                //res.status(404).json({ success: false });
+
             }
         })
     }

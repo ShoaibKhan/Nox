@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_RECORDS, ADD_RECORD, DOWNLOAD_RECORD, RECORDS_LOADING } from './types'
+import { GET_RECORDS, ADD_RECORD, DOWNLOAD_RECORD, RECORDS_LOADING, ADD_STUDENT_COMMENT } from './types'
 
 export const getRecords = () => dispatch => {
     dispatch(setRecordsLoading());
@@ -31,6 +31,23 @@ export const addRecord = (record) => dispatch => {
             console.log(err)
         );
 };
+
+export const addCommentRecord = (record) => dispatch => {
+
+    axios
+        .post('records', record, { baseURL: "http://localhost:5000/api/" })
+        .then(res =>
+
+            dispatch({
+                type: ADD_STUDENT_COMMENT,
+                payload: res.data
+            })
+        )
+        .catch(err =>
+            console.log(err)
+        );
+};
+
 
 export const setRecordsLoading = () => {
     return {

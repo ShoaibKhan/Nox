@@ -32,12 +32,11 @@ function getDateTime() {
 const studentSchema = new Schema({
     sid: { // TBD: MAC Address / Device Model / Cookies / Student #
         type: String,
-        default: uuidv4(),
         required: true
     },
     date: {
         type: String,
-        default: getDateTime()
+        default: Date.now
     },
     currentSesID: {
         type: String,

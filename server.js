@@ -108,24 +108,34 @@ io.on('connection', (socket) => {
     });
 
     var returnJSON = NumberOfStudentsCalculation
+    socket.on("newCommentToServer", (studentJson) => {
+        io.sockets.connected[sesidToDataHashmap[studentJson.sesid].socketID].emit("incomingComment", studentJson);
+    });
     socket.on("newCodeToServer", (myParameters) => {
         console.log(myParameters.socketID);
         var returnJSON = NumberOfStudentsCalculation(myParameters);
         console.log("sessions data is..... ", sesidToDataHashmap[myParameters.sesid]);
         //io.sockets.emit("Data", returnJSON);
-        io.sockets.connected[sesidToDataHashmap[myParameters.sesid].socketID].emit("Data", returnJSON);
-    }
-    );
+
+        // Ensure Profs Socket exists before emitting
+        if (sesidToDataHashmap[myParameters.sesid].socketID != null &&
+            sesidToDataHashmap[myParameters.sesid].socketID != undefined &&
+            io.sockets.connected[sesidToDataHashmap[myParameters.sesid].socketID] != undefined &&
+            io.sockets.connected[sesidToDataHashmap[myParameters.sesid].socketID] != null) {
+
+            io.sockets.connected[sesidToDataHashmap[myParameters.sesid].socketID].emit("Data", returnJSON);
+        }
+    });
 });
 function NumberOfStudentsCalculation(JsonParameters) {
     // Not an existing user
     // TO DO: check undefined and null
 
-    // Initializing 
+    // Initializing session table for new session in student hashmap
     if (sesidToStudentHashmap[JsonParameters.sesid] == undefined || sesidToStudentHashmap[JsonParameters.sesid] == null) {
         sesidToStudentHashmap[JsonParameters.sesid] = {};
     }
-    // Initializing an empty student table
+    // Initializing an empty student table for new students
     if (sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid] == undefined || sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid] == null) {
         sesidToStudentHashmap[JsonParameters.sesid][JsonParameters.sid] = {
             rating: undefined,
@@ -133,7 +143,7 @@ function NumberOfStudentsCalculation(JsonParameters) {
             oldrating: null
         };
     }
-
+    // Initializing session table for new session in session hashmap
     if (sesidToDataHashmap[JsonParameters.sesid] == undefined || sesidToDataHashmap[JsonParameters.sesid] == null) {
         sesidToDataHashmap[JsonParameters.sesid] = {
             goodStudents: 0,
@@ -187,15 +197,28 @@ function NumberOfStudentsCalculation(JsonParameters) {
         + sesidToDataHashmap[JsonParameters.sesid].confusedStudents;
 
     // Calcluating Avrg
-    average_rating = ((sesidToDataHashmap[JsonParameters.sesid].goodStudents)*3 + (sesidToDataHashmap[JsonParameters.sesid].okayStudents)*2 + (sesidToDataHashmap[JsonParameters.sesid].confusedStudents)*1) / (sesidToDataHashmap[JsonParameters.sesid].totalStudents) 
+    average_rating = ((sesidToDataHashmap[JsonParameters.sesid].goodStudents) * 3 + (sesidToDataHashmap[JsonParameters.sesid].okayStudents) * 2 + (sesidToDataHashmap[JsonParameters.sesid].confusedStudents) * 1) / (sesidToDataHashmap[JsonParameters.sesid].totalStudents)
 
+    // Calculate RGB corresponding to avg
+    var avgRGB = '';
+    if (average_rating >= 2.25) { // good
+        avgRGB = 'rgba(0,255,0,0.3)';
+    }
+    else if (average_rating <= 1.75) { // confused
+        avgRGB = 'rgba(255,0,0,0.3)';
+    }
+    else { //okay
+        avgRGB = 'rgba(255,255,0,0.3)';
+    }
 
     // Create JSON to return
     var studentCount = {
         goodStudents: sesidToDataHashmap[JsonParameters.sesid].goodStudents,
         okayStudents: sesidToDataHashmap[JsonParameters.sesid].okayStudents,
         confusedStudents: sesidToDataHashmap[JsonParameters.sesid].confusedStudents,
-        average_rating
+        average_rating: average_rating,
+        avgRGB: avgRGB
+
     };
 
     return studentCount;
