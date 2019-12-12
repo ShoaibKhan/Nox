@@ -58,7 +58,7 @@ export const addCourse = (Course) => dispatch => {
 
 export const addSession = (Session) => dispatch => {
     var sesid = getRandomIntInclusive(100000, 999999);
-    Session.sesid = `123132312`;
+    Session.sesid = sesid;
     axios
         .post('sessions', Session, { baseURL: "http://localhost:5000/api/" })
         .then(res => {

@@ -6,7 +6,6 @@ import { getCourses, addCourse, downloadSession } from '../actions/sessionAction
 import PropTypes from 'prop-types';
 import Cookies from 'universal-cookie';
 
-
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -47,10 +46,10 @@ class SessionsList extends Component {
     this.props.downloadSession(id);
   };
 
-  changeBtnValue(btnValue) {
+  changeBtnValue = () => {
     const newCourse = {
       pid: "Furki", //Get from cookies once authentication is up and running
-      courseCode: "NEW SESSION"
+      courseCode: this.session 
     };
 
     this.props.addCourse(newCourse);
@@ -64,8 +63,8 @@ class SessionsList extends Component {
           <TransitionGroup className='sessions-list'>
             {sessions.map(session => (
               <CSSTransition timeout={500} classNames='fade'>
-                <ListItem button>
-                  <IconButton aria-label="add" courseCode={session} onClick={this.changeBtnValue}>
+                <ListItem button onClick={this.btnClick.bind(this)}>
+                  <IconButton aria-label="add" key={session} onClick={this.changeBtnValue}>
                     <AddIcon />
                   </IconButton>
                   <ListItemText primary={session} />
