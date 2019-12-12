@@ -17,7 +17,6 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import IconButton from '@material-ui/core/IconButton';
 
-
 const cookies = new Cookies();
 const sessionID = cookies.get('sesid');
 
@@ -35,21 +34,23 @@ class SessionsList extends Component {
   static propTypes = {
     getSessions: PropTypes.func.isRequired,
     session: PropTypes.object.isRequired,
-    getCourses: PropTypes.func.isRequired
+    getCourses: PropTypes.func.isRequired,
+    course: PropTypes.object.isRequired
   };
 
   componentDidMount() {
     this.props.getCourses(this.state.pid);
+    console.log(getCourses(this.state.pid));
   }
 
   onDownloadClick = id => {
     this.props.downloadSession(id);
   };
 
-  changeBtnValue = () => {
+  changeBtnValue() {
     const newCourse = {
       pid: "Furki", //Get from cookies once authentication is up and running
-      courseCode: this.session 
+      courseCode: this.course
     };
 
     this.props.addCourse(newCourse);
@@ -61,14 +62,32 @@ class SessionsList extends Component {
       <Container>
         <ListGroup>
           <TransitionGroup className='sessions-list'>
-            {sessions.map(session => (
+            {sessions.map(course => (
               <CSSTransition timeout={500} classNames='fade'>
-                <ListItem button onClick={this.btnClick.bind(this)}>
-                  <IconButton aria-label="add" key={session} onClick={this.changeBtnValue}>
+                <ListItem button onClick={this.changeBtnValue.bind(this)}>
+                  <IconButton aria-label="add" key={course} onClick={this.changeBtnValue}>
                     <AddIcon />
                   </IconButton>
-                  <ListItemText primary={session} />
+                  <ListItemText primary={course} />
                 </ListItem>
+                {/*
+                {course === "CSC343H5" ?
+                  <Collapse in={open} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding> {
+                      sessions.map(session =>
+                        <ListItem button className={classes.nested}>
+                          <IconButton
+                            className={classes.button}
+                            aria-label="download">
+                            <DownloadIcon />
+                          </IconButton>
+                          <ListItemText primary={session} />
+                        </ListItem>
+                      )}
+                    </List>
+                  </Collapse>
+                  : null}
+                      */}
               </CSSTransition>
             ))}
           </TransitionGroup>
@@ -79,7 +98,8 @@ class SessionsList extends Component {
 }
 
 const mapStateToProps = state => ({
-  session: state.session
+  session: state.session,
+  course: state.course
 });
 
 export default connect(

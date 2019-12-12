@@ -2,6 +2,7 @@ import axios from 'axios';
 import { GET_SESSIONS, ADD_SESSION, ADD_COURSE, DOWNLOAD_SESSION, SESSIONS_LOADING } from './types';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
+const courses = [];
 
 function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
@@ -16,8 +17,10 @@ export const getCourses = (pid) => dispatch => {
     })
         .then(res => dispatch({
             type: GET_SESSIONS,
-            payload: res.data
+            payload: res.data,
+            courses: res.data
         }))
+
 }
 
 export const getSessions = (pid, courseCode) => dispatch => {
