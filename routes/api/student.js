@@ -10,14 +10,14 @@ const Session = require('../../models/Sessions');
 const cors = require('cors')
 
 var corsOptions = {
-    origin: 'http://localhost:3000/',
+    origin: 'http://csc398dev.utm.utoronto.ca:3000/',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
 // Establish socket connection
 let socket;
 if (!socket) {
-    socket = io('http://localhost:5000');
+    socket = io('http://csc398dev.utm.utoronto.ca:5000');
 }
 
 // @route   POST api/student

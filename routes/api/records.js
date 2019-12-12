@@ -7,7 +7,7 @@ const Record = require('../../models/Records');
 
 let socket;
 if (!socket) {
-    socket = io('http://localhost:5000');
+    socket = io('http://csc398dev.utm.utoronto.ca:5000');
 }
 
 // @route   GET api/records
