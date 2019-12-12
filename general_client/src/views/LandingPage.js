@@ -81,7 +81,7 @@ export default class LandingPage extends Component {
 
 
         // Attempt to join a live session
-        axios.post("http://csc398dev.utm.utoronto.ca:5000/api/sessions/JoinSession", joinSession).then(res => {
+        axios.post("http://localhost:5000/api/sessions/JoinSession", joinSession).then(res => {
             //console.log(res);
             //console.log(res.data['success']);
             this.setState({

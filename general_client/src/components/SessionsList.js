@@ -34,8 +34,7 @@ class SessionsList extends Component {
   static propTypes = {
     getSessions: PropTypes.func.isRequired,
     session: PropTypes.object.isRequired,
-    getCourses: PropTypes.func.isRequired,
-    course: PropTypes.object.isRequired
+    getCourses: PropTypes.func.isRequired
   };
 
   componentDidMount() {
@@ -99,7 +98,6 @@ class SessionsList extends Component {
 
 const mapStateToProps = state => ({
   session: state.session,
-  course: state.course
 });
 
 export default connect(

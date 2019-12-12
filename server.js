@@ -18,7 +18,7 @@ var sesidToDataHashmap = {}; // Contais: Sesid (F.K), Total students, Good , Oka
 //var studentHashmap = {}; // Contains: Sesid (F.K), sid, Rating, Time 
 
 var corsOptions = {
-    origin: 'http://csc398dev.utm.utoronto.ca:3000',
+    origin: 'http://localhost:3000',
     credentials: true
 }
 

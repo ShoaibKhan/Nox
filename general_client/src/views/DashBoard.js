@@ -41,7 +41,7 @@ export class Dashboard extends Component {
 
     // As the data comes in from the socket, the chart is re-updated.
     if (!socket) {
-      socket = io('http://csc398dev.utm.utoronto.ca:5000');
+      socket = io('http://localhost:5000');
       socket.on('connect', function onConnect() {
         socket.emit('proffesorSocket', { sesid: sessionID, socketID: socket.id });
         console.log(socket.id);
