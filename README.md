@@ -1,3 +1,7 @@
+# Nox
+
+Nox is a communication platform designed for educational insitutions. Targeted at closing the communication gap between professors and students by allowing professors to get realtime feedback on students level of understanding while they teach. 
+
 # Install dependencies for server
 cd /Nox
 
