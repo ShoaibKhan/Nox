@@ -6,9 +6,9 @@ Nox is a communication platform designed for educational insitutions. Targeted a
 
 We provide a setup script which installs all necessary dependencies for server and client. 
 
-'''
+```
 nox_setup.sh
-'''
+```
 
 First, you clone the repository into your choice of folder. 
 
