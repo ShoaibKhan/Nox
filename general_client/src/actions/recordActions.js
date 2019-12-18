@@ -3,7 +3,7 @@ import { GET_RECORDS, ADD_RECORD, DOWNLOAD_RECORD, RECORDS_LOADING, ADD_STUDENT_
 
 export const getRecords = () => dispatch => {
     dispatch(setRecordsLoading());
-    axios.get('records', { baseURL: "http://loaclhost:5000/api/" })
+    axios.get('records', { baseURL: "http://csc398dev.utm.utoronto.ca:5000/api/" })
         .then(res => dispatch({
             type: GET_RECORDS,
             payload: res.data
@@ -11,7 +11,7 @@ export const getRecords = () => dispatch => {
 }
 
 export const downloadSession = record => dispatch => {
-    axios.download('records', { baseURL: "http://loaclhost:5000/api/" })
+    axios.download('records', { baseURL: "http://csc398dev.utm.utoronto.ca:5000/api/" })
         .then(res => dispatch({
             type: DOWNLOAD_RECORD,
             payload: res.record
@@ -20,7 +20,7 @@ export const downloadSession = record => dispatch => {
 
 export const addRecord = (record) => dispatch => {
     axios
-        .post('records', record, { baseURL: "http://loaclhost:5000/api/" })
+        .post('records', record, { baseURL: "http://csc398dev.utm.utoronto.ca:5000/api/" })
         .then(res =>
             dispatch({
                 type: ADD_RECORD,
@@ -35,7 +35,7 @@ export const addRecord = (record) => dispatch => {
 export const addCommentRecord = (record) => dispatch => {
 
     axios
-        .post('records', record, { baseURL: "http://loaclhost:5000/api/" })
+        .post('records', record, { baseURL: "http://csc398dev.utm.utoronto.ca:5000/api/" })
         .then(res =>
 
             dispatch({

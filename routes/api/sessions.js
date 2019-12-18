@@ -92,7 +92,8 @@ router.post('/JoinSession', (req, res) => {
     //res.send(req.cookies['sid'] == 'undefined');
     console.log('Result Cookie:', res.cookies);
     if (student == 'undefined' || student == null || student == undefined) { // New Student
-        let aStudent = new Student({ sid: uuidv4() });
+        console.log('1');
+	let aStudent = new Student({ sid: uuidv4() });
         student = aStudent.sid;
         res.cookie('sid', aStudent.sid);
         // res.send(newStudent.sid);
@@ -102,20 +103,22 @@ router.post('/JoinSession', (req, res) => {
     else { // Find Student in DB
         Student.findOne({ sid: student }, function (err, result) {
             if (err) { // Internal Error
-                //callback(err);
-                res.status(err.status);
-                return;
+                console.log('2');
+		//callback(err);
+                return res.send({ success: false });        
             }
             else if (result && result != []) { // Found existing student
-                //res.status(302).json(result);
+                console.log('3');
+		//res.status(302).json(result);
                 student = result;
                 console.log("EXISTING STUDENT", result);
 
             }
             else { // No student exists, make a new one
-                let aStudent = new Student({ sid: uuidv4() });
+                console.log('4');
+   		let aStudent = new Student({ sid: uuidv4() });
                 student = aStudent.sid;
-                res.cookie('sid', aStudent.sid)
+                //res.cookie('sid', aStudent.sid);
                 //.json({ success: false });;
                 //res.json(newStudent);
 
@@ -133,19 +136,22 @@ router.post('/JoinSession', (req, res) => {
         //res.send(result);
         if (err) { // Internal Error
             //callback(err);
-            res.status(err.status).send({ success: false });
-            return;
+            console.log('5');
+	    return res.send({ success: false });
         }
         else if (result && result.sesid === req.body.sesid) { // Found Session
-            student.currentSesID = result.sesid;
-            res.cookie('sesid', result.sesid);
-            res.send({ success: true });
-            console.log(result);
+            console.log('6');
+   	    student.currentSesID = result.sesid;
+    	    res.cookie('sesid', result.sesid)
+	   res.send({ success: true }); 
+	   return;   
+	console.log(result);
         }
         else { // Did not find Session
-            console.log('DID NOT FIND SESSION');
-            res.status(404).send({ success: false, response: 'DID NOT FIND SESSION' });
-            console.log(result);
+            
+	    console.log('7');
+            return res.status(404).send({ success: false, });
+	    console.log(result);
         }
         //res.json(result);
 

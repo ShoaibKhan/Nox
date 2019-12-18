@@ -46,11 +46,9 @@ export class Histogram extends Component {
               enabled: true
             },
             scales: {
-              yAxes: [
-                {
-                  beginAtZero: true
-                }
-              ]
+              scaleOverride: true,
+              scaleStartValue: 0,
+              scaleStepWith: 1
             },
             responsive: true,
           }}

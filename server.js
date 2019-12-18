@@ -109,8 +109,17 @@ io.on('connection', (socket) => {
 
     var returnJSON = NumberOfStudentsCalculation
     socket.on("newCommentToServer", (studentJson) => {
-        io.sockets.connected[sesidToDataHashmap[studentJson.sesid].socketID].emit("incomingComment", studentJson);
-    });
+     
+     //potential problem
+        if (sesidToDataHashmap[studentJson.sesid].socketID != null &&
+            sesidToDataHashmap[studentJson.sesid].socketID != undefined &&
+            io.sockets.connected[sesidToDataHashmap[studentJson.sesid].socketID] != undefined &&
+            io.sockets.connected[sesidToDataHashmap[studentJson.sesid].socketID] != null) {
+  
+     io.sockets.connected[sesidToDataHashmap[studentJson.sesid].socketID].emit("incomingComment", studentJson);
+   
+}
+ });
     socket.on("newCodeToServer", (myParameters) => {
         console.log(myParameters.socketID);
         var returnJSON = NumberOfStudentsCalculation(myParameters);

@@ -17,7 +17,7 @@ var corsOptions = {
 // Establish socket connection
 let socket;
 if (!socket) {
-    socket = io('http://localhost:5000');
+    socket = io('http://csc398dev.utm.utoronto.ca:5000');
 }
 
 // @route   POST api/student
