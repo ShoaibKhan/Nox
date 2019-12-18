@@ -14,24 +14,27 @@ First, you clone the repository into your choice of folder.
 
 # Running Nox
 
-To run the 
+Here are the steps needed to run the application from your own machine:
 
+1) Open up your termincal, and clone the repository into your designated folder. 
 
-
-
-# Install dependencies for server
+2) Install dependencies for server
+```
 cd /Nox
-
 npm install
+```
 
-
-# Install dependencies for client
+3) Install dependencies for client
 cd /Nox/general_client
-
+```
+cd /Nox/general_client
 npm install
-
-# Run the client & server with concurrently
+```
+4) Run the client & server with concurrently, inside of the Nox folder
+```
 npm run dev
+```
+# Additional Information
 
 # Run the Express server only
 npm run server
