@@ -19,11 +19,6 @@ const sid = cookies.get('sid');
 const sessionID = cookies.get('sesid');
 
 
-function requireAuth(nextState, replace) {
-  if (cookies.get('sid') == undefined || cookies.get('sesid') == undefined || true) {
-    window.location = "/";
-  }
-}
 
 class App extends Component {
   render() {
@@ -35,7 +30,7 @@ class App extends Component {
           </div>
           <Route path="/" exact component={LandingPage} />
           <Route path="/Prof" exact component={ProfView} />
-          <Route path="/Student" exact component={StudentView} onEnter={requireAuth} />
+          <Route path="/Student" exact component={StudentView} />
           <Route path="/DashBoard" exact component={DashBoard} />
         </Provider>
       </Router>

@@ -18,7 +18,7 @@ var sesidToDataHashmap = {}; // Contais: Sesid (F.K), Total students, Good , Oka
 //var studentHashmap = {}; // Contains: Sesid (F.K), sid, Rating, Time 
 
 var corsOptions = {
-    origin: 'http://csc398dev.utm.utoronto.ca:3000',
+    origin: 'https://csc398dev.utm.utoronto.ca:3000',
     credentials: true
 }
 
@@ -109,17 +109,17 @@ io.on('connection', (socket) => {
 
     var returnJSON = NumberOfStudentsCalculation
     socket.on("newCommentToServer", (studentJson) => {
-     
-     //potential problem
+
+        //potential problem
         if (sesidToDataHashmap[studentJson.sesid].socketID != null &&
             sesidToDataHashmap[studentJson.sesid].socketID != undefined &&
             io.sockets.connected[sesidToDataHashmap[studentJson.sesid].socketID] != undefined &&
             io.sockets.connected[sesidToDataHashmap[studentJson.sesid].socketID] != null) {
-  
-     io.sockets.connected[sesidToDataHashmap[studentJson.sesid].socketID].emit("incomingComment", studentJson);
-   
-}
- });
+
+            io.sockets.connected[sesidToDataHashmap[studentJson.sesid].socketID].emit("incomingComment", studentJson);
+
+        }
+    });
     socket.on("newCodeToServer", (myParameters) => {
         console.log(myParameters.socketID);
         var returnJSON = NumberOfStudentsCalculation(myParameters);
