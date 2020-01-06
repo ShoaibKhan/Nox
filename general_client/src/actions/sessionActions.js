@@ -12,7 +12,7 @@ function getRandomIntInclusive(min, max) {
 
 export const getCourses = (pid) => dispatch => {
     dispatch(setSessionsLoading());
-    axios.get("http://csc398dev.utm.utoronto.ca:5000/api/sessions/FindCourse", {
+    axios.get("https://csc398dev.utm.utoronto.ca:5000/api/sessions/FindCourse", {
         params: { pid: pid }
     })
         .then(res => dispatch({
@@ -23,7 +23,7 @@ export const getCourses = (pid) => dispatch => {
 
 export const getSessions = (pid, courseCode) => dispatch => {
     dispatch(setSessionsLoading());
-    axios.get("http://csc398dev.utm.utoronto.ca:5000/api/sessions/AllSessions", {
+    axios.get("https://csc398dev.utm.utoronto.ca:5000/api/sessions/AllSessions", {
         params: { pid: pid, courseCode: courseCode }
     })
         .then(res => dispatch({
@@ -45,7 +45,7 @@ export const addCourse = (Course) => dispatch => {
     var sesid = getRandomIntInclusive(100000, 999999);
 
     Course.sesid = String(sesid);
-    axios.post('sessions', Course, { baseURL: "http://csc398dev.utm.utoronto.ca:5000/api/" })
+    axios.post('sessions', Course, { baseURL: "https://csc398dev.utm.utoronto.ca:5000/api/" })
         .then(res => {
             console.log(`Received response from server: ${{ res }}`)
             dispatch({
@@ -61,7 +61,7 @@ export const addSession = (Session) => dispatch => {
     var sesid = getRandomIntInclusive(100000, 999999);
     Session.sesid = sesid;
     axios
-        .post('sessions', Session, { baseURL: "http://csc398dev.utm.utoronto.ca:5000/api/" })
+        .post('sessions', Session, { baseURL: "https://csc398dev.utm.utoronto.ca:5000/api/" })
         .then(res => {
             console.log(`Received response from server: ${{ res }}`)
             dispatch({
