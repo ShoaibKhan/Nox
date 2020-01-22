@@ -85,7 +85,7 @@ app.get('/nox/professor', function (req, res) {
         }
         else if ((result != undefined && result.pid != undefined && result.pid == req.headers.utorid)|| req.headers.utorid == undefined && environment == 'development') {
 	    console.log(req.headers.utorid, ' Logged Into Professor View');
-           if(req.headers.utorid != undefined){i
+           if(req.headers.utorid != undefined){
 		res.cookie('pid', req.headers.utorid).sendFile(path.resolve(__dirname, 'general_client', 'build', 'index.html'))
 	   	return ;
 		} 
