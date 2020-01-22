@@ -51,7 +51,7 @@ app.use(cookieParser());
 
 //Bodyparser Middleware
 app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded({extended:true}));
+
 app.use(passport.initialize());
 app.use(passport.session());
 //app.use(express.json()) // for parsing application/json
@@ -72,12 +72,10 @@ app.use('/nox/api/sessions', sessions);
 app.use('/nox/api/student', student);
 app.use('/nox/api/records', records);
 
-
-
 // Authentication
 app.get('/nox/professor', function (req, res) {
     console.log('Authenticating Professor...');
-
+     
     // Allow access in development enviroment
     // Check if Professor exists in DB
     Professor.findOne({ pid: req.headers.utorid }, function (err, result) {
@@ -85,14 +83,20 @@ app.get('/nox/professor', function (req, res) {
             console.log(err);
             throw (err);
         }
-        else if ((result != undefined && result.pid != undefined && result.pid == req.headers.utorid) ||
-            req.headers.utorid == undefined && environment == 'development') {
-            console.log(req.headers.utorid, ' Logged Into Professor View');
-            res.sendFile(path.resolve(__dirname, 'general_client', 'build', 'index.html'))
-        }
+        else if ((result != undefined && result.pid != undefined && result.pid == req.headers.utorid)|| req.headers.utorid == undefined && environment == 'development') {
+	    console.log(req.headers.utorid, ' Logged Into Professor View');
+           if(req.headers.utorid != undefined){i
+		res.cookie('pid', req.headers.utorid).sendFile(path.resolve(__dirname, 'general_client', 'build', 'index.html'))
+	   	return ;
+		} 
+	   else{		
+	   res.sendFile(path.resolve(__dirname, 'general_client', 'build', 'index.html'))
+        	return;
+		}
+	}
         else { // Not allowed entry
             console.log(req.headers.utorid, ' Not allowed to login to professor view');
-            res.redirect('/nox');
+            res.send('You are not authorized as a Professor. Contact achaudhral629@gmail.com to request access.');
         }
     });
 
