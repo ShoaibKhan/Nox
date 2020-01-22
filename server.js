@@ -79,27 +79,23 @@ app.get('/nox/professor', function (req, res) {
     console.log('Authenticating Professor...');
 
     // Allow access in development enviroment
-    if (environment == 'development') {
-        console.log(' Logged Into Professor View');
-        res.sendFile(path.resolve(__dirname, 'general_client', 'build', 'index.html'))
-        return;
-    }
-    else { // Check if Professor exists in DB
-        Professor.findOne({ pid: req.headers.utorid }, function (err, result) {
-            if (err) { // Internal Error
-                console.log(err);
-                throw (err);
-            }
-            else if (result != undefined && result.pid != undefined && result.pid == req.headers.utorid) {
-                console.log(req.headers.utorid, ' Logged Into Professor View');
-                res.sendFile(path.resolve(__dirname, 'general_client', 'build', 'index.html'))
-            }
-            else { // Not allowed entry
-                console.log(req.headers.utorid, ' Not allowed to login to professor view');
-                res.redirect('/nox');
-            }
-        });
-    }
+    // Check if Professor exists in DB
+    Professor.findOne({ pid: req.headers.utorid }, function (err, result) {
+        if (err) { // Internal Error
+            console.log(err);
+            throw (err);
+        }
+        else if ((result != undefined && result.pid != undefined && result.pid == req.headers.utorid) ||
+            req.headers.utorid == undefined && environment == 'development') {
+            console.log(req.headers.utorid, ' Logged Into Professor View');
+            res.sendFile(path.resolve(__dirname, 'general_client', 'build', 'index.html'))
+        }
+        else { // Not allowed entry
+            console.log(req.headers.utorid, ' Not allowed to login to professor view');
+            res.redirect('/nox');
+        }
+    });
+
 
 });
 
