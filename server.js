@@ -3,39 +3,39 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 var cors = require('cors')
 var path = require('path');
-//import data from "./general_client/src/views/DashBoard";
 const professor = require('./routes/api/professor');
 const sessions = require('./routes/api/sessions');
 const student = require('./routes/api/student');
 const records = require('./routes/api/records');
-//const shibboleth = require('./routes/api/shibboleth');
+const Professor = require('./models/Professor');
 var passport = require('passport');
 
 var cors = require('cors');
 var SamlStrategy = require('passport-saml').Strategy;
 const cookieParser = require('cookie-parser');
 
-var fs    = require ('fs'); // certificates
+var fs = require('fs'); // certificates
 
 var sesidToStudentHashmap = {};  // Contains: Sesid, StudentHashMap, DataHashmap, Time the session was created
 var sesidToDataHashmap = {}; // Contais: Sesid (F.K), Total students, Good , Okay, Consfused students
 //var studentHashmap = {}; // Contains: Sesid (F.K), sid, Rating, Time 
 
 var corsOptions = {
-    origin: ['https://csc398dev.utm.utoronto.ca','https://idpz.utorauth.utoronto.ca'],//:3000 before
+    origin: ['https://csc398dev.utm.utoronto.ca', 'https://idpz.utorauth.utoronto.ca'],//:3000 before
     credentials: true
 }
 
-//process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
-// Axios.listen() 
+// In production or development?
+const environment = process.env.NODE_ENV || 'development';
+
 const app = express();
 // Creating Websocket Server
 const server = require('https').createServer({ //change to https for ssl
     key: fs.readFileSync('utmwild.key'),
     cert: fs.readFileSync('__utm_utoronto_ca_cert.cer'),
-    ca:[ fs.readFileSync('__utm_utoronto_ca_interm.cer')
-]// ca belongs here
-},app);
+    ca: [fs.readFileSync('__utm_utoronto_ca_interm.cer')
+    ]// ca belongs here
+}, app);
 // Getting the websocket server
 const io = require('socket.io')(server);
 
@@ -71,84 +71,45 @@ app.use('/nox/api/professor', professor);
 app.use('/nox/api/sessions', sessions);
 app.use('/nox/api/student', student);
 app.use('/nox/api/records', records);
-//app.use(passport.initialize());
-//app.use(passport.session());
 
-app.get('/nox/professor',function (req, res) {
-    //res.send ('<h2>Hello Cruel World</h2>');
-    var utorid = req.query.utorid;
-    console.log('authenticating..');
-     if(req.headers.utorid == 'chaud439'){ //valid
-	console.log(req.headers.utorid, ' Logged into professor view');
-	res.sendFile(path.resolve(__dirname,'general_client','build','index.html'))
-	}
-     else{ //invalid authentication
-        console.log(req.headers.utorid, ' Not allowed to login to professor view');
-	res.redirect('/nox');
-	}
+
+
+// Authentication
+app.get('/nox/professor', function (req, res) {
+    console.log('Authenticating Professor...');
+
+    // Allow access in development enviroment
+    if (environment == 'development') {
+        console.log(' Logged Into Professor View');
+        res.sendFile(path.resolve(__dirname, 'general_client', 'build', 'index.html'))
+        return;
+    }
+    else { // Check if Professor exists in DB
+        Professor.findOne({ pid: req.headers.utorid }, function (err, result) {
+            if (err) { // Internal Error
+                console.log(err);
+                throw (err);
+            }
+            else if (result != undefined && result.pid != undefined && result.pid == req.headers.utorid) {
+                console.log(req.headers.utorid, ' Logged Into Professor View');
+                res.sendFile(path.resolve(__dirname, 'general_client', 'build', 'index.html'))
+            }
+            else { // Not allowed entry
+                console.log(req.headers.utorid, ' Not allowed to login to professor view');
+                res.redirect('/nox');
+            }
+        });
+    }
+
 });
 
 
 app.use(express.static('general_client/build'));
 
-//app.post('/nox/professor',
-//    bodyParser.urlencoded({ extended: false }),
-//    passport.authenticate('saml', { failureRedirect: '/', failureFlash: true }),
-//    function (req, res) {
-//        console.log(res);
-//        res.redirect('/');
-//    }
-//);
-
-//app.get('/nox/professor',
-//  passport.authenticate('saml', { failureRedirect: '/', failureFlash: true }),
-//   function(req, res) {
-//   res.send({ 'success': true });
-//   console.log('authenticating....');
-//   console.log(res);
-//   res.redirect('/');
-//  }
-//);
-
-//app.post('/Shibboleth.sso/SAML2/POST',
-//function(req,res){
-//console.log('dealing with shibboleth POST');
-//});
-app.get(('*'),(req,res) => {
-    res.sendFile(path.resolve(__dirname,'general_client','build','index.html'))
+app.get(('*'), (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'general_client', 'build', 'index.html'))
 });
 
-
-//passport.use('saml',new SamlStrategy(
-//    {
-//        path: '/professor',
-//	entryPoint: 'https://idpz.utorauth.utoronto.ca/idp/profile/SAML2/Redirect/SSO',//'https://idpz.utorauth.utoronto.ca/shibboleth',
-//        issuer: 'https://sp.csc398dev.utm.utoronto.ca/shibboleth', //sp.csc398....?
-//        privateCert: fs.readFileSync('sp-key.pem', 'utf-8'), //need utf-8?
-//        cert: fs.readFileSync('sp-cert.pem'),
-//       validateInResponseTo: false,
-//	decryptionPvK: fs.readFileSync('utorauth_metadata_verify.crt'), 
-//	relayState: 'ss:mem'
-        //privateCert: private key? sp-key.pem, cert: issuer's? sp-cert.pem , what else?
-//    },
-//    function (profile, done) {
-//        findByEmail(profile.email, function (err, user) {
-//            if (err) {
-//		console.log('error authenticating');
-//                return done(err);
-//            }
-//	    console.log("authenticated userrr");
-//            return done(null, user);
-//        });
-//    })
-//);
-
-//These functions are called to serialize the user
-//to session state and reconsitute the user on the 
-//next request. Normally, you'd save only the netID
-//and read the full user profile from your database
-//during deserializeUser, but for this example, we
-//will save the entire user just to keep it simple
 
 
 const port = process.env.PORT || 5001;
