@@ -26,6 +26,7 @@ export class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.messages = React.createRef();
+  //  this.scrollToBottom = this.scrollToBottom.bind(this);  
 
     this.state = {
       // Initially, we have 0 students in each category. 
@@ -35,13 +36,15 @@ export class Dashboard extends Component {
       average_rating: null,
       allMessages: [],
       avgColorRGB: 'grey'
-    }
+    };
 
+    
+    
     var that = this;
 
     // As the data comes in from the socket, the chart is re-updated.
     if (!socket) {
-      socket = io('https://csc398dev.utm.utoronto.ca:5000');
+      socket = io('https://csc398dev.utm.utoronto.ca:5001');
       socket.on('connect', function onConnect() {
         socket.emit('proffesorSocket', { sesid: sessionID, socketID: socket.id });
         console.log(socket.id);
@@ -83,6 +86,17 @@ export class Dashboard extends Component {
     }
   }
 
+  scrollToBottom = () => {
+  this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+}
+
+componentDidMount() {
+  this.scrollToBottom();
+}
+
+componentDidUpdate() {
+  this.scrollToBottom();
+}
 
   render() {
     return (
@@ -115,7 +129,9 @@ export class Dashboard extends Component {
             </div>
             <ul ref={this.messages} id="messages" className="messages">
               {this.state.allMessages.map((item, i) => <li key={i}>{item.comment} </li>)}
-
+            <div style={{ float:"left", clear: "both" }}
+             ref={(el) => { this.messagesEnd = el; }}>
+        	</div>
             </ul>
 
             <div className="bottom_wrapper clearfix">

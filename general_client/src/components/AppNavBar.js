@@ -26,15 +26,15 @@ class AppNavbar extends Component {
             <div>
                 <Navbar color='dark' dark expand='sm' className='mb-5'>
                     <Container>
-                        <NavbarBrand href='/'>Nox</NavbarBrand>
+                        <NavbarBrand href='/nox'>Nox</NavbarBrand>
                         <NavbarToggler onClick={this.toggle} />
                         <Collapse isOpen={this.state.isOpen} navbar>
                             <Nav className='ml-auto' navbar>
                                 <NavItem>
-                                    <NavLink href='/'>Home</NavLink>
+                                    <NavLink href='/nox'>Home</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink href='/prof'>Professor Login</NavLink>
+                                    <NavLink href='/nox/professor'>Professor Login</NavLink>
                                 </NavItem>
                                 <NavItem>
                                     <NavLink href='https://github.com/ShoaibAhmadKhan/Nox'>GitHub</NavLink>

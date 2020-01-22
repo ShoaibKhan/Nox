@@ -61,13 +61,13 @@ class StudentView extends Component {
             allMessages: this.state.allMessages.concat(this.messageBox.current.value)
         }, () => {
 
-            console.log(newRecord2);
+            //console.log(newRecord2);
             // Clear input box
             this.messageBox.current.value = '';
             // Display success message
             setTimeout(() => {
                 this.setState(() => ({ showPopup: false }))
-            }, 5000);
+            }, 5001);
         }
         );
 
@@ -89,7 +89,17 @@ class StudentView extends Component {
             value: btnValue.currentTarget.value,
         });
     }
+   scrollToBottom = () => {
+  this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+}
 
+componentDidMount() {
+  this.scrollToBottom();
+}
+
+componentDidUpdate() {
+  this.scrollToBottom();
+}
     render() {
         if (cookies.get('sid') == undefined || cookies.get('sesid') == undefined) {
             //return <Redirect to='/' />;
@@ -136,13 +146,15 @@ class StudentView extends Component {
                             </div>
 
 
-                            <div className="title">Chat</div>
+                            <div className="title">Ask a Question</div>
 
                         </div>
 
                         <ul id="messages" className="messages">
                             {this.state.allMessages.map((item, i) => <li key={i}>{item} </li>)}
-
+                            <div style={{ float:"left", clear: "both" }}
+             			ref={(el) => { this.messagesEnd = el; }}>
+        		</div>
                         </ul>
 
                         <div className="bottom_wrapper2 clearfix">

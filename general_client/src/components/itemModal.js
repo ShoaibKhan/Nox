@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { addCourse } from '../actions/sessionActions';
 import axios from 'axios';
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 axios.defaults.withCredentials = true
 
 class ItemModal extends Component {
@@ -59,7 +60,7 @@ class ItemModal extends Component {
                     style={{ marginBottom: '2rem' }}
                     onClick={this.toggle}
                 >
-                    Add a Course
+                    New Session
           </Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>Add a Course</ModalHeader>

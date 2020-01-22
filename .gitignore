@@ -2,3 +2,10 @@
 #dependencies
 node_modules
 package-lock.json
+#certificates
+__utm_utoronto_ca_interm.cer
+__utm_utoronto_ca_cert.cer
+utmwild.key
+utorauth_metadata_verify.crt
+sp-key.pem
+sp-cert.pem

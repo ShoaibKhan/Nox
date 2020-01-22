@@ -81,14 +81,14 @@ export default class LandingPage extends Component {
 
 
         // Attempt to join a live session
-        axios.post("https://csc398dev.utm.utoronto.ca:5000/api/sessions/JoinSession", joinSession).then(res => {
+        axios.post("https://csc398dev.utm.utoronto.ca:5001/nox/api/sessions/JoinSession", joinSession).then(res => {
             //console.log(res);
             //console.log(res.data['success']);
             this.setState({
                 borderColor: res.data['success'] ? 'green' : 'red',
                 showError: res.data['success'] ? false : true
             });
-            const path = '/Student';
+            const path = '/nox/student';
             this.props.history.push(path);
 
 

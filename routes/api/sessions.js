@@ -46,7 +46,7 @@ router.get('/AllSessions', (req, res) => {
             res.status(err.status).send({ success: false });
             return;
         }
-        else if (result && result[0].pid == req.query.pid) { // Found Sessions
+        else if (result != undefined && result[0] != undefined && result[0].pid == req.query.pid) { // Found Sessions
             console.log(result);
             console.log('THIS IS IT');
             res.json(result);

@@ -23,18 +23,18 @@ const sessionID = cookies.get('sesid');
 class App extends Component {
   render() {
     return (
-      <Router>
-        <Provider store={store}>
+        <Router>  
+	<Provider store={store}>
           <div className="App">
             <AppNavBar />
           </div>
-          <Route path="/" exact component={LandingPage} />
-          <Route path="/Prof" exact component={ProfView} />
-          <Route path="/Student" exact component={StudentView} />
-          <Route path="/DashBoard" exact component={DashBoard} />
-        </Provider>
-      </Router>
-    );
+	<Route path={'/nox'} exact component={LandingPage} />
+          <Route path={'/nox/professor'} exact component={ProfView} />
+          <Route path={'/nox/student'} exact component={StudentView} />
+          <Route path={'/nox/professor/dashboard'} exact component={DashBoard} />
+	</Provider>
+	</Router>    
+);
   }
 }
 

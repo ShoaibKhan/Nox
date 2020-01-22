@@ -7,7 +7,7 @@ const Record = require('../../models/Records');
 
 let socket;
 if (!socket) {
-    socket = io('https://csc398dev.utm.utoronto.ca:5000');
+    socket = io('https://csc398dev.utm.utoronto.ca:5001');
 }
 
 // @route   GET api/records
@@ -44,7 +44,7 @@ router.post('/', (req, res) => {
         newRecord.save();
         res.json(myParameters);
 
-        newRecord.save().then(record => res.json(record)).catch(error => res.send(error));
+        //newRecord.save().then(record => console.log(record) ).catch(error => console.log(error));
     }
     // New rating
     else {

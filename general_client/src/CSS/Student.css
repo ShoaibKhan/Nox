@@ -26,14 +26,14 @@ body {
   color: #a3d063;
   font-weight: bold;
   padding-top: 5px;
-  padding-left: 45%;
+  padding-left: 55%;
   font-size: 20px;
 }
 .student_label_okay{
   text-align: center;
   color: #fdbf68;
   font-weight: bold;
-  padding-left: 45%;
+  padding-left: 55%;
   padding-top: 5px;
   font-size: 20px;
 }
@@ -42,7 +42,7 @@ body {
   color: #f5886e;
   font-weight: bold;
   padding-top: 5px;
-  padding-left: 10%;
+  padding-left: 25%;
   font-size: 20px;
 }
 
@@ -80,14 +80,11 @@ body {
 
 
 .student_button{
-  border: 1px solid white; 
+  border: 1px solid rgba(0,0,0,0); 
   padding: 0px 0px !important;
-  border-radius: 100%;
-  position: relative;
-  padding-left: 200px;
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
-    background: white;
+  background: rgba(0,0,0,0);
 }
 
 .student_button:active{  /* remove blue onclick outline */
@@ -98,8 +95,7 @@ body {
 
 
  .student_button:hover {
-  background-color: white!important;
-  color: white !important;
+  opacity: 0.5;
   }
 
 
@@ -107,9 +103,6 @@ body {
 
 @media (max-width:60em){
   .student_button{
-    border: 1px solid white; 
-    border-radius: 100%;
-    background: white;
     width: 100%;
   }
   .student_btn_layout{
@@ -129,7 +122,7 @@ body {
   position: relative;
   width: 50%;
   max-width: 800px;
-  top: 175px;
+  top: 250px;
   
   left: 25%;
   border-radius: 10px;
@@ -144,8 +137,7 @@ body {
 }
 @media (max-width:60em){
     .chat_window2{
-    top: 250px;
-    
+    top: 270px;
     left: 51%;
     float:none;
      width: calc(100% - 20px);
@@ -279,8 +271,7 @@ body {
   background-color: #fff;
   padding: 10px 10px;
   border-radius:  0px 0px 15px 15px;
-  position: absolute;
- 
+  top: -20px;
   bottom: 0;
 }
 .bottom_wrapper2 .message_input_wrapper {
