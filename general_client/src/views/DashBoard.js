@@ -10,7 +10,7 @@ import { Button, FormControl, Container, Row } from "react-bootstrap";
 
 // Get current session id from cookie
 const cookies = new Cookies();
-const sessionID = cookies.get('sesid');
+const sessionID = cookies.get('Prof_sesid');
 
 
 // Establish socket connection for the Professor
