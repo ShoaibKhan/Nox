@@ -19,13 +19,14 @@ import IconButton from '@material-ui/core/IconButton';
 
 const cookies = new Cookies();
 const sessionID = cookies.get('sesid');
+const PID = cookies.get('pid');
 
 class SessionsList extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      pid: "Furki"
+      pid: cookies.get('pid')
     };
 
     this.changeBtnValue = this.changeBtnValue.bind(this);
@@ -48,7 +49,7 @@ class SessionsList extends Component {
 
   changeBtnValue() {
     const newCourse = {
-      pid: "Furki", //Get from cookies once authentication is up and running
+      pid: PID, //Get from cookies once authentication is up and running
       courseCode: this.course
     };
 

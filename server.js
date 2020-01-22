@@ -17,7 +17,7 @@ const cookieParser = require('cookie-parser');
 var fs = require('fs'); // certificates
 
 var sesidToStudentHashmap = {};  // Contains: Sesid, StudentHashMap, DataHashmap, Time the session was created
-var sesidToDataHashmap = {}; // Contais: Sesid (F.K), Total students, Good , Okay, Consfused students
+var sesidToDataHashmap = {}; // Contains: Sesid (F.K), Total students, Good , Okay, Consfused students
 //var studentHashmap = {}; // Contains: Sesid (F.K), sid, Rating, Time 
 
 var corsOptions = {
@@ -39,11 +39,6 @@ const server = require('https').createServer({ //change to https for ssl
 // Getting the websocket server
 const io = require('socket.io')(server);
 
-// socket related events
-//const socketOps = require('./socketOps')
-//socketOps.allSocketOps(io)
-//app.options("*", cors(corsOptions))
-
 app.use(cors(corsOptions))
 
 // Cookies
@@ -54,8 +49,6 @@ app.use(bodyParser.json());
 
 app.use(passport.initialize());
 app.use(passport.session());
-//app.use(express.json()) // for parsing application/json
-//app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 //DB Config
 const db = require('./config/keys').mongoURI;
@@ -71,6 +64,7 @@ app.use('/nox/api/professor', professor);
 app.use('/nox/api/sessions', sessions);
 app.use('/nox/api/student', student);
 app.use('/nox/api/records', records);
+
 
 // Authentication
 app.get('/nox/professor', function (req, res) {
@@ -110,20 +104,9 @@ app.get(('*'), (req, res) => {
     res.sendFile(path.resolve(__dirname, 'general_client', 'build', 'index.html'))
 });
 
-
-
 const port = process.env.PORT || 5001;
 //process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 server.listen(port, () => console.log(`Server started on port ${port}`));
-
-// On port 5000, listen for clients. Calling it porty due to port alrdy being used
-//const socketPort = 5001;
-//io.listen(socketPort);
-//console.log('listening to ghgh on port ', port);
-
-
-// After connection, send events to client
-// For now, just sending the msg that we have connected
 
 var sequenceNumberByClient = new Map();
 
