@@ -39,7 +39,8 @@ class SessionsList extends Component {
   };
 
   componentDidMount() {
-    this.props.getCourses(this.state.pid);
+    console.log(this.state.pid); 
+   this.props.getCourses(this.state.pid);
     //console.log(getCourses(this.state.pid));
   }
 

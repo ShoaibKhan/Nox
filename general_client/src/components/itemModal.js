@@ -12,6 +12,8 @@ import {
 import { connect } from 'react-redux';
 import { addCourse } from '../actions/sessionActions';
 import axios from 'axios';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 axios.defaults.withCredentials = true;
