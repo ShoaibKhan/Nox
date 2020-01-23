@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const io = require('socket.io-client');
-import { PublicURL } from '../../config/constants';
+const constantModule = require('../../config/constants');
 
 //Records Model
 const Record = require('../../models/Records');
 
 let socket;
 if (!socket) {
-    socket = io(PublicURL + ':' + '5001');
+    socket = io(constantModule.PublicURL + ':' + '5001');
 }
 
 // @route   GET api/records

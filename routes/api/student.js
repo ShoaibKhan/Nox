@@ -3,16 +3,15 @@ const router = express.Router();
 const cookieParser = require('cookie-parser');
 const Student = require('../../models/Student');
 const io = require('socket.io-client');
-import { PublicURL } from '../../config/constants';
+const constantModule = require('../../config/constants');
 const uuidv4 = require('uuid/v4');
 const Session = require('../../models/Sessions');
 const cors = require('cors')
 
-
 // Establish socket connection
 let socket;
 if (!socket) {
-    socket = io(PublicURL + ':' + '5001');
+    socket = io(constantModule.PublicURL + ':' + '5001');
 }
 
 // @route   POST api/student
