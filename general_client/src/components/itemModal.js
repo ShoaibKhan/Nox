@@ -14,7 +14,8 @@ import { addCourse } from '../actions/sessionActions';
 import axios from 'axios';
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-axios.defaults.withCredentials = true
+axios.defaults.withCredentials = true;
+const PID = cookies.get('pid');
 
 class ItemModal extends Component {
     constructor(props) {
@@ -22,7 +23,7 @@ class ItemModal extends Component {
 
         this.state = {
             modal: false,
-            pid: "testProf",
+            pid: PID,
             courseCode: "default"
         };
     }
@@ -41,7 +42,7 @@ class ItemModal extends Component {
         e.preventDefault();
 
         const newCourse = {
-            pid: "Furki", //Get from cookies once authentication is up and running
+            pid: PID, //Get from cookies once authentication is up and running
             courseCode: this.state.courseCode,
         };
 
