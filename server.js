@@ -30,12 +30,11 @@ const http = (environment == 'development') ? require('http') : require('https')
 
 // Creating an express Server with SSL certificates in production
 const app = express();
-const server = http.createServer((environment == 'development') ? app : ({
-    key: fs.readFileSync('utmwild.key'),
-    cert: fs.readFileSync('__utm_utoronto_ca_cert.cer'),
-    ca: [fs.readFileSync('__utm_utoronto_ca_interm.cer')
-    ]
-}, app));
+const server = http.createServer({
+    key: environment == "development" ? "" : fs.readFileSync('utmwild.key'),
+    cert: environment == "development" ? "" : fs.readFileSync('__utm_utoronto_ca_cert.cer') ,
+    ca: environment == "development" ? "" : fs.readFileSync('__utm_utoronto_ca_interm.cer') ,
+}, app );
 // Getting the websocket server
 const io = require('socket.io')(server);
 
@@ -47,8 +46,8 @@ app.use(cookieParser());
 //Bodyparser Middleware
 app.use(bodyParser.json());
 
-app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.initialize());
+//app.use(passport.session());
 
 // DB Config
 const db = require('./config/keys').mongoURI;
