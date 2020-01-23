@@ -5,7 +5,7 @@ import Image from 'react-bootstrap/Image'
 import NoxLogo from '../images/noxLogo.png'
 import axios from 'axios';
 import { callbackify } from 'util';
-
+import { PublicURL } from '../../config/constants';
 
 // Establish socket connection
 // Connecting to the server from clients end
@@ -81,7 +81,7 @@ export default class LandingPage extends Component {
 
 
         // Attempt to join a live session
-        axios.post("https://csc398dev.utm.utoronto.ca:5001/nox/api/sessions/JoinSession", joinSession).then(res => {
+        axios.post(PublicURL + ':5001/nox/api/sessions/JoinSession', joinSession).then(res => {
             //console.log(res);
             //console.log(res.data['success']);
             this.setState({

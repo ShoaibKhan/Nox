@@ -3,6 +3,7 @@ import { GET_SESSIONS, ADD_SESSION, ADD_COURSE, DOWNLOAD_SESSION, SESSIONS_LOADI
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 const courses = [];
+import { PublicURL } from '../../config/constants';
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 function getRandomIntInclusive(min, max) {
@@ -13,7 +14,7 @@ function getRandomIntInclusive(min, max) {
 
 export const getCourses = (pid) => dispatch => {
     dispatch(setSessionsLoading());
-    axios.get("https://csc398dev.utm.utoronto.ca:5001/nox/api/sessions/FindCourse", {
+    axios.get(PublicURL + ':5001/nox/api/sessions/FindCourse', {
         params: { pid: pid }
     })
         .then(res => dispatch({
@@ -24,7 +25,7 @@ export const getCourses = (pid) => dispatch => {
 
 export const getSessions = (pid, courseCode) => dispatch => {
     dispatch(setSessionsLoading());
-    axios.get("https://csc398dev.utm.utoronto.ca:5001/nox/api/sessions/AllSessions", {
+    axios.get(PublicURL + ":5001/nox/api/sessions/AllSessions", {
         params: { pid: pid, courseCode: courseCode }
     })
         .then(res => dispatch({
@@ -46,7 +47,7 @@ export const addCourse = (Course) => dispatch => {
     var sesid = getRandomIntInclusive(100000, 999999);
 
     Course.sesid = String(sesid);
-    axios.post('sessions', Course, { baseURL: "https://csc398dev.utm.utoronto.ca:5001/nox/api/" })
+    axios.post('sessions', Course, { baseURL: PublicURL + ':5001/nox/api/' })
         .then(res => {
             console.log(`Received response from server: ${{ res }}`)
             dispatch({
@@ -62,7 +63,7 @@ export const addSession = (Session) => dispatch => {
     var sesid = getRandomIntInclusive(100000, 999999);
     Session.sesid = sesid;
     axios
-        .post('sessions', Session, { baseURL: "https://csc398dev.utm.utoronto.ca:5001/nox/api/" })
+        .post('sessions', Session, { baseURL: PublicURL + ':5001/nox/api/' })
         .then(res => {
             console.log(`Received response from server: ${{ res }}`)
             dispatch({
