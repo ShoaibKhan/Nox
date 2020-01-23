@@ -8,34 +8,34 @@ const sessions = require('./routes/api/sessions');
 const student = require('./routes/api/student');
 const records = require('./routes/api/records');
 const Professor = require('./models/Professor');
-var passport = require('passport');
-
+var fs = require('fs');
 var cors = require('cors');
-var SamlStrategy = require('passport-saml').Strategy;
 const cookieParser = require('cookie-parser');
 
-var fs = require('fs'); // certificates
+// In production or development?
+const environment = process.env.NODE_ENV || 'development';
 
 var sesidToStudentHashmap = {};  // Contains: Sesid, StudentHashMap, DataHashmap, Time the session was created
 var sesidToDataHashmap = {}; // Contains: Sesid (F.K), Total students, Good , Okay, Consfused students
 //var studentHashmap = {}; // Contains: Sesid (F.K), sid, Rating, Time 
 
+// Sites allowed to use Server's API
 var corsOptions = {
-    origin: ['https://csc398dev.utm.utoronto.ca', 'https://idpz.utorauth.utoronto.ca'],//:3000 before
+    origin: (environment == 'development') ? 'http://localhost' : ['https://csc398dev.utm.utoronto.ca', 'https://idpz.utorauth.utoronto.ca'],
     credentials: true
 }
 
-// In production or development?
-const environment = process.env.NODE_ENV || 'development';
+// HTTPS only in production
+const http = (environment == 'development') ? require('http') : require('https');
 
+// Creating an express Server with SSL certificates in production
 const app = express();
-// Creating Websocket Server
-const server = require('https').createServer({ //change to https for ssl
+const server = http.createServer((environment == 'development') ? app : ({
     key: fs.readFileSync('utmwild.key'),
     cert: fs.readFileSync('__utm_utoronto_ca_cert.cer'),
     ca: [fs.readFileSync('__utm_utoronto_ca_interm.cer')
-    ]// ca belongs here
-}, app);
+    ]
+}, app));
 // Getting the websocket server
 const io = require('socket.io')(server);
 
@@ -50,44 +50,40 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
-//DB Config
+// DB Config
 const db = require('./config/keys').mongoURI;
 
-//Connect to Mongo
+// Connect to Mongo
 mongoose
     .connect(db, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useNewUrlParser: true })
     .then(() => console.log('MongoDB Connected!'))
     .catch(err => console.log(err));
 
-//Use Routes
+// Create paths for each API (routes)
 app.use('/nox/api/professor', professor);
 app.use('/nox/api/sessions', sessions);
 app.use('/nox/api/student', student);
 app.use('/nox/api/records', records);
 
 
-// Authentication
+// Authentication required 
+// if URL path is under /professor 
 app.get('/nox/professor', function (req, res) {
-    console.log('Authenticating Professor...');
-     
-    // Allow access in development enviroment
-    // Check if Professor exists in DB
+    console.log('Authenticating Professor... ');
+
+    // Allow access in development enviroment 
+    // Otherwise check if Professor exists in DB
     Professor.findOne({ pid: req.headers.utorid }, function (err, result) {
         if (err) { // Internal Error
             console.log(err);
             throw (err);
         }
-        else if ((result != undefined && result.pid != undefined && result.pid == req.headers.utorid)|| req.headers.utorid == undefined && environment == 'development') {
-	    console.log(req.headers.utorid, ' Logged Into Professor View');
-           if(req.headers.utorid != undefined){
-		res.cookie('pid', req.headers.utorid, { path: '/nox/professor', secure: true }).sendFile(path.resolve(__dirname, 'general_client', 'build', 'index.html'))
-	   	return ;
-		} 
-	   else{		
-	   res.sendFile(path.resolve(__dirname, 'general_client', 'build', 'index.html'))
-        	return;
-		}
-	}
+        else if ((result != undefined && result.pid != undefined && result.pid == req.headers.utorid) || req.headers.utorid == undefined && environment == 'development') {
+            console.log(req.headers.utorid || 'Development User', ' Logged Into Professor View');
+            res.cookie('pid', req.headers.utorid || 'Furki', { path: '/nox/professor', secure: true }).sendFile(path.resolve(__dirname, 'general_client', 'build', 'index.html'))
+            return;
+
+        }
         else { // Not allowed entry
             console.log(req.headers.utorid, ' Not allowed to login to professor view');
             res.send('You are not authorized as a Professor. Contact achaudhral629@gmail.com to request access.');
@@ -97,23 +93,23 @@ app.get('/nox/professor', function (req, res) {
 
 });
 
-
+// Connect React.js build folder made by $npm run build 
+// in general_client folder
 app.use(express.static('general_client/build'));
 
+// Every other URL will be sent to the Front-End
 app.get(('*'), (req, res) => {
     res.sendFile(path.resolve(__dirname, 'general_client', 'build', 'index.html'))
 });
 
 const port = process.env.PORT || 5001;
-//process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 server.listen(port, () => console.log(`Server started on port ${port}`));
 
 var sequenceNumberByClient = new Map();
 
-// Server saying connection
-// Server Socket = io
-// When a client connects to server
-// Takes in socket clients 
+
+// Everything below is dealing with Sockets from server to Professor
+// Read up on how sockets work here: https://socket.io/get-started/chat/
 io.on('connection', (socket) => {
     console.info(`Client connected [id=${socket.id}]`);
 
