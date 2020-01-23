@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const io = require('socket.io-client');
+import { PublicURL } from '../../config/constants';
 
 //Records Model
 const Record = require('../../models/Records');
 
 let socket;
 if (!socket) {
-    socket = io('https://csc398dev.utm.utoronto.ca:5001');
+    socket = io(PublicURL + ':' + '5001');
 }
 
 // @route   GET api/records

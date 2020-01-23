@@ -8,11 +8,11 @@ const Professor = require('../../models/Professor');
 // @desc    Get a professor
 // @access  Public
 router.get('/', (req, res) => {
-    Professor.findOne({pid: req.body.pid}, function(err,result){
-    if (err) throw err;
-    res.json(result);
-})
-  
+    Professor.findOne({ pid: req.body.pid }, function (err, result) {
+        if (err) throw err;
+        res.json(result);
+    })
+
 });
 
 // @route   POST api/professor
@@ -31,8 +31,8 @@ router.post('/', (req, res) => {
 // @access  Public (Should be private in real production)
 router.delete('/:pid', (req, res) => {
     Professor.findOne()
-        .then(professor => professor.remove().then(() => res.json({success: true})))
-        .catch(err => res.status(404).json({success: false}));
+        .then(professor => professor.remove().then(() => res.json({ success: true })))
+        .catch(err => res.status(404).json({ success: false }));
 });
 
 module.exports = router;

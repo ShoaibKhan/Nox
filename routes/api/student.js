@@ -1,23 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const cookieParser = require('cookie-parser');
-//Student Model
 const Student = require('../../models/Student');
 const io = require('socket.io-client');
-
+import { PublicURL } from '../../config/constants';
 const uuidv4 = require('uuid/v4');
 const Session = require('../../models/Sessions');
 const cors = require('cors')
 
-var corsOptions = {
-    origin: 'https://csc398dev.utm.utoronto.ca:3001/',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
 
 // Establish socket connection
 let socket;
 if (!socket) {
-    socket = io('https://csc398dev.utm.utoronto.ca:5001');
+    socket = io(PublicURL + ':' + '5001');
 }
 
 // @route   POST api/student
