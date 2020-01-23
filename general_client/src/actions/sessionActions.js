@@ -11,11 +11,10 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
 }
 
-export const getCourses = (PID) => dispatch => {
+export const getCourses = (pid) => dispatch => {
     dispatch(setSessionsLoading());
-    console.log('PID is: ', cookies.get('pid'));
     axios.get("https://csc398dev.utm.utoronto.ca:5001/nox/api/sessions/FindCourse", {
-        params: { pid: cookies.get('pid') }
+        params: { pid: pid }
     })
         .then(res => dispatch({
             type: GET_SESSIONS,
