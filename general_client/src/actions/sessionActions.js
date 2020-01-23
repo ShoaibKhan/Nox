@@ -13,8 +13,9 @@ function getRandomIntInclusive(min, max) {
 
 export const getCourses = (PID) => dispatch => {
     dispatch(setSessionsLoading());
+    console.log('PID is: ', cookies.get('pid'));
     axios.get("https://csc398dev.utm.utoronto.ca:5001/nox/api/sessions/FindCourse", {
-        params: { pid: PID }
+        params: { pid: cookies.get('pid') }
     })
         .then(res => dispatch({
             type: GET_SESSIONS,
