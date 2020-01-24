@@ -21,7 +21,7 @@ var sesidToDataHashmap = {}; // Contains: Sesid (F.K), Total students, Good , Ok
 
 // Sites allowed to use Server's API
 var corsOptions = {
-    origin: (environment == 'development') ? 'http://localhost' : ['https://csc398dev.utm.utoronto.ca', 'https://idpz.utorauth.utoronto.ca'],
+    origin: (environment == 'development') ? 'http://localhost:3000' : ['https://csc398dev.utm.utoronto.ca', 'https://idpz.utorauth.utoronto.ca'],
     credentials: true
 }
 
@@ -32,9 +32,9 @@ const http = (environment == 'development') ? require('http') : require('https')
 const app = express();
 const server = http.createServer({
     key: environment == "development" ? "" : fs.readFileSync('utmwild.key'),
-    cert: environment == "development" ? "" : fs.readFileSync('__utm_utoronto_ca_cert.cer') ,
-    ca: environment == "development" ? "" : fs.readFileSync('__utm_utoronto_ca_interm.cer') ,
-}, app );
+    cert: environment == "development" ? "" : fs.readFileSync('__utm_utoronto_ca_cert.cer'),
+    ca: environment == "development" ? "" : fs.readFileSync('__utm_utoronto_ca_interm.cer'),
+}, app);
 // Getting the websocket server
 const io = require('socket.io')(server);
 
@@ -79,7 +79,7 @@ app.get('/nox/professor', function (req, res) {
         }
         else if ((result != undefined && result.pid != undefined && result.pid == req.headers.utorid) || req.headers.utorid == undefined && environment == 'development') {
             console.log(req.headers.utorid || 'Development User', ' Logged Into Professor View');
-            res.cookie('pid', req.headers.utorid || 'Furki', { path: '/nox/professor', secure: true }).sendFile(path.resolve(__dirname, 'general_client', 'build', 'index.html'))
+            res.cookie('pid', req.headers.utorid, { path: '/nox/professor', secure: true }).sendFile(path.resolve(__dirname, 'general_client', 'build', 'index.html'))
             return;
 
         }

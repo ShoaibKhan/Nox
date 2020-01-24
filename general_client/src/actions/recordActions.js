@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { GET_RECORDS, ADD_RECORD, DOWNLOAD_RECORD, RECORDS_LOADING, ADD_STUDENT_COMMENT } from './types'
-import { PublicURL } from '../../config/constants';
+import { PublicURL } from '../config/constants';
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 export const getRecords = () => dispatch => {

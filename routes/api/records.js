@@ -26,7 +26,6 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     // TO DO: New comment 
     if (req.body.isComment != undefined && req.body.isComment != null && req.body.isComment == "true") {
-        console.log(req);
         const newRecord = new Record({
             studentID: req.body.studentID,
             sessionID: req.body.sessionID,

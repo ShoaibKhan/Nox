@@ -6,7 +6,7 @@ import Cookies from 'universal-cookie';
 import '../CSS/Chat.css';
 import '../CSS/Histogram.css';
 import { Button, FormControl, Container, Row } from "react-bootstrap";
-import { PublicURL } from '../../config/constants';
+import { PublicURL } from '../config/constants';
 
 
 // Get current session id from cookie

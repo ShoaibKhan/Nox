@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { GET_SESSIONS, ADD_SESSION, ADD_COURSE, DOWNLOAD_SESSION, SESSIONS_LOADING } from './types';
 import Cookies from 'universal-cookie';
+import { PublicURL } from '../config/constants';
 const cookies = new Cookies();
 const courses = [];
-import { PublicURL } from '../../config/constants';
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);

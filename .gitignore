@@ -9,3 +9,6 @@ utmwild.key
 utorauth_metadata_verify.crt
 sp-key.pem
 sp-cert.pem
+#react.js build folder
+general_client/build/
+

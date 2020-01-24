@@ -5,7 +5,7 @@ import Image from 'react-bootstrap/Image'
 import NoxLogo from '../images/noxLogo.png'
 import axios from 'axios';
 import { callbackify } from 'util';
-import { PublicURL } from '../../config/constants';
+import { PublicURL } from '../config/constants';
 
 // Establish socket connection
 // Connecting to the server from clients end

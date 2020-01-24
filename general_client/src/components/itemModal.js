@@ -17,7 +17,7 @@ const cookies = new Cookies();
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 axios.defaults.withCredentials = true;
-const PID = cookies.get('pid');
+const PID = cookies.get('pid') || 'Furki';
 
 class ItemModal extends Component {
     constructor(props) {
