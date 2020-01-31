@@ -4,9 +4,7 @@ Nox is a communication platform designed for educational insitutions. Targeted a
 
 # User Guide for Teachers 
 
-1) Head on over to the Nox website. 
-
-  https://csc398dev.utm.utoronto.ca
+1) Head on over to the Nox website: https://csc398dev.utm.utoronto.ca
 
 2) Hover over and click "Professor Login" on the top right corner. 
 
@@ -16,9 +14,9 @@ Nox is a communication platform designed for educational insitutions. Targeted a
 
 # User Guide for Students
 
-1) Head on over to the Nox website. 
+1) Head on over to the Nox website: https://csc398dev.utm.utoronto.ca
 
-  https://csc398dev.utm.utoronto.ca
+![Alt text] ("https://github.com/ShoaibAhmadKhan/Nox/blob/master/pictures/Profpic1.PNG")
 
 2) Enter the session code provided by your teacher. 
 
