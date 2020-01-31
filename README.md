@@ -16,7 +16,7 @@ Nox is a communication platform designed for educational insitutions. Targeted a
 
 1) Head on over to the Nox website: https://csc398dev.utm.utoronto.ca
 
-![Alt text] ("https://github.com/ShoaibAhmadKhan/Nox/blob/master/pictures/Profpic1.PNG")
+![alt text](https://github.com/ShoaibAhmadKhan/Nox/blob/master/pictures/Profpic1.PNG "Nox")
 
 2) Enter the session code provided by your teacher. 
 
