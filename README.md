@@ -1,6 +1,6 @@
 # Nox
 
-Nox is a communication platform designed for educational insitutions. Targeted at closing the communication gap between professors and students by allowing professors to get realtime feedback on students level of understanding while they teach. 
+Nox is a communication platform designed for educational insitutions. Targeted at closing the communication gap between professors and students by allowing professors to get realtime feedback on students level of understanding while they teach.
 
 # User Guide for Teachers 
 
@@ -8,21 +8,28 @@ Nox is a communication platform designed for educational insitutions. Targeted a
 
 2) Hover over and click "Professor Login" on the top right corner. 
 
+![alt text](https://github.com/ShoaibAhmadKhan/Nox/blob/master/pictures/Profpic1.PNG "Nox")
+
 3) Easily add a new session or analyze your past sessions. 
 
-4) Write the code on the board, say it outload or share with all the students so they can connect to your session! 
+![alt text](https://github.com/ShoaibAhmadKhan/Nox/blob/master/pictures/Profpic2.PNG "Create Session")
+
+4) Write the code on the board, say it outload or share with all the students so they can connect to your session!
+
+![alt text](https://github.com/ShoaibAhmadKhan/Nox/blob/master/pictures/Profpic3.PNG "Dashboard"
 
 # User Guide for Students
 
 1) Head on over to the Nox website: https://csc398dev.utm.utoronto.ca
 
-![alt text](https://github.com/ShoaibAhmadKhan/Nox/blob/master/pictures/Profpic1.PNG "Nox")
-
 2) Enter the session code provided by your teacher. 
 
+![alt text](https://github.com/ShoaibAhmadKhan/Nox/blob/master/pictures/S1.jpg "Enter Session Code")
 
 
 3) Rate how you feel about the lecture as you learn, and ask question instantaneously! 
+
+![alt text](https://github.com/ShoaibAhmadKhan/Nox/blob/master/pictures/S2.jpg "Rate how you feel!")
 
 
 # User Guide for Developers
