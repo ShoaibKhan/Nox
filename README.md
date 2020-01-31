@@ -7,7 +7,6 @@ Nox is a communication platform designed for educational insitutions. Targeted a
 1) Head on over to the Nox website. 
 ```
 https://csc398dev.utm.utoronto.ca/nox?v=3
-
 ```
 2) Hover over and click "Professor Login" on the top right corner. 
 
