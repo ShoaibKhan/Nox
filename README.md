@@ -16,7 +16,7 @@ Nox is a communication platform designed for educational insitutions. Targeted a
 
 4) Write the code on the board, say it outload or share with all the students so they can connect to your session!
 
-![alt text](https://github.com/ShoaibAhmadKhan/Nox/blob/master/pictures/Profpic3.PNG "Dashboard"
+![alt text](https://github.com/ShoaibAhmadKhan/Nox/blob/master/pictures/Profpic3.PNG "Dashboard")
 
 # User Guide for Students
 
