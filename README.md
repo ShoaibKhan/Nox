@@ -12,7 +12,7 @@ Nox is a communication platform designed for educational insitutions. Targeted a
 
 3) Easily add a new session or analyze your past sessions. 
 
-<img src="https://github.com/ShoaibAhmadKhan/Nox/blob/master/pictures/Profpic2.PNG" width="400" height="400" ref="Create Session" />
+<img src="https://github.com/ShoaibAhmadKhan/Nox/blob/master/pictures/Profpic2.PNG" width="400" height="300" ref="Create Session" />
 
 4) Write the code on the board, say it outload or share with all the students so they can connect to your session!
 
