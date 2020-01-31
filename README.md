@@ -24,8 +24,7 @@ Nox is a communication platform designed for educational insitutions. Targeted a
 
 2) Enter the session code provided by your teacher. 
 
-![alt text](https://github.com/ShoaibAhmadKhan/Nox/blob/master/pictures/S1.jpg =400x250 "Enter Session Code")
-
+<img src="https://github.com/ShoaibAhmadKhan/Nox/blob/master/pictures/S1.jpg" width="200" height="400" />
 
 3) Rate how you feel about the lecture as you learn, and ask question instantaneously! 
 
