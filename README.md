@@ -8,7 +8,7 @@ Nox is a communication platform designed for educational insitutions. Targeted a
 
 2) Hover over and click "Professor Login" on the top right corner. 
 
-![alt text](https://github.com/ShoaibAhmadKhan/Nox/blob/master/pictures/Profpic1.PNG "Nox")
+![alt text](https://github.com/ShoaibAhmadKhan/Nox/blob/master/pictures/Nox-picn.PNG "Nox")
 
 3) Easily add a new session or analyze your past sessions. 
 
