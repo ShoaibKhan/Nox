@@ -18,7 +18,7 @@ Nox is a communication platform designed for educational insitutions. Targeted a
 
 ![alt text](https://github.com/ShoaibAhmadKhan/Nox/blob/master/pictures/Profpic3.PNG "Dashboard")
 
-<b>Recommended Usage: </b>Teachers should occasionally tell students to ask questions using the app, and then teachers should respond to those questions.
+<b>Recommended Usage: </b>Teachers should occasionally spend some time telling students to ask questions using the app, and then teachers should answer those questions.
 
 # User Guide for Students
 
