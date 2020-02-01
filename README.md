@@ -32,7 +32,7 @@ Recommended Usage: Teachers should occasionally tell students to ask questions u
   <img src="https://github.com/ShoaibAhmadKhan/Nox/blob/master/pictures/S2.jpg" width="300" height="600" />
 </p>
                                                                                                         
-3) Rate how you feel about the lecture as you learn, and ask question instantaneously!
+3) Rate how you feel about the lecture as you learn, and ask questions instantaneously!
 
 # User Guide for Developers
 
@@ -51,7 +51,6 @@ npm install
 ```
 3) Install dependencies for client
 
-cd /Nox/general_client
 ```
 cd /Nox/general_client
 npm install
