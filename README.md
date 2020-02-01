@@ -14,7 +14,7 @@ Nox is a communication platform designed for educational insitutions. Targeted a
 
 <img src="https://github.com/ShoaibAhmadKhan/Nox/blob/master/pictures/Profpic2.PNG" width="400" height="300" ref="Create Session" />
 
-4) Write the code on the board, say it outload or share with all the students so they can connect to your session!
+4) Write the code on the board, say it aloud or share it with all the students so they can connect to your session!
 
 ![alt text](https://github.com/ShoaibAhmadKhan/Nox/blob/master/pictures/Profpic3.PNG "Dashboard")
 
