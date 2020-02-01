@@ -70,6 +70,6 @@ npm run server
 ```
 npm run client
 ```
-# Server runs on http://localhost:5000 and client on http://localhost:3000
+# Server runs on http://localhost:5001 and client on http://localhost:3000
 
 # Message any of the developers if you want to contribute to the project! 
