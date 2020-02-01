@@ -6,7 +6,7 @@ Nox is a communication platform designed for educational insitutions. Targeted a
 
 1) Head on over to the Nox website: https://csc398dev.utm.utoronto.ca
 
-2) Hover over and click "Professor Login" on the top right corner. 
+2) Click "Professor Login" on the top right corner. 
 
 ![alt text](https://github.com/ShoaibAhmadKhan/Nox/blob/master/pictures/Nox-picn.PNG "Nox")
 
@@ -57,6 +57,7 @@ npm install
 ```
 4) Run the client & server with concurrently, inside of the Nox folder
 ```
+cd /Nox
 npm run dev
 ```
 # Additional Information
