@@ -18,7 +18,7 @@ Nox is a communication platform designed for educational insitutions. Targeted a
 
 ![alt text](https://github.com/ShoaibAhmadKhan/Nox/blob/master/pictures/Profpic3.PNG "Dashboard")
 
-Recommended Usage: Teachers should occasionally tell students to ask questions using the app, and then teachers should respond to those questions.
+<b>Recommended Usage: </b>Teachers should occasionally tell students to ask questions using the app, and then teachers should respond to those questions.
 
 # User Guide for Students
 
@@ -62,11 +62,13 @@ npm run dev
 # Additional Information
 
 # Run the Express server only
+```
 npm run server
-
+```
 # Run the React client only
+```
 npm run client
-
+```
 # Server runs on http://localhost:5000 and client on http://localhost:3000
 
 # Message any of the developers if you want to contribute to the project! 
