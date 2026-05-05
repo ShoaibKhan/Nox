@@ -1,192 +1,263 @@
 const express = require('express');
 const router = express.Router();
-const cookieParser = require('cookie-parser');
-const Student = require('../../models/Student');
-const uuidv4 = require('uuid/v4');
+const { randomUUID } = require('crypto');
 
-//Session Model
+const Student = require('../../models/Student');
+const Record = require('../../models/Records');
+const Poll = require('../../models/Polls');
 const Session = require('../../models/Sessions');
 
-const cookieConfig = {
-    //httpOnly: true, // to disable accessing cookie via client side js
-    secure: true, // to force https (if you use it)
-    maxAge: 1000000000, // ttl in ms (remove this option and cookie will die when browser is closed)
-    // signed: true // if you use the secret with cookieParser
-};
+const isProd = process.env.NODE_ENV === 'production';
+
+const studentCookieOptions = { sameSite: 'lax', secure: isProd, path: '/' };
+const profCookieOptions = { httpOnly: false, sameSite: 'lax', secure: isProd, path: '/' };
+
+function requireProf(req, res, next) {
+    const pid = req.cookies && req.cookies.pid;
+    if (!pid) return res.status(401).json({ success: false, error: 'authentication required' });
+    req.pid = pid;
+    next();
+}
 
 router.post('/FindSession', (req, res) => {
-    Session.findOne({ sesid: req.body.sesid }, function (err, result) {
-        //res.send(result);
-        if (err) { // Internal Error
-            //callback(err);
-            res.status(err.status).send({ success: false });
-            return;
-        }
-        else if (result && result.sesid === req.body.sesid) { // Found Session
-            //res.cookie('sesid', result.sesid);
-            res.send({ success: true });
-            console.log(result);
-        }
-        else { // Did not find Session
-            console.log('DID NOT FIND SESSION');
-            res.status(404).send({ success: false, response: 'DID NOT FIND SESSION' });
-            console.log(result);
-        }
-    })
-})
-
-// @route   GET api/sessions/AllSessions
-// @desc    Get a session
-// @access  Public
-
-router.get('/AllSessions', (req, res) => {
-    Session.find({ pid: req.query.pid, courseCode: req.query.courseCode }, function (err, result) {
-        if (err) { // Internal Error
-            //callback(err);
-            res.status(err.status).send({ success: false });
-            return;
-        }
-        else if (result != undefined && result[0] != undefined && result[0].pid == req.query.pid) { // Found Sessions
-            console.log(result);
-            console.log('THIS IS IT');
-            res.json(result);
-        }
-        else {
-            console.log(result);
-            res.status(404).json(result);
-        }
-    })
-});
-
-router.get('/FindCourse', (req, res) => {
-    Session.find({ pid: req.query.pid }).distinct('courseCode', req.query.sesid, function (err, result) { //see the use of distinct
-        if (err) { // Internal Error
-            //callback(err);
-            res.status(err.status).send({ success: false });
-            return;
-        }
-        else {
-            console.log('THIS IS IT');
-            res.json(result);
-        }
-    });
-});
-
-// If Session not found
-// res.send({ success: false });
-
-// Set a cookie example
-// res.cookie('sesid', result.sesid);
-
-// Remove a cookie
-//  res.clearCookie("sesid");
-
-// Get a Cookie
-// req.cookies['cookieName']
-// res.clearCookie("cookie-name");
-router.post('/JoinSession', (req, res) => {
-    //res.send(req.cookies['sid'] === null);
-    var student;
-    student = req.cookies['sid'];
-    console.log(student);
-    //res.send(req.cookies['sid'] == 'undefined');
-    console.log('Result Cookie:', res.cookies);
-    if (student == 'undefined' || student == null || student == undefined) { // New Student
-        console.log('1');
-	let aStudent = new Student({ sid: uuidv4() });
-        student = aStudent.sid;
-        res.cookie('sid', aStudent.sid);
-        // res.send(newStudent.sid);
-        console.log("NEW STUDENT");
-        //res.send('NEW STUDENT');
-    }
-    else { // Find Student in DB
-        Student.findOne({ sid: student }, function (err, result) {
-            if (err) { // Internal Error
-                console.log('2');
-		//callback(err);
-                return res.send({ success: false });        
+    Session.findOne({ sesid: req.body.sesid })
+        .then((result) => {
+            if (result && result.sesid === req.body.sesid) {
+                return res.json({ success: true });
             }
-            else if (result && result != []) { // Found existing student
-                console.log('3');
-		//res.status(302).json(result);
-                student = result;
-                console.log("EXISTING STUDENT", result);
-
-            }
-            else { // No student exists, make a new one
-                console.log('4');
-   		let aStudent = new Student({ sid: uuidv4() });
-                student = aStudent.sid;
-                //res.cookie('sid', aStudent.sid);
-                //.json({ success: false });;
-                //res.json(newStudent);
-
-            }
+            res.status(404).json({ success: false });
         })
-    }
-
-    // store student's id in cookie
-    // res.cookie('sid', student.sid);
-
-    //console.log(student.sid);
-    // Find Session asked to join
-    //res.send(req.body.sesid);
-    Session.findOne({ sesid: req.body.sesid }, function (err, result) {
-        //res.send(result);
-        if (err) { // Internal Error
-            //callback(err);
-            console.log('5');
-	    return res.send({ success: false });
-        }
-        else if (result && result.sesid === req.body.sesid) { // Found Session
-            console.log('6');
-   	    student.currentSesID = result.sesid;
-    	    res.cookie('sesid', result.sesid)
-	   res.send({ success: true }); 
-	   return;   
-	console.log(result);
-        }
-        else { // Did not find Session
-            
-	    console.log('7');
-            return res.status(404).send({ success: false, });
-	    console.log(result);
-        }
-        //res.json(result);
-
-    })
-
+        .catch(() => res.status(500).json({ success: false }));
 });
 
-// @route   POST api/sessions
-// @desc    Create a session
-// @access  Private localhost:3000 (front-end)
-router.post('/', (req, res) => {
-    console.log(`Received POST request for course: ${req.body.courseCode}`)
+router.get('/AllSessions', requireProf, (req, res) => {
+    Session.find({ pid: req.pid, courseCode: req.query.courseCode })
+        .then((result) => res.json(result || []))
+        .catch(() => res.status(500).json({ success: false }));
+});
+
+router.get('/FindCourse', requireProf, (req, res) => {
+    Session.find({ pid: req.pid })
+        .distinct('courseCode')
+        .then((result) => res.json(result || []))
+        .catch(() => res.status(500).json({ success: false }));
+});
+
+// ---- Sessions list (richer payload than AllSessions) ----
+router.get('/ByCourse', requireProf, async (req, res) => {
+    const { courseCode } = req.query;
+    if (!courseCode) return res.status(400).json({ success: false });
+    try {
+        const sessions = await Session.find({ pid: req.pid, courseCode }).sort({ dateStart: -1 });
+        const enriched = await Promise.all(
+            (sessions || []).map(async (s) => {
+                const records = await Record.find({ sessionID: s.sesid });
+                const polls = await Poll.countDocuments({ sesid: s.sesid });
+                const ratings = records.filter((r) => r.value > 0).map((r) => r.value);
+                const avg = ratings.length ? ratings.reduce((a, b) => a + b, 0) / ratings.length : 0;
+                const questions = records.filter((r) => r.comment && r.comment.length > 0).length;
+                return {
+                    sesid: s.sesid,
+                    courseCode: s.courseCode,
+                    pid: s.pid,
+                    dateStart: s.dateStart,
+                    avg,
+                    q: questions,
+                    polls,
+                    state: 'past',
+                };
+            })
+        );
+        res.json(enriched);
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+// ---- Post-session report ----
+router.get('/Report', requireProf, async (req, res) => {
+    const { sesid } = req.query;
+    if (!sesid) return res.status(400).json({ success: false });
+    try {
+        const [session, records, polls] = await Promise.all([
+            Session.findOne({ sesid, pid: req.pid }),
+            Record.find({ sessionID: sesid }),
+            Poll.find({ sesid }),
+        ]);
+        if (!session) return res.status(404).json({ success: false });
+        const ratings = records.filter((r) => r.value > 0);
+        const questions = records
+            .filter((r) => r.comment && r.comment.length > 0)
+            .map((r) => ({
+                id: r._id,
+                text: r.comment,
+                votes: r.votes,
+                answered: r.answered,
+                time: r.timeRating,
+            }));
+        const buckets = {};
+        ratings.forEach((r) => {
+            const t = new Date(r.timeRating);
+            const minute = `${t.getUTCHours()}:${String(t.getUTCMinutes()).padStart(2, '0')}`;
+            if (!buckets[minute]) buckets[minute] = { sum: 0, n: 0 };
+            buckets[minute].sum += r.value;
+            buckets[minute].n += 1;
+        });
+        const pulseOverTime = Object.entries(buckets).map(([t, b]) => ({ t, avg: b.sum / b.n }));
+        res.json({
+            sesid,
+            courseCode: session.courseCode,
+            dateStart: session.dateStart,
+            pulseOverTime,
+            questions,
+            polls,
+        });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+router.post('/JoinSession', async (req, res) => {
+    const sesid = typeof req.body.sesid === 'string' ? req.body.sesid.trim() : '';
+    if (!sesid) return res.status(400).json({ success: false });
+
+    let sid = req.cookies && req.cookies.sid;
+    try {
+        if (!sid) {
+            const newStudent = new Student({ sid: randomUUID() });
+            await newStudent.save();
+            sid = newStudent.sid;
+            res.cookie('sid', sid, studentCookieOptions);
+        }
+        const session = await Session.findOne({ sesid });
+        if (session && session.sesid === sesid) {
+            res.cookie('sesid', session.sesid, studentCookieOptions);
+            return res.json({ success: true });
+        }
+        return res.status(404).json({ success: false });
+    } catch (err) {
+        return res.status(500).json({ success: false });
+    }
+});
+
+// Create session (professor)
+router.post('/', requireProf, (req, res) => {
     const newSession = new Session({
         courseCode: req.body.courseCode,
-        pid: req.body.pid,
-        sesid: req.body.sesid
+        pid: req.pid,
+        sesid: req.body.sesid || randomUUID().slice(0, 6).toUpperCase(),
     });
-
-
-    newSession.save().then(sessions => res.json(sessions))
+    newSession
+        .save()
+        .then((sessions) => res.json(sessions))
+        .catch((err) => res.status(500).json({ success: false, error: err.message }));
 });
 
+router.delete('/', requireProf, (req, res) => {
+    Session.findOneAndDelete({ sesid: req.body.sesid, pid: req.pid })
+        .then((deleted) => {
+            if (!deleted) return res.status(404).json({ success: false });
+            res.json({ success: true });
+        })
+        .catch(() => res.status(500).json({ success: false }));
+});
 
-// To Do: Currently not working
-// @route   DELETE api/sessions/:sesid
-// @desc    Delete a session
-// @access  Public (Should be private in real production)
-router.delete('/', (req, res) => {
+// ---- Poll lifecycle ----
 
-    Session.findOne({ sesid: req.body.sesid }, function (err, result) {
-        if (err) res.status(404).json({ success: false });
-        result => result.remove().then(() => res.json({ success: true }))
-            .catch(err => res.status(404).json({ success: false }));
-    })
+router.post('/StartPoll', requireProf, async (req, res) => {
+    const { sesid, question, type, options, durationSeconds } = req.body;
+    if (!sesid || !question || !Array.isArray(options) || options.length === 0) {
+        return res.status(400).json({ success: false });
+    }
+    try {
+        const owns = await Session.findOne({ sesid, pid: req.pid });
+        if (!owns) return res.status(403).json({ success: false });
+        const pollId = randomUUID();
+        const expiresAt = durationSeconds ? new Date(Date.now() + Number(durationSeconds) * 1000) : undefined;
+        const saved = await Poll.create({
+            pollId,
+            sesid,
+            question: String(question).slice(0, 500),
+            type: type || 'mc',
+            options: options.map((o, i) => ({
+                id: o.id || `opt-${i}`,
+                label: o.label || 'ABCDEF'[i] || String(i + 1),
+                text: String(o.text || '').slice(0, 240),
+                votes: 0,
+                voters: [],
+            })),
+            expiresAt,
+        });
+        const payload = {
+            pollId: saved.pollId,
+            sesid: saved.sesid,
+            question: saved.question,
+            type: saved.type,
+            options: saved.options.map((o) => ({ id: o.id, label: o.label, text: o.text, votes: o.votes })),
+            expiresAt: saved.expiresAt ? saved.expiresAt.getTime() : null,
+        };
+        const io = req.app.get('io');
+        if (io) io.to(sesid).emit('pollOpened', payload);
+        res.json(payload);
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
 
+router.post('/EndPoll', requireProf, async (req, res) => {
+    const { sesid, pollId } = req.body;
+    if (!sesid || !pollId) return res.status(400).json({ success: false });
+    try {
+        const owns = await Session.findOne({ sesid, pid: req.pid });
+        if (!owns) return res.status(403).json({ success: false });
+        const updated = await Poll.findOneAndUpdate(
+            { pollId, sesid },
+            { closed: true, closedAt: new Date() },
+            { new: true }
+        );
+        if (!updated) return res.status(404).json({ success: false });
+        const io = req.app.get('io');
+        if (io) io.to(sesid).emit('pollClosed', { sesid, pollId });
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+router.post('/Vote', async (req, res) => {
+    const sid = req.cookies && req.cookies.sid;
+    const sesid = req.cookies && req.cookies.sesid;
+    const { pollId, optionId } = req.body;
+    if (!sid || !sesid || !pollId || !optionId) return res.status(400).json({ success: false });
+    try {
+        const poll = await Poll.findOne({ pollId, sesid });
+        if (!poll) return res.status(404).json({ success: false });
+        if (poll.closed) return res.status(409).json({ success: false, reason: 'closed' });
+        const alreadyVoted = poll.options.some((o) => o.voters && o.voters.includes(sid));
+        if (alreadyVoted) {
+            return res.json({
+                success: true,
+                alreadyVoted: true,
+                options: poll.options.map((o) => ({ id: o.id, label: o.label, text: o.text, votes: o.votes })),
+            });
+        }
+        const opt = poll.options.find((o) => o.id === optionId);
+        if (!opt) return res.status(404).json({ success: false });
+        opt.votes = (opt.votes || 0) + 1;
+        opt.voters.push(sid);
+        poll.markModified('options');
+        const saved = await poll.save();
+        const payload = {
+            pollId: saved.pollId,
+            sesid: saved.sesid,
+            options: saved.options.map((o) => ({ id: o.id, label: o.label, text: o.text, votes: o.votes })),
+        };
+        const io = req.app.get('io');
+        if (io) io.to(sesid).emit('pollUpdate', payload);
+        res.json({ success: true, ...payload });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
 });
 
 module.exports = router;

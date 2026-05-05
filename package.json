@@ -2,55 +2,33 @@
   "name": "nox",
   "version": "1.0.0",
   "description": "Nox",
-  "main": "sever.js",
+  "main": "server.js",
   "nodemonConfig": {
     "events": {
       "crash": "fuser -k 5000/tcp && npm run server"
     }
   },
   "scripts": {
-    "client-install": "npm install --prefix client",
-    "setup": "npm install",
+    "client-install": "npm install --prefix general_client",
+    "setup": "npm install && npm install --prefix general_client",
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix general_client",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider npm --prefix general_client run build",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Nox_sqwad",
   "license": "GNU",
   "dependencies": {
-    "@material-ui/core": "^4.5.1",
-    "@material-ui/styles": "^4.4.3",
-    "body-parser": "^1.19.0",
-    "chart.js": "^2.9.3",
-    "concurrently": "^4.1.1",
-    "cookie-parser": "^1.4.4",
+    "body-parser": "^1.20.3",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "fs": "0.0.1-security",
-    "https": "^1.0.0",
-    "json2csv": "^4.5.4",
-    "material-ui": "^0.20.2",
-    "moment": "^2.24.0",
-    "mongo-date-query": "^1.2.2",
-    "mongoose": "^5.6.7",
-    "passport": "^0.4.1",
-    "passport-saml": "^1.2.0",
-    "path": "^0.12.7",
-    "react-chartjs-2": "^2.8.0",
-    "react-cookie": "^4.0.1",
-    "react-draggable": "^4.0.3",
-    "react-redux": "^7.1.0",
-    "react-router-dom": "^5.1.2",
-    "redux": "^4.0.4",
-    "redux-thunk": "^2.3.0",
-    "shortid": "^2.2.15",
-    "socket.io": "^2.3.0",
-    "socket.io-client": "^2.3.0",
-    "universal-cookie": "^4.0.2",
-    "uuid": "^3.3.3"
+    "express": "^4.21.2",
+    "mongoose": "^7.6.13",
+    "socket.io": "^4.7.5"
   },
   "devDependencies": {
-    "nodemon": "^1.19.4"
+    "concurrently": "^9.0.1",
+    "nodemon": "^3.1.7"
   }
 }

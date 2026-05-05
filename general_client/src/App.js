@@ -1,41 +1,34 @@
-import React, { Component } from 'react';
-import AppNavBar from './components/AppNavBar';
-import ProfView from './views/ProfView';
-import StudentView from './views/StudentView';
-import LandingPage from './views/LandingPage';
-import DashBoard from './views/DashBoard';
+import React from 'react';
 import { Provider } from 'react-redux';
-import Cookies from 'universal-cookie';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import store from './store';
-//import {createStore, applyMiddleware} from 'redux';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
+import StudentJoinScreen from './views/student/StudentJoinScreen';
+import StudentApp from './views/student/StudentApp';
+import UoftAuthScreen from './views/auth/UoftAuthScreen';
+import ProfSessions from './views/professor/ProfSessions';
+import ProfDashboard from './views/professor/ProfDashboard';
+import ProfPollLive from './views/professor/ProfPollLive';
+
 import './App.css';
 
-// Direct different react components to different URLS
-import { BrowserRouter as Router, Route } from "react-router-dom"
-
-const cookies = new Cookies();
-const sid = cookies.get('sid');
-const sessionID = cookies.get('sesid');
-
-
-
-class App extends Component {
-  render() {
-    return (
-        <Router>  
-	<Provider store={store}>
-          <div className="App">
-            <AppNavBar />
-          </div>
-	<Route path={'/nox'} exact component={LandingPage} />
-          <Route path={'/nox/professor'} exact component={ProfView} />
-          <Route path={'/nox/student'} exact component={StudentView} />
-          <Route path={'/nox/professor/dashboard'} exact component={DashBoard} />
-	</Provider>
-	</Router>    
+const App = () => (
+  <Provider store={store}>
+    <Router>
+      <div className="App">
+        <Switch>
+          <Route path="/nox/login" exact component={UoftAuthScreen} />
+          <Route path="/nox/student" exact component={StudentApp} />
+          <Route path="/nox/professor" exact component={ProfSessions} />
+          <Route path="/nox/professor/dashboard" exact component={ProfDashboard} />
+          <Route path="/nox/professor/poll" exact component={ProfPollLive} />
+          <Route path="/nox" exact component={StudentJoinScreen} />
+          <Route path="/" exact render={() => <Redirect to="/nox" />} />
+          <Route render={() => <Redirect to="/nox" />} />
+        </Switch>
+      </div>
+    </Router>
+  </Provider>
 );
-  }
-}
 
 export default App;

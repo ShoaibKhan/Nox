@@ -1,56 +1,28 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const uuidv4 = require('uuid/v4');
+const { randomUUID } = require('crypto');
 
-
-function getDateTime() {
-
-    var date = new Date();
-
-    var hour = date.getHours();
-    hour = (hour < 10 ? "0" : "") + hour;
-
-    var min = date.getMinutes();
-    min = (min < 10 ? "0" : "") + min;
-
-    var sec = date.getSeconds();
-    sec = (sec < 10 ? "0" : "") + sec;
-
-    var year = date.getFullYear();
-
-    var month = date.getMonth() + 1;
-    month = (month < 10 ? "0" : "") + month;
-
-    var day = date.getDate();
-    day = (day < 10 ? "0" : "") + day;
-
-    return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
-
-}
-
-// Creates Professor Schema
 const professorSchema = new Schema({
     firstName: {
         type: String,
-        required: true,
-        trim: true, // Trims all trailing whitespaces. 
-        default: ''
+        trim: true,
+        default: '',
     },
     lastName: {
         type: String,
-        required: true,
-        trim: true, // Trims all trailing whitespaces. 
-        default: ''
+        trim: true,
+        default: '',
     },
-    pid: { //See how to refer _id to this, as this is the Primary key
+    pid: {
         type: String,
-        default: uuidv4(),
-        required: true
+        required: true,
+        unique: true,
+        default: () => randomUUID(),
     },
     date: {
-        type: String,
-        default: getDateTime()
-    }
+        type: Date,
+        default: Date.now,
+    },
 });
 
-module.exports = professor = mongoose.model('professor', professorSchema);
+module.exports = mongoose.model('professor', professorSchema);

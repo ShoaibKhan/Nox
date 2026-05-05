@@ -1,0 +1,56 @@
+:root {
+  --uoft-navy:#1E3765;
+  --uoft-navy-deep:#172A4F;
+  --uoft-navy-soft:#283F73;
+  --uoft-blue:#4A6FA5;
+  --uoft-blue-light:#7196C7;
+
+  --paper:#F7F3EB;
+  --paper-2:#EFE9DD;
+  --bone:#FBF8F2;
+  --ink:#0F1729;
+  --ink-2:#2A3447;
+  --ink-3:#5A6478;
+  --line:rgba(15,23,41,0.10);
+  --line-2:rgba(15,23,41,0.06);
+
+  --accent-good:oklch(0.74 0.13 150);
+  --accent-okay:oklch(0.80 0.12 80);
+  --accent-low:oklch(0.66 0.16 28);
+  --accent-warm:#C8A24B;
+
+  --r-sm:6px;
+  --r-md:10px;
+  --r-lg:16px;
+  --r-xl:22px;
+
+  --shadow-sm:0 1px 2px rgba(15,23,41,0.06), 0 1px 1px rgba(15,23,41,0.04);
+  --shadow-md:0 4px 14px rgba(15,23,41,0.08), 0 1px 2px rgba(15,23,41,0.05);
+  --shadow-lg:0 18px 40px rgba(15,23,41,0.12), 0 2px 6px rgba(15,23,41,0.06);
+
+  --font-serif:'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-sans:'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono:'JetBrains Mono', ui-monospace, Menlo, monospace;
+}
+
+html, body, #root {
+  margin:0;
+  padding:0;
+  height:100%;
+  background:var(--paper);
+  font-family:var(--font-sans);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+* { box-sizing:border-box; }
+
+button { font-family:inherit; }
+input, textarea, select { font-family:inherit; }
+
+.mono { font-family:var(--font-mono); letter-spacing:0.02em; }
+.serif { font-family:var(--font-serif); }
+
+@keyframes nox-blink { 50% { opacity:0; } }
+@keyframes nox-pulse-dot { 0%,100% { opacity:1; } 50% { opacity:0.4; } }

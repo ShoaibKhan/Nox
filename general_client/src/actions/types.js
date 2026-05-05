@@ -19,3 +19,20 @@ export const GET_STUDENT = 'GET_STUDENT';
 export const ADD_STUDENT = 'ADD_STUDENT';
 export const DOWNLOAD_STUDENT = 'DOWNLOAD_STUDENT';
 export const STUDENT_LOADING = 'STUDENT_LOADING';
+
+// Pulse (student understanding)
+export const PULSE_TICK = 'PULSE_TICK';
+export const PULSE_RESET = 'PULSE_RESET';
+export const PULSE_DIST = 'PULSE_DIST';
+
+// Questions
+export const QUESTIONS_SET = 'QUESTIONS_SET';
+export const QUESTION_ADD = 'QUESTION_ADD';
+export const QUESTION_VOTE = 'QUESTION_VOTE';
+export const QUESTION_ANSWER = 'QUESTION_ANSWER';
+
+// Poll
+export const POLL_OPEN = 'POLL_OPEN';
+export const POLL_UPDATE = 'POLL_UPDATE';
+export const POLL_CLOSE = 'POLL_CLOSE';
+export const POLL_VOTE_LOCAL = 'POLL_VOTE_LOCAL';

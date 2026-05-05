@@ -1,7 +1,14 @@
 
 #dependencies
 node_modules
-package-lock.json
+#environment / secrets
+.env
+.env.*
+!.env.example
+config/keys.local.js
+#OS junk
+.DS_Store
+**/.DS_Store
 #certificates
 __utm_utoronto_ca_interm.cer
 __utm_utoronto_ca_cert.cer
