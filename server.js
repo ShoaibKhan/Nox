@@ -61,25 +61,28 @@ const profCookieOptions = {
 };
 
 // idpz/utorauth handshake — the edge proxy attaches `utorid` to the headers
-app.get('/nox/professor', function (req, res) {
+app.get('/nox/professor', async function (req, res) {
     const utorid = req.headers.utorid;
-    Professor.findOne({ pid: utorid }, function (err, result) {
-        if (err) {
-            console.error(err);
-            return res.status(500).send('Authentication error');
-        }
-        const matched = result && result.pid && result.pid === utorid;
+    try {
         const devBypass = !utorid && !isProd;
-        if (matched || devBypass) {
-            res
-                .cookie('pid', utorid || 'dev', profCookieOptions)
+        if (devBypass) {
+            return res
+                .cookie('pid', 'dev', profCookieOptions)
                 .sendFile(path.resolve(__dirname, 'general_client', 'build', 'index.html'));
-            return;
+        }
+        const result = await Professor.findOne({ pid: utorid });
+        if (result && result.pid === utorid) {
+            return res
+                .cookie('pid', utorid, profCookieOptions)
+                .sendFile(path.resolve(__dirname, 'general_client', 'build', 'index.html'));
         }
         res
             .status(403)
             .send('You are not authorized as a Professor. Contact achaudhral629@gmail.com to request access.');
-    });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Authentication error');
+    }
 });
 
 app.use(express.static('general_client/build'));
