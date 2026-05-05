@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 const { randomUUID } = require('crypto');
 
 const Student = require('../../models/Student');
@@ -11,6 +12,10 @@ const isProd = process.env.NODE_ENV === 'production';
 
 const studentCookieOptions = { sameSite: 'lax', secure: isProd, path: '/' };
 const profCookieOptions = { httpOnly: false, sameSite: 'lax', secure: isProd, path: '/' };
+
+// Dev-only escape hatch: when Mongo isn't reachable in development we let
+// the UI flow proceed without touching the database. Always false in prod.
+const isDemoMode = () => !isProd && mongoose.connection.readyState !== 1;
 
 function requireProf(req, res, next) {
     const pid = req.cookies && req.cookies.pid;
@@ -122,6 +127,18 @@ router.post('/JoinSession', async (req, res) => {
     if (!sesid) return res.status(400).json({ success: false });
 
     let sid = req.cookies && req.cookies.sid;
+
+    // Dev demo mode: no DB → accept any code, mint a sid, drop cookies, done.
+    if (isDemoMode()) {
+        if (!sid) {
+            sid = randomUUID();
+            res.cookie('sid', sid, studentCookieOptions);
+        }
+        res.cookie('sesid', sesid, studentCookieOptions);
+        console.warn(`[dev] Mongo unavailable; demo-joined sesid=${sesid}`);
+        return res.json({ success: true, demo: true });
+    }
+
     try {
         if (!sid) {
             const newStudent = new Student({ sid: randomUUID() });

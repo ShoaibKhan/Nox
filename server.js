@@ -85,10 +85,11 @@ app.get('/nox/professor', async function (req, res) {
     }
 });
 
-app.use(express.static('general_client/build'));
+const clientBuildDir = path.resolve(__dirname, 'general_client', 'build');
+app.use(express.static(clientBuildDir));
 
 app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'general_client', 'build', 'index.html'));
+    res.sendFile(path.resolve(clientBuildDir, 'index.html'));
 });
 
 const port = process.env.PORT || 5001;

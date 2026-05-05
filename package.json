@@ -14,7 +14,7 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix general_client",
-    "build": "NODE_OPTIONS=--openssl-legacy-provider npm --prefix general_client run build",
+    "build": "npm --prefix general_client run build",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Nox_sqwad",

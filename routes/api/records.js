@@ -1,7 +1,12 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
+const { randomUUID } = require('crypto');
 const Record = require('../../models/Records');
 const Session = require('../../models/Sessions');
+
+const isProd = process.env.NODE_ENV === 'production';
+const isDemoMode = () => !isProd && mongoose.connection.readyState !== 1;
 
 function requireProf(req, res, next) {
     const pid = req.cookies && req.cookies.pid;
@@ -33,6 +38,28 @@ async function createFromBody(req, res) {
     if (req.body.isComment === 'true' || req.body.isComment === true) {
         const text = String(req.body.comment || '').slice(0, 500).trim();
         if (!text) return res.status(400).json({ success: false });
+
+        // Dev demo mode: skip persistence, broadcast a synthetic record so
+        // the live screen still gets a question through the socket.
+        if (isDemoMode()) {
+            const payload = {
+                _id: randomUUID(),
+                id: randomUUID(),
+                comment: text,
+                text,
+                sid: req.sid,
+                sesid,
+                votes: 0,
+                answered: false,
+                Time: new Date(),
+            };
+            if (io && sesid) {
+                io.to(sesid).emit('incomingComment', payload);
+                io.to(sesid).emit('newQuestion', payload);
+            }
+            return res.json(payload);
+        }
+
         try {
             const saved = await Record.create({
                 studentID: req.sid,
@@ -66,6 +93,11 @@ async function createFromBody(req, res) {
 
     const value = Number(req.body.value);
     if (![1, 2, 3].includes(value)) return res.status(400).json({ success: false });
+
+    if (isDemoMode()) {
+        return res.json({ ok: true, value, demo: true });
+    }
+
     try {
         const saved = await Record.create({
             studentID: req.sid,
